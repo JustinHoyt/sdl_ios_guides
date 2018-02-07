@@ -8,107 +8,60 @@ Navigation apps are allowed to stream raw audio to be played by the head unit. T
 
 In order to stream audio from a SDL app, we focus on the `SDLStreamingMediaManager` class. A reference to this class is available from an `SDLProxy` property `streamingMediaManager`.
 
-#### Audio Stream Lifecycle
-Currently, the lifecycle of the audio stream must be maintained by the developer. Below is a set of guidelines for when a device should stream frames, and when it should not. The main player in whether or not we should be streaming are HMI State. The audio stream may be opened in any application state.
+### Audio Stream Lifecycle
+Like the lifecycle of the video stream, the lifecycle of the audio stream is maintained by the SDL library. When you recieve the `SDLAudioStreamDidStartNotification`, you can begin streaming audio.
 
-HMI State   | Can Open Audio Stream | Should Close Audio Stream
-------------|-----------------------|--------------------------
-NONE        | No                    | Yes
-BACKGROUND  | No                    | Yes
-LIMITED     | Yes                   | No
-FULL        | Yes                   | No
-
-#### Starting the Stream
-In order to start an audio stream, an app must have an HMI state of at least `HMI_LIMITED`. It is also notable that you should only start one audio stream per session. You may observe HMI state changes from `SDLProxyListener`'s protocol callback `onOnHMIStatus:`. An example of starting an audio stream can be seen below:
-
-#### Swift
-```swift
-func hmiLevel(_ oldLevel: SDLHMILevel, didChangeTo newLevel: SDLHMILevel) {
-    // Code for starting video stream
-    if newLevel.isEqual(to: SDLHMILevel.limited()) || newLevel.isEqual(to: SDLHMILevel.full()) {
-        startAudioSession()
-    } else {
-        stopAudioSession()
-    }
-}
-
-private func stopAudioSession() {
-    guard let streamManager = self.sdlManager.streamManager, streamManager.audioSessionConnected else {
-      return
-    }
-
-    streamManager.stopAudioSession()
-}
-
-private func startAudioSession() {
-    guard let streamManager = self.sdlManager.streamManager,
-        streamManager.audioSessionConnected else {
-        return
-    }
-
-    streamManager.startAudioSession(withTLS: .authenticateAndEncrypt) { (success, encryption, error) in
-        if !success {
-            if let error = error {
-                NSLog("Error starting audio session. \(error.localizedDescription)")
-            }
-        } else {
-            if encryption {
-                // Audio will be encrypted
-            } else {
-                // Audio will not be encrypted
-            }
-        }
-    }
-}
-```
+### SDLAudioStreamManager
+If you do not already have raw PCM data ready at hand, the `SDLAudioStreamManager` can help. The `SDLAudioStreamManager` will help you to do on-the-fly transcoding and streaming of your files in mp3 or other formats.
 
 #### Objective-C
 ```objc
-- (void)hmiLevel:(SDLHMILevel*)oldLevel didChangeToLevel:(SDLHMILevel*)newLevel {
-    // Code for starting video stream
-    if ([newLevel isEqualToEnum:SDLHMILevel.FULL] || [newLevel isEqualToEnum:SDLHMILevel.LIMITED]) {
-        [self startAudioSession];
-    } else {
-        [self stopAudioSession];
-    }
+[self.sdlManager.streamManager.audioManager pushWithFileURL:audioFileURL];
+[self.sdlManager.streamManager.audioManager playNextWhenReady];
+```
+
+#### Swift
+```swift
+self.sdlManager.streamManager?.audioManager.push(withFileURL: url)
+self.sdlManager.streamManager?.audioManager.playNextWhenReady()
+```
+
+There are, additionally, delegate methods for the audio stream manager:
+
+#### Objective-C
+```objc
+- (void)audioStreamManager:(SDLAudioStreamManager *)audioManager errorDidOccurForFile:(NSURL *)fileURL error:(NSError *)error {
 }
 
-- (void)stopAudioSession {
-    if (!self.sdlManager.streamManager.audioSessionConnected) {
-        return;
+- (void)audioStreamManager:(SDLAudioStreamManager *)audioManager fileDidFinishPlaying:(NSURL *)fileURL successfully:(BOOL)successfully {
+    if (audioManager.queue.count != 0) {
+        [audioManager playNextWhenReady];
     }
-    [self.sdlManager.streamManager stopAudioSession];
-}
-
-- (void)startAudioSession {
-    if (!self.sdlManager.streamManager.audioSessionConnected) {
-        return;
-    }
-    [self.sdlManager.streamManager startAudioSessionWithTLS:SDLEncryptionFlagAuthenticateAndEncrypt startBlock:^(BOOL success, BOOL encryption, NSError * _Nullable error) {
-        if (!success) {
-            if (error) {
-                NSLog(@"Error starting video session. %@", error.localizedDescription);
-              }
-        } else {
-            if (encryption) {
-                // Audio will be encrypted
-            } else {
-                // Audio will not be encrypted
-            }
-        }
-    }];
 }
 ```
 
-#### Sending Data to the Stream
-Once the audio stream is connected, data may be easily passed to the Head Unit. The function `sendAudioData:` provides us with whether or not the PCM Audio Data was successfully transferred to the Head Unit.
+#### Swift
+```swift
+public func audioStreamManager(_ audioManager: SDLAudioStreamManager, errorDidOccurForFile fileURL: URL, error: Error) {
+
+}
+
+public func audioStreamManager(_ audioManager: SDLAudioStreamManager, fileDidFinishPlaying fileURL: URL, successfully: Bool) {
+    if audioManager.queue.count != 0 {
+        audioManager.playNextWhenReady()
+    }
+}
+```
+
+### Manually Sending Data
+Once the audio stream is connected, data may be easily passed to the Head Unit. The function `sendAudioData:` provides us with whether or not the PCM Audio Data was successfully transferred to the Head Unit. If your app is in a state that it is unable to send audio data, this method will return a failure.
 
 #### Objective-C
 ```objective-c
 
 NSData* audioData = <#Acquire Audio Data#>;
 
-if ([self.sdlManager.streamManager sendAudioData:imageBuffer] == NO) {
+if ([self.sdlManager.streamManager sendAudioData:audioData] == NO) {
   NSLog(@"Could not send Audio Data");
 }
 ```
@@ -117,11 +70,11 @@ if ([self.sdlManager.streamManager sendAudioData:imageBuffer] == NO) {
 ```swift
 let audioData = <#Acquire Audio Data#>;
 
-guard let streamManager = self.sdlManager.streamManager, streamManager.audioSessionConnected else {
-  return
+guard let streamManager = self.sdlManager.streamManager, streamManager.audioConnected else {
+    return
 }
 
-if streamManager.sendAudioData(imageBuffer) == false {
-  print("Could not send Audio Data")
+if streamManager.sendAudioData(audioData) == false {
+    print("Could not send Audio Data")
 }
 ```

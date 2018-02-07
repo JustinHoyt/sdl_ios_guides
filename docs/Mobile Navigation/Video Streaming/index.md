@@ -2,122 +2,48 @@
 In order to stream video from a SDL app, we focus on the `SDLStreamingMediaManager` class. A reference to this class is available from `SDLManager`.
 
 ### Video Stream Lifecycle
-Currently, the lifecycle of the video stream must be maintained by the developer. Below is a set of guidelines for when a device should stream frames, and when it should not. The main players in whether or not we should be streaming are HMI State, and your app's state. Due to an iOS limitation of `VideoToolbox`'s encoder and `openGL`, we must stop streaming when the device moves to the background state. 
+Currently, the lifecycle of the video stream must be maintained by the developer. Below is a set of guidelines for when a device should stream frames, and when it should not. The main players in whether or not we should be streaming are HMI State, and your app's state. Due to an iOS limitation, we must stop streaming when the device moves to the background state. 
 
-HMI State   | App State         | Can Open Video Stream | Should Close Video Stream
-------------|-------------------|-----------------------|--------------------------
-NONE        | Background        | No                    | Yes
-NONE        | Regaining Active  | No                    | Yes
-NONE        | Foreground        | No                    | Yes
-NONE        | Resigning Active  | No                    | Yes
-BACKGROUND  | Background        | No                    | Yes
-BACKGROUND  | Regaining Active  | No                    | Yes
-BACKGROUND  | Foreground        | No                    | Yes
-BACKGROUND  | Resigning Active  | No                    | Yes
-LIMITED     | Background        | No                    | No
-LIMITED     | Regaining Active  | Yes                   | Yes
-LIMITED     | Foreground        | Yes                   | No
-LIMITED     | Resigning Active  | No                    | No
-FULL        | Background        | No                    | No
-FULL        | Regaining Active  | Yes                   | Yes
-FULL        | Foreground        | Yes                   | No
-FULL        | Resigning Active  | No                    | No
+The lifecycle of the video stream is maintained by the SDL library. The `SDLManager.streamingMediaManager` will exist by the time the `start` method of `SDLManager` calls back. `SDLStreamingMediaManager` will automatically take care of determining screen size and encoding to the correct video format.
 
-!!! note
-For occurences of "Can Open Video Stream" and "Should Close Video Stream" both being **Yes**, this means that the stream should be closed, and then opened (restarted).
+!!! NOTE
+It is not recommended to alter the default video format and resolution behavior but that option is available to you using `SDLStreamingMediaConfiguration.dataSource`.
 !!!
 
-### Starting the Stream
-In order to start a video stream, an app must have an HMI state of at least `LIMITED`, and the app must be in the foreground. It is also notable that you should only start one video stream per session. You may observe HMI state changes from `SDLManager`'s protocol callback `hmiLevel:didChangeToLevel:`. The flags `SDLEncryptionFlagAuthenticateOnly` or `SDLEncryptionFlagAuthenticateAndEncrypt` should be used if a security manager was provided when setting up the `SDLLifecycleConfiguration`. An example of starting a video stream can be seen below:
+### CarWindow
+CarWindow is a system for automatically video streaming a view controller's frame to the head unit. It will automatically set the view controller passed to the correct frame and start sending the data when the video service has completed setup. There are a few important `SDLStreamingMediaConfiguration` parameters. To start, you will have to set a `rootViewController`, and there are initializers to help in doing so. You can also choose how CarWindow captures and renders the screen using the `carWindowRenderingType` enum. You can use the initializers `+ (instancetype)autostreamingInsecureConfigurationWithInitialViewController:(UIViewController *)initialViewController;` and `+ (instancetype)autostreamingSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers initialViewController:(UIViewController *)initialViewController;`.
 
+By default, when using `SDLCarWindow`, the `SDLTouchManager` will sync it's touch updates to the framerate. To disable this, set `SDLTouchManager.enableSyncedPanning` to `NO`.
 
-#### Swift
-```swift
-func hmiLevel(_ oldLevel: SDLHMILevel, didChangeTo newLevel: SDLHMILevel) {
-    // Code for starting video stream
-    if newLevel.isEqual(to: SDLHMILevel.limited()) || newLevel.isEqual(to: SDLHMILevel.full()) {
-        startVideoSession()
-    } else {
-        stopVideoSession()
-    }
-}
+Note that CarWindow will hard-dictate the framerate of the app. To change it and other parameters, update `SDLStreamingMediaConfiguration.customVideoEncoderSettings`.
 
-private func stopVideoSession() {
-    guard let streamManager = self.sdlManager.streamManager, streamManager.videoSessionConnected else {
-      return
-    }
-
-    streamManager.stopVideoSession()
-}
-
-private func startVideoSession() {
-    guard let streamManager = self.sdlManager.streamManager,
-        streamManager.videoSessionConnected,
-        UIApplication.shared.applicationState != .active else {
-        return
-    }
-    streamManager.startVideoSession(withTLS: .authenticateAndEncrypt) { (success, encryption, error) in
-        if !success {
-            if let error = error {
-                NSLog("Error starting video session. \(error.localizedDescription)")
-            }
-        } else {
-            if encryption {
-                // Video will be encrypted
-            } else {
-                // Video will not be encrypted
-            }
-        }
-    }
-}
-```
-
-#### Objective-C
+These are the current defaults:
 ```objc
-- (void)hmiLevel:(SDLHMILevel*)oldLevel didChangeToLevel:(SDLHMILevel*)newLevel {
-    // Code for starting video stream
-    if ([newLevel isEqualToEnum:SDLHMILevel.FULL] || [newLevel isEqualToEnum:SDLHMILevel.LIMITED]) {
-        [self startVideoSession];
-    } else {
-        [self stopVideoSession];
-    }
-}
-
-- (void)stopVideoSession {
-    if (!self.sdlManager.streamManager.videoSessionConnected) {
-        return;
-    }
-    [self.sdlManager.streamManager stopVideoSession];
-}
-
-- (void)startVideoSession {
-    if (!self.sdlManager.streamManager.videoSessionConnected
-        || [UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
-        return;
-    }
-    [self.sdlManager.streamManager startVideoSessionWithTLS:SDLEncryptionFlagAuthenticateAndEncrypt startBlock:^(BOOL success, BOOL encryption, NSError * _Nullable error) {
-        if (!success) {
-            if (error) {
-                NSLog(@"Error starting video session. %@", error.localizedDescription);
-              }
-        } else {
-            if (encryption) {
-                // Video will be encrypted
-            } else {
-                // Video will not be encrypted
-            }
-        }
-    }];
-}
+@{
+    (__bridge NSString *)kVTCompressionPropertyKey_ProfileLevel: (__bridge NSString *)kVTProfileLevel_H264_Baseline_AutoLevel,
+    (__bridge NSString *)kVTCompressionPropertyKey_RealTime: @YES,
+    (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate: @15,
+    (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate: @600000
+};
 ```
 
-!!! note
+#### Replacing the view controller
+Simply update `self.sdlManager.streamManager.rootViewController` to the new view controller. This will also update the haptic parser.
 
-You should also cache the HMI Level, and when the device state changes, be sure to handle closing/opening the session.
+#### App UI vs. Off-Screen UI
+It is generally recommended to pass a non-on-device-screen view controller to display via CarWindow, that is, to instantiate a new view controller and pass it. This will then appear on-screen in the car, while remaining off-screen on the device. It is also possible to display your on-device-screen UI to the car screen by passing `UIApplication.sharedApplication.keyWindow.rootViewController`. However, if you use the app UI, the app's UI will have to resize to accomidate the head unit's screen size.
 
+!!! NOTE
+If the `rootViewController` is app UI and is set from the `UIViewController` class, it should only be set after `viewDidAppear:animated` is called. Setting the `rootViewController` in `viewDidLoad` or `viewWillAppear:animated` can cause weird behavior when setting the new frame.
 !!!
 
-### Sending Data to the Stream
+!!! NOTE
+If setting the `rootViewController` when the app returns to the foreground, the app should register for the `UIApplicationDidBecomeActive` notification and not the `UIApplicationWillEnterForeground` notification. Setting the frame after a notification from the latter can also cause weird behavior when setting the new frame.
+!!!
+
+### Manually Sending Data to the Stream
+To check whether or not you are ready to start sending data to the video stream, watch for the `SDLVideoStreamDidStartNotification` and `SDLVideoStreamDidStopNotification` notifications. When you receive the start notification, start sending data; stop when you receive the stop notification. There are parallel notifications for audio streaming.
+
 Sending video data to the head unit must be provided to `SDLStreamingMediaManager` as a `CVImageBufferRef` (Apple documentation [here](https://developer.apple.com/library/mac/documentation/QuartzCore/Reference/CVImageBufferRef/)). Once the video stream has started, you will not see video appear until a few frames have been received. To send a frame, refer to the snippet below:
 
 #### Objective-C
@@ -133,12 +59,12 @@ if ([self.sdlManager.streamManager sendVideoData:imageBuffer] == NO) {
 ```swift
 let imageBuffer = <#Acquire Image Buffer#>;
 
-guard let streamManager = self.sdlManager.streamManager, streamManager.videoSessionConnected else {
-  return
+guard let streamManager = self.sdlManager.streamManager, !streamManager.videoStreamPaused else {
+    return
 }
 
 if streamManager.sendVideoData(imageBuffer) == false {
-  print("Could not send Video Data")
+    print("Could not send Video Data")
 }
 ```
 
