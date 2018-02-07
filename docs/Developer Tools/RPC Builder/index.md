@@ -4,7 +4,7 @@
 The SmartDeviceLink (SDL) RPC Builder app is a free iOS app designed to help developers understand the SDL interface and how remote procedure calls (RPCs) work. Use the app to send and receive RPCs with a SDL Core without writing any code.
 
 !!! NOTE
-In order for the RPC Builder app to work correctly, all commands must be executed in proper sequence. For example, when building a custom menu, a *performInteraction* call will only be successful if sent after a *createInteractionChoiceSet* call. To find more information about how to properly set up a sequence of commands, please reference the [SDL iOS Guides](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/) and the [SDL iOS Documentation](https://smartdevicelink.com/en/docs/iOS/master/).
+In order for the RPC Builder app to work correctly, all commands must be executed in proper sequence. For example, when building a custom menu, a *performInteraction* call will only be successful if sent after a *createInteractionChoiceSet* call. To find more information about how to properly set up a sequence of commands, please reference the [SDL iOS Guides](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/).
 !!!
 
 ## Getting Started
