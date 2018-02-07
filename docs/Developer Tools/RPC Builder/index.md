@@ -18,7 +18,7 @@ After the SDL iOS library has been installed, the RPC Builder app can be deploye
 ## RPC Builder Interface
 
 ### Settings Page
-<img src="assets/Settings.png" alt="rpc builder settings app first screen" width="200px">
+![Settings](./assets/Settings.png)
 
 On the settings page, select a RPC spec file. The default *Mobile_API.xml* file will generate all possible RPCs available for the app. To use a custom RPC spec file, add a new file via iTunes file sharing to the `SpecXMLs` directory. The file can also be added via a remote URL.
 
