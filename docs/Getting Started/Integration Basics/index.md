@@ -79,7 +79,7 @@ The connect method will be implemented later. To see a full example, navigate to
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Initialize and start the proxy
-  [[ProxyManager sharedManager] start];
+  [[ProxyManager sharedManager] connect];
 }
 
 @end
@@ -90,7 +90,7 @@ The connect method will be implemented later. To see a full example, navigate to
 class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Initialize and start the proxy
-    ProxyManager.shared.start()
+    ProxyManager.sharedManager.connect()
 
     return true
   }
@@ -156,7 +156,7 @@ NS_ASSUME_NONNULL_END
 ```swift
 class ProxyManager: NSObject {
   // Manager
-  fileprivate let sdlManager: SDLManager
+  fileprivate var sdlManager: SDLManager!
     
   // Singleton
   static let sharedManager = ProxyManager()
