@@ -40,13 +40,13 @@ if (hmiCapabilities != nil) {
 #### Swift
 ```swift
 var isPhoneCallSupported = false
-if let hmiCapabilities = self.sdlManager.registerResponse?.hmiCapabilities {
-    isPhoneCallSupported = hmiCapabilities.phoneCall.boolValue
+if let hmiCapabilities = self.sdlManager.registerResponse?.hmiCapabilities, let phoneCallsSupported = hmiCapabilities.phoneCall?.boolValue {
+    isPhoneCallSupported = phoneCallsSupported
 }
 
 sdlManager.start { (success, error) in
-    if success == false {
-        print("SDL errored starting up: \(error)")
+    if !success {
+        print("SDL errored starting up: \(error.debugDescription)")
         return
     }
 }
@@ -90,21 +90,18 @@ dialNumber.number = @"1238675309";
 let dialNumber = SDLDialNumber()
 dialNumber.number = "1238675309"
 
-sdlManager.send(dialNumber) { (request, response, error) in
-    guard let response = response as? SDLDialNumberResponse,
-        let resultCode = response.resultCode else {
-        return
-    }
-
+sdlManager.send(request: dialNumber) { (request, response, error) in
+    guard let response = response as? SDLDialNumberResponse else { return }
+    
     if let error = error {
         print("Encountered Error sending DialNumber: \(error)")
         return
     }
     
-    if !resultCode.isEqual(to: .success) {
-        if resultCode.isEqual(to: .rejected) {
+    if response.resultCode != .success {
+        if response.resultCode == .rejected {
             print("DialNumber was rejected. Either the call was sent and cancelled or there is no device connected")
-        } else if resultCode.isEqual(to: .disallowed) {
+        } else if response.resultCode == .disallowed {
             print("Your app is not allowed to use DialNumber")
         } else {
             print("Some unknown error has occured!")
