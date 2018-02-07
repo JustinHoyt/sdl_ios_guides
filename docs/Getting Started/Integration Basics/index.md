@@ -329,7 +329,7 @@ The manager should be started as soon as possible in your application's lifecycl
 
 #### Swift
 ```swift
-sdlManager.start(readyHandler { (success, error) in
+sdlManager.start { (success, error) in
     if success {
       // Your app has successfully connected with the SDL Core.
     }
