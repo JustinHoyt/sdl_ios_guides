@@ -42,10 +42,8 @@ The main RPC table is created at runtime by the app from a spec XML file. If the
 
 ![RPC Builder App addCommand RPC example](./assets/AddCommand.png)
 
-### Send A RPC
+### Send a RPC
 To send an RPC to the SDL Core select the RPC from the table, fill out the RPC parameters and click *Send*.
-
-![RPC Builder App send RPC example](./assets/RPCs.png)
 
 #### Parameter Information
 After selecting an RPC from the table, a view will appear with all possible parameters for this RPC. To find out more information about an argument, tap and hold the argument name to reveal the information.
@@ -86,17 +84,17 @@ There are a few requirements for building Modules:
 1. All Modules must not interact with any other Module.
 1. All Modules must be added to `RBModuleViewController`'s class function `moduleClassNames`. The new Module should be added to this list in alphabetical order. For an example of how to add this see below:
 
-    ```
-    + (NSArray*)moduleClassNames {
-        if (!moduleClassNames) {
-            moduleClassNames = @[
-                [RBStreamingModuleViewController classString],  // Streaming
-                [RBNewModuleViewController classString]  // Module Name
-            ];
+        ```
+        + (NSArray*)moduleClassNames {
+                if (!moduleClassNames) {
+                        moduleClassNames = @[
+                        [RBStreamingModuleViewController classString],  // Streaming
+                        [RBNewModuleViewController classString]  // Module Name
+                        ];
+                }
+                return moduleClassNames;
         }
-        return moduleClassNames;
-    }
-    ```
+        ```
 
 #### Default Modules
 1. Streaming
