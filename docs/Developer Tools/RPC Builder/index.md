@@ -1,10 +1,10 @@
 # RPC Builder
 
 ## Introduction
-The SmartDeviceLink (SDL) RPC Builder app is a free iOS app designed to help developers understand the SDL interface and how remote procedure calls (RPCs) work. Use the app to send and receive RPCs with a SDL Core without writing any code.
+The SmartDeviceLink (SDL) RPC Builder app is a free iOS app designed to help developers understand the SDL interface and how remote procedure calls (RPCs) work. Use the app to test sending and receiving RPCs without writing any code.
 
 !!! NOTE
-In order for the RPC Builder app to work correctly, all commands must be executed in proper sequence. For example, when building a custom menu, a *performInteraction* call will only be successful if sent after a *createInteractionChoiceSet* call. To find more information about how to properly set up a sequence of commands, please reference the [SDL iOS Guides](https://smartdevicelink.com/en/guides/iOS/getting-started/installation/).
+In order for the RPC Builder app to work correctly, all commands must be executed in proper sequence. For example, when building a custom menu, a `performInteraction` request will only be successful if sent after a `createInteractionChoiceSet` request. To find more information about how to properly set up a sequence of commands, please reference the [SDL App Developer Documentation](https://smartdevicelink.com/docs/iOS/master/).
 !!!
 
 ## Getting Started
@@ -13,7 +13,8 @@ In order to begin using RPC Builder, the [SDL iOS](http://www.github.com/smartde
 cd RPC\ Builder/
 pod install
 ```
-After the SDL iOS library has been installed, the RPC Builder app can be deployed on an iOS device.
+
+Once the SDL iOS library has been installed, the RPC Builder app can be deployed on an iOS device.
 
 ## RPC Builder Interface
 
@@ -22,12 +23,16 @@ After the SDL iOS library has been installed, the RPC Builder app can be deploye
 
 On the settings page, select a RPC spec file. The default *Mobile_API.xml* file will generate all possible RPCs available for the app. To use a custom RPC spec file, add a new file via iTunes file sharing to the `SpecXMLs` directory. The file can also be added via a remote URL.
 
-Also on the settings page, set the transport layer to TCP/IP or iAP. For more information on which connection to use, please view the [SDL iOS Guide](https://smartdevicelink.com/en/guides/iOS/getting-started/connecting-to-a-sdl-core/).
+Also on the settings page, set the transport layer to TCP/IP or iAP.  For more information on which type of connection to use, please view the [SDL iOS Guide](https://smartdevicelink.com/en/guides/iOS/getting-started/connecting-to-an-infotainment-system/).
 
-Once the spec file and transport layer have been set, click on *Next*. The next page is the Register App Interface (RAI) screen. This page contains information for registering the app the first time it connects with the SDL Core. Simply click on *Send* to use the default settings. If the properties on the RAI screen are modified, they will be cached for subsequent launches. **Once *Send* is pressed, the app will not continue until a successful connection is achieved and RAI response is received.**
+Once the spec file and transport layer have been set, click on *Next*. On the next page, send the `RegisterAppInterface` (RAI) RPC, a request that registers the app with SDL Core. Simply click on *Send* to use the default RAI settings. If the properties on the RAI screen are modified, they will be cached for subsequent launches.
 
-![RPC Builder App register app interface rpc settings](./assets/RegisterAppInterface.png)
-![RPC Builder App waiting for connection alert](./assets/Connecting.png)
+![RegisterAppInterface](./assets/RegisterAppInterface.png)
+![Connecting](./assets/Connecting.png)
+
+!!! IMPORTANT
+Once *Send* is pressed, the app will only proceed once it has successfully connected with SDL Core and received a RAI response.
+!!!
 
 ### Main RPCs Table
 
@@ -97,7 +102,7 @@ There are a few requirements for building Modules:
 1. Streaming
     - Allows for testing of video and audio streaming of camera / video files as well as audio files respectively.
 2. Audio Capture
-    - Allows for saving of audio data via AudioPassThru RPCs. Properties of this RPC can be modified to test the robustness of the RPC. This audio data may be retrieved via iTunes File Sharing.
+    - Allows for saving of audio data via `AudioPassThru` RPCs. Properties of this RPC can be modified to test the robustness of the RPC. This audio data may be retrieved via iTunes File Sharing.
 
 ### Console Log
 The console log shows a simplified output of sent and received requests.
@@ -121,7 +126,7 @@ Tapping once on a RPC call in the console will reveal the JSON associated with t
 ![RPC Builder App console RAI example](./assets/Console-RAI.png)
 
 ### A Special Note About Putfile
-Putfile is the RPC responsible for sending binary data from our mobile libraries to the SDL Core. The RPC Builder app provides support for adding any type of file: either from the camera roll (for images) or iTunes shared storage for any other kind of files. Similar to adding custom RPC spec files, any file located within the `BulkData` directory will be present in local storage and be usable for upload.
+A `putFile` is the RPC responsible for sending binary data from our mobile libraries to the SDL Core. The RPC Builder app provides support for adding any type of file: either from the camera roll (for images) or iTunes shared storage for any other kind of files. Similar to adding custom RPC spec files, any file located within the `BulkData` directory will be present in local storage and be usable for upload.
 
 ## Need Help?
 If you need general assistance, or have other questions, you can [sign up](http://sdlslack.herokuapp.com/) for the [SDL Slack](https://smartdevicelink.slack.com/) and chat with other developers and the maintainers of the project.
