@@ -66,7 +66,7 @@ There are three different ways to send an RPC argument.
 2. Send without data
     * To send an argument with an empty string, leave the field next to the argument name empty
 3. Don't send the argument
-    * To disable the argument from being included in the RPC, tap once on the argument's name. The argument will be grayed out and not included in the request. In the picture below *mainField1* will not be included in the RPC Request, but *mainField2* will be included with an empty string.
+    * To disable the argument from being included in the RPC, tap once on the argument's name. The argument will be grayed out and not included in the request. In the picture below `mainField1` will not be included in the RPC Request, but `mainField2` will be included with an empty string.
     ![RPC Builder App show RPC main field example](./assets/EnabledDisabled.png)
 
 ### Modules
@@ -90,9 +90,9 @@ There are a few requirements for building Modules:
     + (NSArray*)moduleClassNames {
         if (!moduleClassNames) {
             moduleClassNames = @[
-                                 [RBStreamingModuleViewController classString],  // Streaming
-                                 [RBNewModuleViewController classString]  // Module Name
-                                 ];
+                [RBStreamingModuleViewController classString],  // Streaming
+                [RBNewModuleViewController classString]  // Module Name
+            ];
         }
         return moduleClassNames;
     }
