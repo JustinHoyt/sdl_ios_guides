@@ -84,7 +84,6 @@ There are a few requirements for building Modules:
 1. All Modules must not interact with any other Module.
 1. All Modules must be added to `RBModuleViewController`'s class function `moduleClassNames`. The new Module should be added to this list in alphabetical order. For an example of how to add this see below:
 
-        ```
         + (NSArray*)moduleClassNames {
                 if (!moduleClassNames) {
                         moduleClassNames = @[
@@ -94,7 +93,7 @@ There are a few requirements for building Modules:
                 }
                 return moduleClassNames;
         }
-        ```
+
 
 #### Default Modules
 1. Streaming
