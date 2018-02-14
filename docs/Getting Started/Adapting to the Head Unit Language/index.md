@@ -1,8 +1,8 @@
 ## Adapting to the Head Unit Language
 
-Since a car's head unit can support multiple languages, you have the option to detect which language is currently be used by the head unit as well as get notifications when the user changes the head unit's current language. If desired, the `SDLLifecycleConfiguration` can be updated to reflect the head unit's current language, including the app's name and the app's text-to-speech name.
+Since a car's head unit can support multiple languages you can check which language is currently be used by the head unit and get notifications when the user changes the head unit's current language. If desired, the `SDLLifecycleConfiguration` can be updated to reflect the head unit's current language, including the app's name and the app's text-to-speech name.
 
-If your app does not support the current head unit language, you should decide on a default language to use within your app. All text and VR commands should be created using the default language. Although the the voice-recognition (VR) system expects the user to speak VR commands in the head unit's current language, the VR system will automatically handle VR commands created by your app so you do not need to any extra work.
+If your app does not support the current head unit language, you should decide on a default language to use in your app. All text and VR commands should be created using this default language. Although the the voice-recognition (VR) system expects the user to speak VR commands in the head unit's current language, the VR system will automatically handle VR commands created by your app so you do not need to any extra work.
 
 ### Getting the Current Head Unit Language
 After starting the `SDLManager`, you can check the `registerResponse` property for the head unit's `language` and `hmiDisplayLanguage`. The `language` property gives you the current VR system language; `hmiDisplayLanguage` the current display text.
@@ -49,11 +49,11 @@ SDLChangeRegistration *changeRegistration = [[SDLChangeRegistration alloc] initW
 ```swift
 let changeRegistration = SDLChangeRegistration(language:<#Matching language#>, hmiDisplayLanguage:<#Matching language#>, appName:"<#App name for new language#>" ttsName:[<#App TTS name for language#>], ngnMediaScreenAppName:nil, vrSynonyms:nil)
 
-self.sdlManager.send(request: changeRegistration) { (request, response, error) in
-	if response?.resultCode != .success {
-		// The change registration failed
-		return
-	}
+sdlManager.send(request: changeRegistration) { (request, response, error) in
+    guard error == nil, let response = response, response.resultCode == .success else {
+        // The change registration failed
+        return
+    }
 }
 ```
 
