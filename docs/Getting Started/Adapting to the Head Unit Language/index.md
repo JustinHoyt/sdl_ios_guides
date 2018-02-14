@@ -117,7 +117,6 @@ class ProxyManager {
         }
     }
 
-    // Send a `changeRegistration` if necessary
     func checkHeadUnitLanguage() {
         // 1. Get the current head unit `language` and `hmiDisplayLanguage` from the `registerAppInterfaceResponse`
 
@@ -132,7 +131,6 @@ class ProxyManager {
         NotificationCenter.default.addObserver(self, selector: #selector(headUnitLanguageDidChange(_:)), name: .SDLDidChangeLanguage, object: nil)
     }
 
-    // didChangeLanguage notification
     func headUnitLanguageDidChange(_ notification: SDLRPCNotificationNotification) {
         // 1. Get the new `language` and `hmiDisplayLanguage` from the notification
 
