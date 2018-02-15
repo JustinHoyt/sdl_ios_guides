@@ -113,7 +113,7 @@ class ProxyManager {
     }
 
     func checkHeadUnitLanguage() {
-        /* 1. Get the current head unit `language` and `hmiDisplayLanguage` from the `registerAppInterfaceResponse` */
+        // 1. Get the current head unit `language` and `hmiDisplayLanguage` from the `registerAppInterfaceResponse`
 
         // 2. Check if the app’s `currentLanguage` and `currentHMIDisplayLanguage` matches the head unit’s current language and `hmiDisplayLanguage`. If so, no need to send a `changeRegistration` request.
 
