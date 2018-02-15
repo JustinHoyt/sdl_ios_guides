@@ -1,6 +1,6 @@
 ## Adapting to the Head Unit Language
 
-Since a car's head unit can support multiple languages you can check which language is currently be used by the head unit and get notifications when the user changes the head unit's current language. If desired, the `SDLLifecycleConfiguration` can be updated to reflect the head unit's current language, including the app's name and the app's text-to-speech name.
+Since a head unit can support multiple languages, you may want to add support for more than one language to your SDL app. The SDL library allows you to check which language is currently be used by the head unit and get notifications when the user changes the head unit's current language. If desired, the app's name and the app's text-to-speech name can be customized to reflect the head unit's current language.
 
 If your app does not support the current head unit language, you should decide on a default language to use in your app. All text and VR commands should be created using this default language. Although the the voice-recognition (VR) system expects the user to speak VR commands in the head unit's current language, the VR system will automatically handle VR commands created by your app so you do not need to any extra work.
 
@@ -19,15 +19,8 @@ let headUnitLanguage = sdlManager.registerResponse?.language
 let headUnitHMIDisplayLanguage = sdlManager.registerResponse?.hmiDisplayLanguage
 ```
 
-### Supporting the Head Unit's Language
-| App Current Language | App Supported Languages | Head Unit Language  | What to do |
-| ------------ | ------------------- |------------------- | ---------- |
-| EN_US | [EN_US, FR_CA, ES_MX]    | EN_US | Nothing, you already match |
-| EN_US | [EN_US, FR_CA, ES_MX]    | UK_UA | Nothing, continue using the app's current language |
-| EN_US | [EN_US, FR_CA, ES_MX]    | FR_CA | Switch the app to the head unit's language |
-
 ### Updating the SDL App Name
-If desired, you can customize your app name, text-to-speech app name, and VR command names, based on the head unit's current language. Since you will not know the head unit's current language until after the app connects to the head unit, the customized app name must be updated with a `SDLChangeRegistration` RPC after the connection is established.
+If desired, you can customize your app name, and text-to-speech app name, based on the head unit's current language. Since you will not know the head unit's current language until after the app connects to the head unit, the customized app name must be updated with a `SDLChangeRegistration` RPC after a connection is established.
 
 1. Set the default `appName` and `language` in the `SDLManager`'s  `SDLLifecycleConfiguration`.
 1. After a connection between the app and the head unit has been established, get the head unit's current `language` and `hmiDisplayLanguage` from the `registerResponse`.
@@ -58,9 +51,9 @@ sdlManager.send(request: changeRegistration) { (request, response, error) in
 ```
 
 ### Detect when Head Unit Language has Changed
-If the user changes the head unit's language while your app is connected to the head unit, you may want to refresh the UI immediately with the new language. To do this, you must register for a `SDLDidChangeLanguageNotification`.
+If the user changes the head unit's language while your app is connected, you may want to refresh your SDL app's UI immediately with the new language. To do this, you must register for a `SDLDidChangeLanguageNotification`.
 
-It is important to note, that when the head unit's language is changed, the head unit will send a  `OnAppInterfaceUnregistered` notification. The app will disconnect and reconnect automatically to the head unit. After reconnection, the `registerAppInterfaceResponse` will contain the new `language` and `hmiDisplayLanguage`. Do not send a `SDLChangeRegistration` RPC from the `headUnitLanguageDidChange:notification` method because it might fail due to the connection being closed and reopened. Instead, the head unit language should be checked after the connection has reopened and if necessary, the `SDLChangeRegistration` should be sent.
+It is important to note, that when the head unit's language is changed, the head unit will send a  `OnAppInterfaceUnregistered` notification. The app will disconnect and reconnect automatically to the head unit. After reconnection, the `registerAppInterfaceResponse` will contain the new `language` and `hmiDisplayLanguage`. Do not send a `SDLChangeRegistration` RPC from the `headUnitLanguageDidChange:notification` method because it might fail due to the connection being closed and reopened. Instead, the head unit language should be checked after the connection has reopened and then, if necessary, the `SDLChangeRegistration` should be sent.
 
 #### Objective-C
 ```objc
@@ -100,6 +93,8 @@ func registerForNotifications() {
 ```
 
 ### Pseudo Code for Handling Language Updates
+The pseudo code below shows you the project flow for monitoring the head unit's current language and for determining when to send a `changeRegistration` request.
+
 ```
 class ProxyManager {
     static let supportedLanguages: [SDLLanguage] = [‘<#Your Supported Language#>’, ‘<#Your Supported Language#>’]
@@ -118,13 +113,15 @@ class ProxyManager {
     }
 
     func checkHeadUnitLanguage() {
+        /*
         // 1. Get the current head unit `language` and `hmiDisplayLanguage` from the `registerAppInterfaceResponse`
 
         // 2. Check if the app’s `currentLanguage` and `currentHMIDisplayLanguage` matches the head unit’s current language and `hmiDisplayLanguage`. If so, no need to send a `changeRegistration` request.
 
-        // 3. Check if the head unit’s current language is supported by the app. If not, set the app’s `currentLanguage` and `currentHMIDisplayLanguage` to the app’s default supported language. No need to send a `changeRegistration` request.
+        // 3. Check if the head unit’s current language is supported by the app. If it is not, set the app’s `currentLanguage` and `currentHMIDisplayLanguage` to the app’s default supported language. No need to send a `changeRegistration` request.
 
         // 5. If the app supports the head unit’s current language, send a `changeRegistration` request. Update the `currentLanguage` and `currentHMIDisplayLanguage` vars with the head unit's language.
+        */
     }
 
     func registerForNotifications() {
