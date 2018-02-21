@@ -39,6 +39,7 @@ SDLChangeRegistration *changeRegistration = [[SDLChangeRegistration alloc] initW
 		// The change registration failed
 		return;
 	}
+    <#Change Registration succeeded#>
 }
 ```
 
@@ -51,6 +52,7 @@ sdlManager.send(request: changeRegistration) { (request, response, error) in
         // The change registration failed
         return
     }
+    <#Change Registration succeeded#>
 }
 ```
 
