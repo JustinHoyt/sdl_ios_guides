@@ -44,10 +44,10 @@ SDLChangeRegistration *changeRegistration = [[SDLChangeRegistration alloc] initW
 
 #### Swift
 ```swift
-let changeRegistration = SDLChangeRegistration(language:<#Matching language#>, hmiDisplayLanguage:<#Matching language#>, appName:"<#App name for new language#>" ttsName:[<#App TTS name for language#>], ngnMediaScreenAppName:nil, vrSynonyms:nil)
+let changeRegistration = SDLChangeRegistration(language:<#Matching language#>, hmiDisplayLanguage:<#Matching language#>, appName:"<#App name for new language#>" ttsName:[<#App TTS name for language#>], ngnMediaScreenAppName:<#NGN media screen app name#>, vrSynonyms:<#VR synonyms#>)
 
 sdlManager.send(request: changeRegistration) { (request, response, error) in
-    guard error == nil, let response = response, response.resultCode == .success else {
+    guard let response = response, response.resultCode == .success else {
         // The change registration failed
         return
     }
@@ -66,7 +66,6 @@ class ProxyManager {
     private var currentHMIDisplayLanguage: SDLLanguage = ProxyManager.defaultLanguage
 
     func start() {
-        registerForNotifications()
         sdlManager.start { (success, error)
             guard success else { return }
             // This is called every time the app reconnects to the head unit
