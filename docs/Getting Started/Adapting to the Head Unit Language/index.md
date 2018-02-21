@@ -7,7 +7,7 @@ The initial configuration of the `SDLManager` requires a default language when s
 If your app does not support the current head unit language, you should decide on a default language to use in your app. All text should be created using this default language. Unfortunately, your VR commands will probably not work as the VR system will not recogize your users' pronunciation.
 
 ### Getting the Current Head Unit Language
-After starting the `SDLManager`, you can check the `registerResponse` property for the head unit's `language` and `hmiDisplayLanguage`. The `language` property gives you the current VR system language; `hmiDisplayLanguage` the current display text.
+After starting the `SDLManager`, you can check the `registerResponse` property for the head unit's `language` and `hmiDisplayLanguage`. The `language` property gives you the current VR system language; `hmiDisplayLanguage` the current display text language.
 
 #### Objective-C
 ```objc
