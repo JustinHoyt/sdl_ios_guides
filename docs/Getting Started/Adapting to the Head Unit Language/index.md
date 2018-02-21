@@ -22,7 +22,7 @@ let headUnitHMIDisplayLanguage = sdlManager.registerResponse?.hmiDisplayLanguage
 ```
 
 ### Updating the SDL App Name
-If desired, you can customize your app name, and text-to-speech app name, based on the head unit's current language. Since you will not know the head unit's current language until after the app connects to the head unit, the customized app name must be updated with a `SDLChangeRegistration` RPC after a connection is established.
+You may want or need to customize your app name and text-to-speech app name based on the head unit's current language. Since you will not know the head unit's current language until after the app connects to the head unit, the customized app name must be updated with a `SDLChangeRegistration` RPC after a connection is established.
 
 1. Set the default `appName` and `language` in the `SDLManager`'s  `SDLLifecycleConfiguration`.
 1. After a connection between the app and the head unit has been established, get the head unit's current `language` and `hmiDisplayLanguage` from the `registerResponse`.
