@@ -28,6 +28,8 @@ You may want or need to customize your app name and text-to-speech app name base
 1. After a connection between the app and the head unit has been established, get the head unit's current `language` and `hmiDisplayLanguage` from the `registerResponse`.
 2. If your app supports the head unit's current `language` and `hmiDisplayLanguage` and the app's default language is different from the head unit's current language, send a `SDLChangeRegistration` RPC with the new app name.
 
+It is important to note, that when the head unit's language is changed by the user, the head unit will send a  `OnAppInterfaceUnregistered` notification to the app. The app will then disconnect and reconnect automatically to the head unit. After reconnection, the `registerAppInterfaceResponse` will contain the new `language` and `hmiDisplayLanguage`.
+
 #### Objective-C
 ```objc
 SDLChangeRegistration *changeRegistration = [[SDLChangeRegistration alloc] initWithLanguage:<#Matching language#> hmiDisplayLanguage:<#Matching language#> appName:@"<#App name for new language#>" ttsName:@[<#App TTS name for language#>] ngnMediaScreenAppName:<#NGN media screen app name#> vrSynonyms:<#VR synonyms#>];
