@@ -52,10 +52,7 @@ This is only required for USB and Bluetooth enabled head units. It is not necess
 </array>
 ```  
 
-### 4. Access the Documentation
-You can find the latest reference documentation on [SmartDeviceLink documentation](https://smartdevicelink.com/en/docs/iOS/master/).
-
-### 5. Get an App Id
+### 4. Get an App Id
 An app id is required for production level apps. The app id gives your app special permissions to access vehicle data. If your app does not need to access vehicle data, a dummy app id (i.e. create a fake id like "1234") is sufficient during the development stage. However, you must get an app id before releasing the app to the public.
 
 To obtain an app id, sign up at [smartdevicelink.com](https://www.smartdevicelink.com).
