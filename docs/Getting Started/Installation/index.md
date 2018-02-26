@@ -21,7 +21,7 @@ pod init
 6. In the **Podfile**, add the following text. This tells CocoaPods to install SDL SDK for iOS.
 ```
 target ‘<#Your Project Name#>’ do
-    pod ‘SmartDeviceLink-iOS’, ‘~> <#SDL Version#>’
+    pod ‘SmartDeviceLink’, ‘~> <#SDL Version#>’
 end
 ```
 !!! NOTE
