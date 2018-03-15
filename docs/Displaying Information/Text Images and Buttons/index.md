@@ -2,7 +2,7 @@
 All text, images, and soft buttons must be sent as part of a `SDLShow` RPC.
 
 ### Screen Manager
-The `SDLScreenManager` is a manager (v. 5.2) created to simplify updating the SDL app's UI. The manager handles uploading images and takes care of assigning a unique id to images and soft buttons. In addition, you can set a series of static states for each soft button. This allows you to easily update the soft button's image and/or text when desired. To update the UI, simply give the `SDLScreenManager` the new text, images, and buttons, and sandwich the update between the manager's  `beginUpdates` and ` endUpdatesWithCompletionHandler:` methods. Once, `beginUpdates` is called, all screen updates are delayed until `endUpdatesWithCompletionHandler:` is called.
+The `SDLScreenManager` is a manager (versions 5.2+) created to simplify updating the SDL app's UI. The manager handles uploading images and takes care of assigning a unique id to images and soft buttons. In addition, you can set a series of static states for each soft button. This allows you to easily update the soft button's image and/or text. To update the UI, simply give the `SDLScreenManager` the new text, images, and buttons, and sandwich the update between the manager's  `beginUpdates` and ` endUpdatesWithCompletionHandler:` methods. Once, `beginUpdates` is called, all screen updates are delayed until `endUpdatesWithCompletionHandler:` is called.
 
 | SDLScreenManager Parameter Name | Description |
 |:--------------------------------------------|:--------------|
@@ -79,6 +79,8 @@ sdlManager.screenManager.endUpdates { (error) in
 ```
 
 #### Soft Button Objects
+A soft button
+
 #### Objective-C
 ```objc
 ```
@@ -88,12 +90,16 @@ sdlManager.screenManager.endUpdates { (error) in
 ```
 
 #### Soft Button States
+Sometimes you may want to update a soft button's state by changing the button's image and/or text. For example, a soft-button used to set the repeat state of a song can have three states: repeat-off, repeat-one, and repeat-all. When creating the button, each of these states, with their respective image and text, can be set on initialization. When the button state needs to be updated, simply tell the `SDLScreenManager` the `stateName` of the new soft button state.
+
 #### Objective-C
 ```objc
+SDLSoftButtonState *buttonState = [[SDLSoftButtonState alloc] initWithStateName:<#Soft button state name#> text:<#Button text#> artwork:<#SDLArtwork#>];
 ```
 
 #### Swift
 ```swift
+let buttonState = SDLSoftButtonState(stateName: <#Button state name#>, text: <#Button text#>, artwork: <#SDLArtwork#>)
 ```
 
 ### Text
