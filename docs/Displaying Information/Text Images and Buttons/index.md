@@ -1,5 +1,100 @@
 ## Text, Images, and Buttons
-All text, images, and soft buttons on the HMI screen must be sent as part of a `SDLShow` RPC. Subscribing hard buttons are sent as part of a `SDLSubscribeButton` RPC.
+All text, images, and soft buttons must be sent as part of a `SDLShow` RPC.
+
+### Screen Manager
+The `SDLScreenManager` is a manager (v. 5.2) created to simplify updating the SDL app's UI. The manager handles uploading images and takes care of assigning a unique id to images and soft buttons. In addition, you can set a series of static states for each soft button. This allows you to easily update the soft button's image and/or text when desired. To update the UI, simply give the `SDLScreenManager` the new text, images, and buttons, and sandwich the update between the manager's  `beginUpdates` and ` endUpdatesWithCompletionHandler:` methods. Once, `beginUpdates` is called, all screen updates are delayed until `endUpdatesWithCompletionHandler:` is called.
+
+| SDLScreenManager Parameter Name | Description |
+|:--------------------------------------------|:--------------|
+| textField1 | The text displayed in a single-line display, or in the upper display line of a multi-line display |
+| textField2 | The text displayed on the second display line of a multi-line display |
+| textField3 | The text displayed on the third display line of a multi-line display |
+| textField4 | The text displayed on the bottom display line of a multi-line display |
+| primaryGraphic | The primary image in a template that supports images |
+| secondaryGraphic | The second image in a template that supports multiple images |
+| textAlignment | The text justification for the text fields. The text alignment can be left, center, or right  |
+| softButtonObjects | An array of soft button objects. Each template supports a different number of soft buttons |
+| textField1Type | The type of data provided in `textField1` |
+| textField1Type | The type of data provided in `textField2` |
+| textField1Type | The type of data provided in `textField3` |
+| textField1Type | The type of data provided in `textField4` |
+
+
+#### Text Field Types
+The text field type provids context as to the type of data contained in a text-field. Each OEM decides how to customize the template based on the type of data included in the text field. For example, a head-unit could display a thermometer icon next to the temperature in a weather app or bold the song title of the current media. If the head-unit does not support text field types, the provided text field types will simply be ignored.
+
+| Text Field Types | Description |
+|:-------------------|:--------------|
+| mediaTitle | The title of the currently playing audio track |
+| mediaArtist | The artist or creator of the currently playing audio track |
+| mediaAlbum | The album title of the currently playing audio track |
+| mediaYear | The creation year of the currently playing audio track |
+| mediaGenre| The genre of the currently playing audio track |
+| mediaStation | The name of the current source for the media |
+| rating | A rating |
+| currentTemperature | The current temperature |
+| maximumTemperature | The maximum temperature for the day |
+| minimumTemperature | The minimum temperature for the day |
+| weatherTerm | The current weather (ex. cloudy, clear, etc.) |
+| humidity | The current humidity value |
+
+#### Objective-C
+```objc
+[self.sdlManager.screenManager beginUpdates];
+
+self.sdlManager.screenManager.textField1 = <#String#>;
+self.sdlManager.screenManager.textField2 = <#String#>;
+self.sdlManager.screenManager.primaryGraphic = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:<#Image name#>] asImageFormat:<#SDLArtworkImageFormat#>]
+SDLSoftButtonObject *softButton = [[SDLSoftButtonObject alloc] initWithName:<#Soft button name#> state:[[SDLSoftButtonState alloc] initWithStateName:<#Soft button state name#> text:<#Button text#> artwork:<#SDLArtwork#>] handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    if (buttonPress == nil) { return; }
+    <#Button was selected#>
+}];
+self.sdlManager.screenManager.softButtonObjects = = @[softButton];
+
+[self.sdlManager.screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
+    if (error != nil) {
+    <#error sending the update#>
+    } else {
+    <#update was sent successfully#>
+    }
+}];
+```
+
+#### Swift
+```swift
+sdlManager.screenManager.beginUpdates()
+
+sdlManager.screenManager.textField1 = <#String#>
+sdlManager.screenManager.textField2 = <#String#>
+sdlManager.screenManager.primaryGraphic = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
+sdlManager.screenManager.softButtonObjects = <#an array of SDLSoftButtonObjects#>
+
+sdlManager.screenManager.endUpdates { (error) in
+    if error != nil {
+    <#error sending the update#>
+    } else {
+    <#update was sent successfully#>
+    }
+}
+```
+
+#### Soft Button Objects
+#### Objective-C
+```objc
+```
+
+#### Swift
+```swift
+```
+
+#### Soft Button States
+#### Objective-C
+```objc
+```
+
+#### Swift
+```swift
+```
 
 ### Text
 A maximum of four lines of text can be set in `SDLShow` RPC, however, some templates may only support 1, 2, or 3 lines of text. If all four lines of text are set in the `SDLShow` RPC, but the template only supports three lines of text, then the fourth line will simply be ignored.
@@ -193,3 +288,5 @@ Audio buttons like the OK (i.e. the `play/pause` button), seek left, seek right,
 !!! NOTE
 You will automatically be assigned the media template if you set your configuration app type as `MEDIA`.
 !!!
+
+
