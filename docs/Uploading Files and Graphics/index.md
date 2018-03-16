@@ -1,18 +1,16 @@
 ## Uploading Files and Graphics
-Graphics allows for you to better customize what you would like to have your users see, and provide a better User Interface.
+When developing a SmartDeviceLink application you must remember these two things when using graphics:
+
+1. You may be connected to a Head Unit that does not have the ability to display graphics.
+2. You must upload images from your mobile device to the Head Unit before using them in a template.
 
 To learn how to use these graphics once they are uploaded, please see [Displaying Information > Text, Images, and Buttons](Displaying Information/Text, Images, and Buttons).
 
-When developing an application using SmartDeviceLink, two things must always be remembered when using graphics:
-
-1. You may be connected to a head unit that does not display graphics.
-2. You must upload them from your mobile device to Core before using them.
-
-### Detecting if Graphics are Supported
-Being able to know if graphics are supported is a very important feature of your application, as this avoids you uploading unneccessary images to the head unit. In order to see if graphics are supported, take a look at `SDLManager`'s `registerResponse` property once in the completion handler for `startWithReadyHandler`.
+### Checking if Graphics are Supported
+Before uploading images to a Head Unit you should first check if the Head Unit supports graphics. If it does not, you should avoid uploading unneccessary image data. To determine if graphics are supported check the `SDLManager`'s `registerResponse` property once the `SDLManager` has started successfully.
 
 !!! note 
-If you need to know how to create and setup `SDLManager`, please see [Getting Started > Integration Basics](Getting Started/Integration Basics).
+If you need to know how to create the `SDLManager`, please see [Getting Started > Integration Basics](Getting Started/Integration Basics).
 !!!
 
 #### Objective-C
@@ -48,29 +46,29 @@ sdlManager.start { [weak self] (success, error) in
 ```
 
 ### Uploading an Image using SDLFileManager
-`SDLFileManager` handles uploading files, like images, and keeping track of what already exists and what does not. To assist, there are two classes: `SDLFile` and `SDLArtwork`. `SDLFile` is the base class for file uploads and handles pulling data from local `NSURL`s and `NSData`. `SDLArtwork` is subclass of this, and provides additional functionality such as creating a file from a `UIImage`.
+The `SDLFileManager` uploads files and keeps track of all the uploaded files names during a session. To send data with the `SDLFileManager`, you need to create either a `SDLFile` or `SDLArtwork` object. `SDLFile` objects are created with a local `NSURL` or `NSData`; `SDLArtwork` a `UIImage`.
 
 #### Objective-C
 ```objc
 UIImage* image = [UIImage imageNamed:@"<#Image Name#>"];
 if (!image) {
-    NSLog(@"Error reading from Assets");
+    <#Error Reading from Assets#>
     return;    
 }
 
-SDLArtwork* file = [SDLArtwork artworkWithImage:image name:@"<#Name to Upload As#>" asImageFormat:SDLArtworkImageFormatJPG /* or SDLArtworkImageFormatPNG */];
+SDLArtwork* file = [SDLArtwork artworkWithImage:image name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
 
 [self.sdlManager.fileManager uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
 	if (error) {
 		if (error.code == SDLFileManagerErrorCannotOverwrite) {
-	        // Attempting to upload a file with a name that already exists on the head unit, if you want to overwrite the existing file, you need to set the `overwrite` flag on `SDLArtwork`.
+            <#Attempting to upload a file with a name that already exists on the head unit, if you want to overwrite the existing file, you need to set the `overwrite` flag on `SDLArtwork`#>
 	    } else {
-	        // Error uploading
+            <#Image Upload Failed#>
 	    }
 	    return;
 	}
 
-    // Successfully uploaded.
+    <#Image Upload Successful#>
 }];
 ```
 
@@ -80,19 +78,19 @@ guard let image = UIImage(named: "<#Image Name#>") else {
 	print("Error reading from Assets")
 	return
 }
-let file = SDLArtwork(image: image, name: "<#Name to Upload As#>", persistent: true, as: .JPG /* or .PNG */)
+let file = SDLArtwork(image: image, name: "<#Name to Upload As#>", persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
 
 sdlManager.fileManager.upload(file: file) { (success, bytesAvailable, error) in
     if let error = error {
         if error._code == SDLFileManagerError.errorCannotOverwrite.rawValue {
-            // Attempting to upload a file with a name that already exists on the head unit, if you want to overwrite the existing file, you need to set the `overwrite` flag on `SDLArtwork`.
+            <#Attempting to upload a file with a name that already exists on the head unit, if you want to overwrite the existing file, you need to set the `overwrite` flag on `SDLArtwork`#>
         } else {
-            // Error uploading
+            <#Image Upload Failed#>
         }
         return
     }
     
-    // Successfully uploaded
+    <#Image Upload Successful#>
 }
 ```
 
@@ -257,8 +255,8 @@ Images may be formatted as PNG, JPEG, or BMP. Check the `RegisterAppInterfaceRes
 If an image is uploaded that is larger than the supported size, that image will be scaled down to accomodate. All image sizes are available from the `SDLManager`'s `registerResponse` property once in the completion handler for `startWithReadyHandler`.
 
 #### Image Specifications
-ImageName 		  	 | Used in RPC				  |	Details 																							  |	Height 		 | Width  | Type
----------------------|----------------------------|-------------------------------------------------------------------------------------------------------|--------------|--------|-------
+| ImageName | Used in RPC | Details | Height | Width | Type |
+|:--------------|:----------------|:--------|:---------|:-------|:-------|
 softButtonImage		 | Show 					  | Will be shown on softbuttons on the base screen														  | 70px         | 70px   | png, jpg, bmp
 choiceImage 		 | CreateInteractionChoiceSet | Will be shown in the manual part of an performInteraction either big (ICON_ONLY) or small (LIST_ONLY) | 70px         | 70px   | png, jpg, bmp
 choiceSecondaryImage | CreateInteractionChoiceSet | Will be shown on the right side of an entry in (LIST_ONLY) performInteraction						  | 35px 		 | 35px   | png, jpg, bmp
