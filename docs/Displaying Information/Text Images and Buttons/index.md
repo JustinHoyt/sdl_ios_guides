@@ -2,7 +2,7 @@
 All text, images, and soft buttons must be sent as part of a `SDLShow` RPC.
 
 ### Screen Manager
-The `SDLScreenManager` is a manager (versions 5.2+) created to simplify updating the SDL app's UI. The manager handles uploading images and takes care of assigning a unique id to images and soft buttons. In addition, you can set a series of static states for each soft button. This allows you to easily update the soft button's image and/or text. To update the UI, simply give the `SDLScreenManager` the new text, images, and buttons, and sandwich the update between the manager's  `beginUpdates` and ` endUpdatesWithCompletionHandler:` methods. Once, `beginUpdates` is called, all screen updates are delayed until `endUpdatesWithCompletionHandler:` is called.
+The `SDLScreenManager` is a manager (versions 5.2+) created to simplify updating the SDL app's UI. The manager handles uploading images and takes care of assigning a unique id to images and soft buttons. To update the UI, simply give the `SDLScreenManager` the new text, images, and buttons, and sandwich the update between the manager's  `beginUpdates` and ` endUpdatesWithCompletionHandler:` methods. Once, `beginUpdates` is called, all screen updates are delayed until `endUpdatesWithCompletionHandler:` is called.
 
 | SDLScreenManager Parameter Name | Description |
 |:--------------------------------------------|:--------------|
@@ -21,7 +21,7 @@ The `SDLScreenManager` is a manager (versions 5.2+) created to simplify updating
 
 
 #### Text Field Types
-The text field type provids context as to the type of data contained in a text-field. Each OEM decides how to customize the template based on the type of data included in the text field. For example, a head-unit could display a thermometer icon next to the temperature in a weather app or bold the song title of the current media. If the head-unit does not support text field types, the provided text field types will simply be ignored.
+The text field type provids context as to the type of data contained in a text-field. Each OEM decides how to customize the template based on the type of data included in the text field. For example, a head-unit could display a thermometer icon next to the temperature in a weather app or bold the song title of the current media. If the head-unit does not support text field types, the provided data will simply be ignored.
 
 | Text Field Types | Description |
 |:-------------------|:--------------|
@@ -66,40 +66,38 @@ sdlManager.screenManager.beginUpdates()
 
 sdlManager.screenManager.textField1 = <#String#>
 sdlManager.screenManager.textField2 = <#String#>
-sdlManager.screenManager.primaryGraphic = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
-sdlManager.screenManager.softButtonObjects = <#an array of SDLSoftButtonObjects#>
+sdlManager.screenManager.primaryGraphic = <#SDLArtwork#>
+sdlManager.screenManager.softButtonObjects = @[<#SDLButtonObject#>, <#SDLButtonObject#>]
 
 sdlManager.screenManager.endUpdates { (error) in
     if error != nil {
-    <#error sending the update#>
+        <#error sending the update#>
     } else {
-    <#update was sent successfully#>
+        <#update was sent successfully#>
     }
 }
 ```
 
 #### Soft Button Objects
-A soft button
+To create a soft button using the `SDLScreenManager`, you only need to create a custom name for the button and provide the text for the button's lable and/or an image for the button's icon. If your button cycles between different states (e.g. a button used to set the repeat state of a song playlist can have three states: repeat-off, repeat-one, and repeat-all) you can upload all the states on initialization. When the button state needs to be updated, simply tell the `SDLScreenManager` the `stateName` of the new soft button state.
 
 #### Objective-C
 ```objc
+SDLSoftButtonState *softButtonState1 = [[SDLSoftButtonState alloc] initWithStateName:<#Soft button state name#> text:<#Button label text#> artwork:<#SDLArtwork#>];
+SDLSoftButtonState *softButtonState2 = [[SDLSoftButtonState alloc] initWithStateName:<#Soft button state name#> text:<#Button label text#> artwork:<#SDLArtwork#>];
+SDLSoftButtonObject *softButtonObject = [[SDLSoftButtonObject alloc] initWithName:<#Soft button object name#> states:@[softButtonState1, softButtonState2] initialStateName:<#Soft button state name#> handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    if (buttonPress == nil) { return; }
+    <#Button was selected#>
+}];
+self.sdlManager.screenManager.softButtonObjects = @[softButtonObject];
+
+// Transition to a new state
+SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:<#Soft button object name#>];
+[object transitionToState:<#Soft button state name#>];
 ```
 
 #### Swift
 ```swift
-```
-
-#### Soft Button States
-Sometimes you may want to update a soft button's state by changing the button's image and/or text. For example, a soft-button used to set the repeat state of a song can have three states: repeat-off, repeat-one, and repeat-all. When creating the button, each of these states, with their respective image and text, can be set on initialization. When the button state needs to be updated, simply tell the `SDLScreenManager` the `stateName` of the new soft button state.
-
-#### Objective-C
-```objc
-SDLSoftButtonState *buttonState = [[SDLSoftButtonState alloc] initWithStateName:<#Soft button state name#> text:<#Button text#> artwork:<#SDLArtwork#>];
-```
-
-#### Swift
-```swift
-let buttonState = SDLSoftButtonState(stateName: <#Button state name#>, text: <#Button text#>, artwork: <#SDLArtwork#>)
 ```
 
 ### Text
