@@ -1,14 +1,14 @@
 ## Uploading Files and Graphics
-When developing a SmartDeviceLink application you must remember these three things when using images:
+When creating a SmartDeviceLink application you should be aware of these three things when using images:
 
-1. You may be connected to a Head Unit that does not have the ability to display images.
-2. You must upload images from your mobile device to the Head Unit before using them in a template.
-3. Persistant images are stored on a Head Unit between sessions. Ephemeral images are destroyed when a sessions ends.
+1. You may be connected to a head unit that does not have the ability to display images.
+1. You must upload images from your mobile device to the head unit before using them in a template.
+1. Persistant images are stored on a head unit between sessions. Ephemeral images are destroyed when a sessions ends.
 
 To learn how to use images once they are uploaded, please see [Displaying Information > Text, Images, and Buttons](Displaying Information/Text, Images, and Buttons).
 
 ### Checking if Graphics are Supported
-Before uploading images to a Head Unit you should first check if the Head Unit supports graphics. If not, you should avoid uploading unneccessary image data. To check if graphics are supported look at the `SDLManager`'s `registerResponse` property once the `SDLManager` has started successfully.
+Before uploading images to a head unit you should first check if the head unit supports graphics. If not, you should avoid uploading unneccessary image data. To check if graphics are supported look at the `SDLManager`'s `registerResponse` property once the `SDLManager` has started successfully.
 
 !!! note 
 If you need to know how to create the `SDLManager`, please see [Getting Started > Integration Basics](Getting Started/Integration Basics).
@@ -84,12 +84,13 @@ sdlManager.fileManager.upload(artwork: artwork) { (success, artworkName, bytesAv
 ```
 
 ### Batch File Uploads
-If you want to upload a bunch of files at once, you can use the `SDLFileManager`s batch upload methods. Once all of the uploads have completed you will be notified if any of the uploads failed. If desired, you can also track the progression of each uploaded file in the batch .
+If you want to upload a bunch of files at once, you can use the `SDLFileManager`s batch upload methods. Once all of the uploads have completed you will be notified if any of the uploads failed. If desired, you can also track the progression of each file in the batch .
 
 #### Objective-C
 ```objc
-SDLArtwork *artwork = [SDLArtwork artworkWithImage:image name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
-SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:image name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
+SDLArtwork *artwork = [SDLArtwork artworkWithImage:<#UIImage#> name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
+SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:<#UIImage#> name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
+
 [self.sdlManager.fileManager uploadArtworks:@[artwork, artwork2] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
     // A single artwork has finished uploading. Use this to check for individual errors, to use an artwork as soon as its uploaded, or to check the progress of the upload
     // The upload percentage is calculated as the total file size of all attempted artwork uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
@@ -97,44 +98,40 @@ SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:image name:@"<#Name to Uploa
 } completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
     // All artworks have completed uploading.
     // If all arworks were uploaded successfully, the error will be nil
-    // The error's userInfo parameter is of type [fileName: error message]
+    // The error's userInfo parameter is of type [artworkName: error message]
 }];
 ```
 
 #### Swift
 ```swift
-guard let image = UIImage(named: "<#Image Name#>") else {
-    print("Error reading from Assets")
-    return
-}
-let file = SDLArtwork(image: image, name: "<#Name to Upload As#>", persistent: true, as: <#SDLArtworkImageFormat#>)
+let artwork = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
+let artwork2 = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
 
-sdlManager.fileManager.upload(files: [file], progressHandler: { (fileName, uploadPercentage, error) -> Bool in
-    // Optional handler, there's another method without this callback
-    // A single file has finished uploading. Use this to check individual errors, use a file as soon as its uploaded, or check the progress of the upload (from 0.0 to 1.0)
-    // Return true to continue uploading, false to stop here
-    <#code#>
-}) { (error) in
-    // All files have finished uploading or errored
-    // The userInfo of the error will contain type [fileName: error]
-    <#code#>
+sdlManager.fileManager.upload(artworks: [artwork, artwork2], progressHandler: { (artworkName, uploadPercentage, error) -> Bool in
+    // A single artwork has finished uploading. Use this to check for individual errors, to use an artwork as soon as its uploaded, or to check the progress of the upload
+    // The upload percentage is calculated as the total file size of all attempted artwork uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
+    // Return true to continue sending artworks. Return false to cancel any artworks that have not yet been sent.
+}) { (artworkNames, error) in
+    // All artworks have completed uploading.
+    // If all arworks were uploaded successfully, the error will be nil
+    // The error's userInfo parameter is of type [artworkName: error message]
 }
 ```
 
 ### File Persistance
-`SDLFile`, and its subclass `SDLArtwork` support uploading persistant files, i.e. images that do not become deleted when the car turns off. Persistance should be used for images relating to your UI, such as soft button images, and not for dynamic aspects, such as Album Artwork.  Objects of type `SDLFile`, and its subclass `SDLArtwork` should be initialized as persistent files if need be.  You can check the persistence via:  
+`SDLFile`, and its subclass `SDLArtwork` support uploading persistant files, i.e. images that do not become deleted when the car turns off. Persistance should be used for images that will show up every time the user opens the app, such as logos and button images. If the image used changes often, you do not want the image to be persistant because it will take up unnecessary space on the head unit. and not for dynamic aspects, such as album artwork.  Objects of type `SDLFile`, and its subclass `SDLArtwork` should be initialized as persistent files if need be.  You can check the persistence via:
 
 #### Objective-C
 ```objc
-if(file.isPersistent) {
-    // File was initialized as persistent
+if(artwork.isPersistent) {
+    <#File was initialized as persistent#>
 }
 ```
 
 #### Swift
 ```swift
-if file.isPersistent {
-    // File was initialized as persistent
+if artwork.isPersistent {
+    <#File was initialized as persistent#>
 }
 ```
 
@@ -169,7 +166,7 @@ let bytesAvailable = sdlManager.fileManager.bytesAvailable
 ```
 
 ### Check if a File Has Already Been Uploaded
-Although the file manager will return with an error if you attempt to upload a file of the same name that already exists, you may still be able to find out the currently uploaded images via `SDLFileManager`'s `remoteFileNames` property.
+You can check out if an image has already been uploaded to the head unit via the `SDLFileManager`'s `remoteFileNames` property.
 
 #### Objective-C
 ```objc
