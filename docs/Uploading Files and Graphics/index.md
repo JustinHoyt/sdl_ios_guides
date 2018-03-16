@@ -1,8 +1,9 @@
 ## Uploading Files and Graphics
-When developing a SmartDeviceLink application you must remember these two things when using images:
+When developing a SmartDeviceLink application you must remember these three things when using images:
 
 1. You may be connected to a Head Unit that does not have the ability to display images.
 2. You must upload images from your mobile device to the Head Unit before using them in a template.
+3. Persistant images are stored on a Head Unit between sessions. Ephemeral images are destroyed when a sessions ends.
 
 To learn how to use images once they are uploaded, please see [Displaying Information > Text, Images, and Buttons](Displaying Information/Text, Images, and Buttons).
 
@@ -58,7 +59,7 @@ if (!image) {
 
 SDLArtwork* artwork = [SDLArtwork artworkWithImage:image asImageFormat:<#SDLArtworkImageFormat#>];
 
-[self.sdlManager.fileManager uploadArtwork:artartwork completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
+[self.sdlManager.fileManager uploadArtwork:artwork completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
     if (error != nil) { return; }
     <#Image Upload Successful#>
     // To send the image as part of a show request, create a SDLImage object using the artworkName
@@ -82,23 +83,21 @@ sdlManager.fileManager.upload(artwork: artwork) { (success, artworkName, bytesAv
 }
 ```
 
-### Batch Uploading
-You can also batch upload files and be notified when all of the uploads have completed or failed. You can optionally also watch the progress of the batch upload and see when each upload completes.
+### Batch File Uploads
+If you want to upload a bunch of files at once, you can use the `SDLFileManager`s batch upload methods. Once all of the uploads have completed you will be notified if any of the uploads failed. If desired, you can also track the progression of each uploaded file in the batch .
 
 #### Objective-C
 ```objc
-SDLArtwork *file = [SDLArtwork artworkWithImage:image name:@"<#Name to Upload As#>" asImageFormat:SDLArtworkImageFormatJPG /* or SDLArtworkImageFormatPNG */];
-SDLArtwork *file2 = [SDLArtwork artworkWithImage:image name:@"<#Name to Upload As#>" asImageFormat:SDLArtworkImageFormatJPG /* or SDLArtworkImageFormatPNG */];
-
-[self.sdlManager.fileManager uploadFiles:@[<#firstFileName, secondFileName#>] progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
-    // Optional handler, there's another method without this callback
-    // A single file has finished uploading. Use this to check individual errors, use a file as soon as its uploaded, or check the progress of the upload (from 0.0 to 1.0)
-    // Return YES to continue uploading, NO to stop here
-    <#code#>
-} completionHandler:^(NSError * _Nullable error) {
-    // All files have finished uploading or errored
-    // The userInfo of the error will contain type [fileName: error]
-    <#code#>
+SDLArtwork *artwork = [SDLArtwork artworkWithImage:image name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
+SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:image name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
+[self.sdlManager.fileManager uploadArtworks:@[artwork, artwork2] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
+    // A single artwork has finished uploading. Use this to check for individual errors, to use an artwork as soon as its uploaded, or to check the progress of the upload
+    // The upload percentage is calculated as the total file size of all attempted artwork uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
+    // Return YES to continue sending artworks. Return NO to cancel any artworks that have not yet been sent.
+} completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+    // All artworks have completed uploading.
+    // If all arworks were uploaded successfully, the error will be nil
+    // The error's userInfo parameter is of type [fileName: error message]
 }];
 ```
 
@@ -108,7 +107,7 @@ guard let image = UIImage(named: "<#Image Name#>") else {
     print("Error reading from Assets")
     return
 }
-let file = SDLArtwork(image: image, name: "<#Name to Upload As#>", persistent: true, as: .JPG /* or .PNG */)
+let file = SDLArtwork(image: image, name: "<#Name to Upload As#>", persistent: true, as: <#SDLArtworkImageFormat#>)
 
 sdlManager.fileManager.upload(files: [file], progressHandler: { (fileName, uploadPercentage, error) -> Bool in
     // Optional handler, there's another method without this callback
@@ -181,9 +180,9 @@ BOOL isFileOnHeadUnit = [self.sdlManager.fileManager.remoteFileNames containsObj
 ```swift
 if let fileIsOnHeadUnit = sdlManager.fileManager.remoteFileNames.contains("<#Name Uploaded As#>") {
     if fileIsOnHeadUnit {
-        // File exists
+        <#File exists#>
     } else {
-        // File does not exist
+        <#File does not exist#>
     }
 }
 ```
@@ -195,9 +194,8 @@ Use the file manager’s delete request to delete a file associated with a file 
 ```objc
 [self.sdlManager.fileManager deleteRemoteFileWithName:@"<#Save As Name#>" completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *error) {
     if (success) {
-        // Image was deleted successfully
+        <#Image was deleted successfully#>
     }
-    <#code#>
 }];
 ```
 
@@ -205,29 +203,27 @@ Use the file manager’s delete request to delete a file associated with a file 
 ```swift
 sdlManager.fileManager.delete(fileName: "<#Save As Name#>") { (success, bytesAvailable, error) in
     if success {
-        // Image was deleted successfully
+        <#Image was deleted successfully#>
     }
-    <#code#>
+
 }
 ```
 
 ### Batch Delete Files
 ```objc
-[self.sdlManager.fileManager deleteRemoteFileWithNames:@[@"<#Save As Name#>", @"<#Save As Name 2>"] completionHandler:^(NSError *error) {
+[self.sdlManager.fileManager deleteRemoteFileWithNames:@[@"<#Save As Name#>", @"<#Save As Name 2#>"] completionHandler:^(NSError *error) {
     if (error == nil) {
-        // Image was deleted successfully
+        <#Images were deleted successfully#>
     }
-    <#code#>
 }];
 ```
 
 #### Swift
 ```swift
-sdlManager.fileManager.delete(fileNames: ["<#Save As Name#>", "<#Save as Name 2>"]) { (error) in
-    if success {
-        // Image was deleted successfully
+sdlManager.fileManager.delete(fileNames: ["<#Save As Name#>", "<#Save as Name 2#>"]) { (error) in
+    if (error == nil) {
+        <#Images were deleted successfully#>
     }
-    <#code#>
 }
 ```
 
