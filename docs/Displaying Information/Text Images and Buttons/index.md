@@ -13,15 +13,113 @@ The `SDLScreenManager` is a manager (versions 5.2+) created to simplify updating
 | primaryGraphic | The primary image in a template that supports images |
 | secondaryGraphic | The second image in a template that supports multiple images |
 | textAlignment | The text justification for the text fields. The text alignment can be left, center, or right  |
-| softButtonObjects | An array of soft button objects. Each template supports a different number of soft buttons |
+| softButtonObjects | An array of buttons. Each template supports a different number of soft buttons |
 | textField1Type | The type of data provided in `textField1` |
 | textField1Type | The type of data provided in `textField2` |
 | textField1Type | The type of data provided in `textField3` |
 | textField1Type | The type of data provided in `textField4` |
 
+#### Objective-C
+```objc
+[self.sdlManager.screenManager beginUpdates];
+
+self.sdlManager.screenManager.textField1 = @"<#Line 1 of Text#>";
+self.sdlManager.screenManager.textField2 = @"<#Line 2 of Text#>";
+self.sdlManager.screenManager.primaryGraphic = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"<#Image Name#>"] asImageFormat:<#SDLArtworkImageFormat#>]
+SDLSoftButtonObject *softButton = [[SDLSoftButtonObject alloc] initWithName:@"<#Soft Button Name#>" state:[[SDLSoftButtonState alloc] initWithStateName:@"<#Soft Button State Name#>" text:@"<#Button Text#>" artwork:<#SDLArtwork#>] handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    if (buttonPress == nil) { return; }
+    <#Button Selected#>
+}];
+self.sdlManager.screenManager.softButtonObjects = @[softButton];
+
+[self.sdlManager.screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
+    if (error != nil) {
+        <#Error Updating UI#>
+    } else {
+        <#Update to UI was Successful#>
+    }
+}];
+```
+
+#### Swift
+```swift
+sdlManager.screenManager.beginUpdates()
+
+sdlManager.screenManager.textField1 = "<#Line 1 of Text#>"
+sdlManager.screenManager.textField2 = "<#Line 2 of Text#>"
+sdlManager.screenManager.primaryGraphic = <#SDLArtwork#>
+sdlManager.screenManager.softButtonObjects = [<#SDLButtonObject#>, <#SDLButtonObject#>]
+
+sdlManager.screenManager.endUpdates { (error) in
+    if error != nil {
+        <#Error Updating UI#>
+    } else {
+        <#Update to UI was Successful#>
+    }
+}
+```
+
+#### Soft Button Objects
+To create a soft button using the `SDLScreenManager`, you only need to create a custom name for the button and provide the text for the button's label and/or an image for the button's icon. If your button cycles between different states (e.g. a button used to set the repeat state of a song playlist can have three states: repeat-off, repeat-one, and repeat-all) you can upload all the states on initialization. When the soft button state needs to be updated, simply tell the `SDLScreenManager` the `stateName` of the new soft button state. To delete soft buttons, simply pass the `SDLScreenManager` an empty array of soft buttons.
+
+#### Objective-C
+```objc
+SDLSoftButtonState *softButtonState1 = [[SDLSoftButtonState alloc] initWithStateName:@"<#Soft Button State Name#>" text:@"<#Button Label Text#>" artwork:<#SDLArtwork#>];
+SDLSoftButtonState *softButtonState2 = [[SDLSoftButtonState alloc] initWithStateName:@"<#Soft Button State Name#>" text:@"<#Button Label Text#>" artwork:<#SDLArtwork#>];
+SDLSoftButtonObject *softButtonObject = [[SDLSoftButtonObject alloc] initWithName:@"<#Soft Button Object Name#>" states:@[softButtonState1, softButtonState2] initialStateName:@"<#Soft Button State Name#>" handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+    if (buttonPress == nil) { return; }
+    <#Button Selected#>
+}];
+self.sdlManager.screenManager.softButtonObjects = @[softButtonObject];
+
+// Transition to a new state
+SDLSoftButtonObject *retrievedSoftButtonObject = [self.sdlManager.screenManager softButtonObjectNamed:@"<#Soft Button Object Name#>"];
+[retrievedSoftButtonObject transitionToState:@"<#Soft Button State Name#>"];
+```
+
+#### Swift
+```swift
+let softButtonState1 = SDLSoftButtonState(stateName: "<#Soft Button State Name#>", text: "<#Button Label Text#>", artwork: <#SDLArtwork#>)
+let softButtonState2 = SDLSoftButtonState(stateName: "<#Soft Button State Name#>", text: "<#Button Label Text#>", artwork: <#SDLArtwork#>)
+let softButtonObject = SDLSoftButtonObject(name: "<#Soft Button Object Name#>", states: [softButtonState1, softButtonState2], initialStateName: "") { (buttonPress, buttonEvent) in
+    guard buttonPress != nil else { return }
+    <#Button Selected#>
+}
+sdlManager.screenManager.softButtonObjects = [softButtonObject]
+
+// Transition to a new state
+let retrievedSoftButtonObject = sdlManager.screenManager.softButtonObjectNamed("<#Soft Button Object Name#>")
+retrievedSoftButtonObject?.transition(toState: "<#Soft Button State Name#>")
+```
+
+### Text
+A maximum of four lines of text can be set in `SDLShow` RPC, however, some templates may only support 1, 2, 3 or even 0 lines of text. If all four lines of text are set in the `SDLShow` RPC, but the template only supports three lines of text, then the fourth line will simply be ignored.
+
+To determine the number of lines available on a given head unit, check the `RegisterAppInterfaceResponse.displayCapabilities.textFields` for `mainField(1-4)`.
+
+#### Objective-C
+```objc
+SDLShow* show = [[SDLShow alloc] initWithMainField1:@"<#Line 1 of Text#>" mainField2:@"<#Line 2 of Text#>" mainField3:@"<#Line 3 of Text#>" mainField4:@"<#Line 4 of Text#>" alignment:SDLTextAlignmentCentered];
+self.sdlManager sendRequest:show withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
+    if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
+        <#Text Sent Successfully#>
+    }
+}];
+```
+
+#### Swift
+```swift
+let show = SDLShow(mainField1: "<#Line 1 of Text#>", mainField2: "<#Line 2 of Text#>", mainField3: "<#Line 3 of Text#>", mainField4: "<#Line 4 of Text#>", alignment: .centered)
+sdlManager.send(request: show) { (request, response, error) in
+    guard let response = response else { return }
+    if response.resultCode == .success {
+        <#Text Sent Successfully#>
+    }
+}
+```
 
 #### Text Field Types
-The text field type provids context as to the type of data contained in a text-field. Each OEM decides how to customize the template based on the type of data included in the text field. For example, a head-unit could display a thermometer icon next to the temperature in a weather app or bold the song title of the current media. If the head-unit does not support text field types, the provided data will simply be ignored.
+The text field type provides context as to the type of data contained in a text-field. Each OEM decides how to customize the template based on the type of data included in the text field. For example, a head-unit could display a thermometer icon next to the temperature in a weather app or bold the song title of the current media. If the head-unit does not support text field types, the provided data will simply be ignored.
 
 | Text Field Types | Description |
 |:-------------------|:--------------|
@@ -37,94 +135,6 @@ The text field type provids context as to the type of data contained in a text-f
 | minimumTemperature | The minimum temperature for the day |
 | weatherTerm | The current weather (ex. cloudy, clear, etc.) |
 | humidity | The current humidity value |
-
-#### Objective-C
-```objc
-[self.sdlManager.screenManager beginUpdates];
-
-self.sdlManager.screenManager.textField1 = <#String#>;
-self.sdlManager.screenManager.textField2 = <#String#>;
-self.sdlManager.screenManager.primaryGraphic = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:<#Image name#>] asImageFormat:<#SDLArtworkImageFormat#>]
-SDLSoftButtonObject *softButton = [[SDLSoftButtonObject alloc] initWithName:<#Soft button name#> state:[[SDLSoftButtonState alloc] initWithStateName:<#Soft button state name#> text:<#Button text#> artwork:<#SDLArtwork#>] handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-    if (buttonPress == nil) { return; }
-    <#Button was selected#>
-}];
-self.sdlManager.screenManager.softButtonObjects = = @[softButton];
-
-[self.sdlManager.screenManager endUpdatesWithCompletionHandler:^(NSError * _Nullable error) {
-    if (error != nil) {
-    <#error sending the update#>
-    } else {
-    <#update was sent successfully#>
-    }
-}];
-```
-
-#### Swift
-```swift
-sdlManager.screenManager.beginUpdates()
-
-sdlManager.screenManager.textField1 = <#String#>
-sdlManager.screenManager.textField2 = <#String#>
-sdlManager.screenManager.primaryGraphic = <#SDLArtwork#>
-sdlManager.screenManager.softButtonObjects = @[<#SDLButtonObject#>, <#SDLButtonObject#>]
-
-sdlManager.screenManager.endUpdates { (error) in
-    if error != nil {
-        <#error sending the update#>
-    } else {
-        <#update was sent successfully#>
-    }
-}
-```
-
-#### Soft Button Objects
-To create a soft button using the `SDLScreenManager`, you only need to create a custom name for the button and provide the text for the button's lable and/or an image for the button's icon. If your button cycles between different states (e.g. a button used to set the repeat state of a song playlist can have three states: repeat-off, repeat-one, and repeat-all) you can upload all the states on initialization. When the button state needs to be updated, simply tell the `SDLScreenManager` the `stateName` of the new soft button state.
-
-#### Objective-C
-```objc
-SDLSoftButtonState *softButtonState1 = [[SDLSoftButtonState alloc] initWithStateName:<#Soft button state name#> text:<#Button label text#> artwork:<#SDLArtwork#>];
-SDLSoftButtonState *softButtonState2 = [[SDLSoftButtonState alloc] initWithStateName:<#Soft button state name#> text:<#Button label text#> artwork:<#SDLArtwork#>];
-SDLSoftButtonObject *softButtonObject = [[SDLSoftButtonObject alloc] initWithName:<#Soft button object name#> states:@[softButtonState1, softButtonState2] initialStateName:<#Soft button state name#> handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-    if (buttonPress == nil) { return; }
-    <#Button was selected#>
-}];
-self.sdlManager.screenManager.softButtonObjects = @[softButtonObject];
-
-// Transition to a new state
-SDLSoftButtonObject *object = [self.sdlManager.screenManager softButtonObjectNamed:<#Soft button object name#>];
-[object transitionToState:<#Soft button state name#>];
-```
-
-#### Swift
-```swift
-```
-
-### Text
-A maximum of four lines of text can be set in `SDLShow` RPC, however, some templates may only support 1, 2, or 3 lines of text. If all four lines of text are set in the `SDLShow` RPC, but the template only supports three lines of text, then the fourth line will simply be ignored.
-
-To determine the number of lines available on a given head unit, check the `RegisterAppInterfaceResponse.displayCapabilities.textFields` for `mainField(1-4)`.
-
-#### Objective-C
-```objc
-SDLShow* show = [[SDLShow alloc] initWithMainField1:@"<Line 1 of Text#>" mainField2:@"<Line 2 of Text#>" mainField3:@"<Line 3 of Text#>" mainField4:@"<Line 4 of Text#>" alignment:SDLTextAlignmentCentered];
-self.sdlManager sendRequest:show withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
-    if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
-      // The text has been set successfully
-    }
-}];
-```
-
-#### Swift
-```swift
-let show = SDLShow(mainField1: "<#Line 1 of Text#>", mainField2: "<#Line 2 of Text#>", mainField3: "<#Line 3 of Text#>", mainField4: "<#Line 4 of Text#>", alignment: .centered)
-sdlManager.send(request: show) { (request, response, error) in
-    guard let response = response else { return }
-    if response.resultCode == .success {
-        // The text has been set successfully
-    }
-}
-```
 
 ### Images
 The position and size of images on the screen is determined by the currently set template. All images must first be uploaded to the remote system using the SDLManager’s [file manager](Uploading Files and Graphics) before being used in a `SDLShow` RPC. Once the image has been successfully uploaded, the app will be notified in the upload method's completion handler. For information relating to how to upload images, go to the [Uploading Files and Graphics](Uploading Files and Graphics) section.
@@ -145,23 +155,21 @@ show.graphic = image;
 
 self.sdlManager sendRequest:show withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
     if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
-      // The text has been set successfully
+      <#Image Sent Successfully#>
     }
 }];
 ```
 
 #### Swift
 ```swift
-let sdlImage = SDLImage(name: "<#Uploaded As Name", ofType: .dynamic)
+let sdlImage = SDLImage(name: "<#Uploaded As Name#>", ofType: .dynamic)
 
 let show = SDLShow()
 show.graphic = image
 
 sdlManager.send(request: show) { (request, response, error) in
-    guard let response = response else { return }
-    if response.resultCode == .success {
-      // Success
-    }
+    guard let response = response, response.resultCode == .success else { return }
+    <#Image Sent Successfully#>
 }
 ```
 
@@ -216,7 +224,7 @@ show.softButtons = @[softButton];
 // Send the request
 [self.sdlManager sendRequest:show withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
     if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
-      // The button was created successfully
+        <#Button created successfully#>
     }
 }];
 ```
@@ -263,7 +271,7 @@ show.softButtons = [softButton]
 sdlManager.send(request: show) { (request, response, error) in
     guard let response = response else { return }
     if response.resultCode == .success {
-        // The button was created successfully
+        <#Button created successfully#>
     }
 }
 
