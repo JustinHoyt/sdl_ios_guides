@@ -1,13 +1,13 @@
 ## Uploading Files and Graphics
-When developing a SmartDeviceLink application you must remember these two things when using graphics:
+When developing a SmartDeviceLink application you must remember these two things when using images:
 
-1. You may be connected to a Head Unit that does not have the ability to display graphics.
+1. You may be connected to a Head Unit that does not have the ability to display images.
 2. You must upload images from your mobile device to the Head Unit before using them in a template.
 
-To learn how to use these graphics once they are uploaded, please see [Displaying Information > Text, Images, and Buttons](Displaying Information/Text, Images, and Buttons).
+To learn how to use images once they are uploaded, please see [Displaying Information > Text, Images, and Buttons](Displaying Information/Text, Images, and Buttons).
 
 ### Checking if Graphics are Supported
-Before uploading images to a Head Unit you should first check if the Head Unit supports graphics. If it does not, you should avoid uploading unneccessary image data. To determine if graphics are supported check the `SDLManager`'s `registerResponse` property once the `SDLManager` has started successfully.
+Before uploading images to a Head Unit you should first check if the Head Unit supports graphics. If not, you should avoid uploading unneccessary image data. To check if graphics are supported look at the `SDLManager`'s `registerResponse` property once the `SDLManager` has started successfully.
 
 !!! note 
 If you need to know how to create the `SDLManager`, please see [Getting Started > Integration Basics](Getting Started/Integration Basics).
@@ -56,47 +56,31 @@ if (!image) {
     return;    
 }
 
-SDLArtwork* file = [SDLArtwork artworkWithImage:image name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
+SDLArtwork* artwork = [SDLArtwork artworkWithImage:image asImageFormat:<#SDLArtworkImageFormat#>];
 
-[self.sdlManager.fileManager uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-	if (error) {
-		if (error.code == SDLFileManagerErrorCannotOverwrite) {
-            <#Attempting to upload a file with a name that already exists on the head unit, if you want to overwrite the existing file, you need to set the `overwrite` flag on `SDLArtwork`#>
-	    } else {
-            <#Image Upload Failed#>
-	    }
-	    return;
-	}
-
+[self.sdlManager.fileManager uploadArtwork:artartwork completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
+    if (error != nil) { return; }
     <#Image Upload Successful#>
+    // To send the image as part of a show request, create a SDLImage object using the artworkName
+    SDLImage *image = [[SDLImage alloc] initWithName:artworkName];
 }];
 ```
 
 #### Swift
 ```swift
 guard let image = UIImage(named: "<#Image Name#>") else {
-	print("Error reading from Assets")
+	<#Error Reading from Assets#>
 	return
 }
-let file = SDLArtwork(image: image, name: "<#Name to Upload As#>", persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
+let artwork = SDLArtwork(image: image, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
 
-sdlManager.fileManager.upload(file: file) { (success, bytesAvailable, error) in
-    if let error = error {
-        if error._code == SDLFileManagerError.errorCannotOverwrite.rawValue {
-            <#Attempting to upload a file with a name that already exists on the head unit, if you want to overwrite the existing file, you need to set the `overwrite` flag on `SDLArtwork`#>
-        } else {
-            <#Image Upload Failed#>
-        }
-        return
-    }
-    
+sdlManager.fileManager.upload(artwork: artwork) { (success, artworkName, bytesAvailable, error) in
+    guard error == nil else { return }
     <#Image Upload Successful#>
+    // To send the image as part of a show request, create a SDLImage object using the artworkName
+    let graphic = SDLImage(name: artworkName)
 }
 ```
-
-!!! IMPORTANT
-The file name can only consist of letters (a-Z) and numbers (0-9), otherwise the SDL Core may fail to find the uploaded file (even if it was uploaded successfully).
-!!!
 
 ### Batch Uploading
 You can also batch upload files and be notified when all of the uploads have completed or failed. You can optionally also watch the progress of the batch upload and see when each upload completes.
