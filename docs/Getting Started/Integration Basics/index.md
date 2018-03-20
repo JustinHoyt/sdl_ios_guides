@@ -507,7 +507,7 @@ In addition there are three optional methods:
 
 1. `audioStreamingState:didChangeToState:` Called when the audio streaming state of this application changes on the remote system.
 1. `systemContext:didChangeToContext:` Called when the system context (i.e. a menu is open, an alert is visible,  a voice recognition session is in progress) of this application changes on the remote system.
-1. `managerShouldUpdateLifecycleToLanguage:` Called when the head unit language does not match the `language` set in the `SDLLifecycleConfiguration` but does match a language included in `languagesSupported`. If desired, you can customize the `appName`, the `shortAppName`,  and `ttsName` for the head unit's current language. For more information about supporting more than one language in your app please refer to [Adapting to the Head Unit Language](Adapting to the Head Unit Language).
+1. `managerShouldUpdateLifecycleToLanguage:` Called when the head unit language does not match the `language` set in the `SDLLifecycleConfiguration` but does match a language included in `languagesSupported`. If desired, you can customize the `appName`, the `shortAppName`,  and `ttsName` for the head unit's current language. For more information about supporting more than one language in your app please refer to [Getting Started/Adapting to the Head Unit Language](Getting Started/Adapting to the Head Unit Language).
 
 ### The Different HMI Levels:
 Please refer to [Knowing the In-Car UI Status](Knowing the In-Car UI Status) for information about HMI levels.
