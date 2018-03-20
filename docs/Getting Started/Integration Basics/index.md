@@ -498,10 +498,16 @@ extension ProxyManager: SDLManagerDelegate {
 ```
 
 ### Implement the SDL Manager Delegate
-The *ProxyManager* class should conform to the `SDLManagerDelegate` protocol. This means that the *ProxyManager* class must implement the following required functions:
+The *ProxyManager* class should conform to the `SDLManagerDelegate` protocol. This means that the *ProxyManager* class must implement the following required methods:
 
-1. `managerDidDisconnect()` This function is called only once, when the proxy disconnects from the SDL Core. Do any cleanup you need to do in this function.
-2. `hmiLevel(oldLevel: SDLHMILevel!, didChangeToLevel newLevel: SDLHMILevel!)` This function is called when the HMI level changes for the app. The HMI level can be `FULL`, `LIMITED`, `BACKGROUND`, or `NONE`. It is important to note that most RPCs sent while the HMI is in `BACKGROUND` or `NONE` mode will be ignored by the SDL Core.
+1. `managerDidDisconnect` This function is called only once, when the proxy disconnects from the SDL Core. Do any cleanup you need to do in this function.
+1. `hmiLevel:didChangeToLevel:` This function is called when the HMI level changes for the app. The HMI level can be `FULL`, `LIMITED`, `BACKGROUND`, or `NONE`. It is important to note that most RPCs sent while the HMI is in `BACKGROUND` or `NONE` mode will be ignored by the SDL Core.
+
+In addition there are three optional methods:
+
+1. `audioStreamingState:didChangeToState:` Called when the audio streaming state of this application changes on the remote system.
+1. `systemContext:didChangeToContext:` Called when the system context (i.e. a menu is open, an alert is visible,  a voice recognition session is in progress) of this application changes on the remote system.
+1. `managerShouldUpdateLifecycleToLanguage:` Called when the head unit language does not match the `language` set in the `SDLLifecycleConfiguration` but does match a language included in `languagesSupported`. If desired, you can customize the `appName`, the `shortAppName`,  and `ttsName` for the head unit's current language. For more information about supporting more than one language in your app please refer to [Adapting to the Head Unit Language](Adapting to the Head Unit Language).
 
 ### The Different HMI Levels:
 Please refer to [Knowing the In-Car UI Status](Knowing the In-Car UI Status) for information about HMI levels.
