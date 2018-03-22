@@ -2,7 +2,7 @@
 All text, images, and soft buttons must be sent as part of a `SDLShow` RPC.
 
 !!! NOTE
-You do not need to send `SDLShow` requests if you are using the [`SDLScreenManager`](Displaying Information/Creating the User Interface).
+You do not need to send `SDLShow` requests if you are using the `SDLScreenManager`. The `SDLScreenManager` makes it simple to create and update your app's UI. To find out more, please go to [Displaying Information/Creating the User Interface](Displaying Information/Creating the User Interface).
 !!!
 
 ### Text
