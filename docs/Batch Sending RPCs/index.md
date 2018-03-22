@@ -1,7 +1,7 @@
 ## Batch Sending RPCs
-There are two ways to send multiple requests to the head unit: concurrently or sequentially. Which method you should use depends on the type of RPCs being sent. Concurrently sent requests will not finish in any set order and should only be used when none of the requests depend on the result of another, such as when uploading group of artworks. Sequentially sent requests only send the next request in the group when a response has been received for the previously sent RPC. Requests should be sent sequentially when Core expects RPCs to be sent in a particular order like when sending the several different requests needed to create a menu.
+There are two ways to send multiple requests to the head unit: concurrently and sequentially. Which method you should use depends on the type of RPCs being sent. Concurrently sent requests will not finish in any set order and should only be used when none of the requests depend on the result of another, such as when uploading group of artworks. Sequentially sent requests only send the next request in the group when a response has been received for the previously sent RPC. Requests should be sent sequentially when Core expects RPCs to be sent in a particular order like when sending the several different requests needed to create a menu.
 
-Both methods have optional progress and completion handlers. Use the optional `progressHandler` to check the status of each sent RPC. The `progressHandler` will tell you if there was an error sending the request and what percentage of the group has completed sending. The optional `completionHandler` is called when all RPCs in the group have been sent. Use it to check if all of the requests have been sent successfully or not.
+Both methods have optional progress and completion handlers. Use the `progressHandler` to check the status of each sent RPC; it will tell you if there was an error sending the request and what percentage of the group has completed sending. The optional `completionHandler` is called when all RPCs in the group have been sent. Use it to check if all of the requests have been sent successfully or not.
 
 ### Send Concurrent Requests
 When you send multiple RPCs concurrently there is no guarantee of the order in which the RPCs will be sent or in which order Core will return responses.
@@ -25,7 +25,7 @@ sdlManager.send([<#SDLRPCRequest#>], progressHandler: { (request, response, erro
 ```
 
 ### Send Sequential Requests
-Requests sent sequentially are sent in the same order as they were added to the array. Only when a response has been received for the previously sent request, is the next request sent.
+Requests sent sequentially are sent in a set order. Only when a response has been received for the previously sent request, is the next request sent.
 
 #### Objective-C
 ```objc
