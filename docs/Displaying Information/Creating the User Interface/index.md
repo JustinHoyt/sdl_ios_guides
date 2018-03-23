@@ -1,6 +1,6 @@
 ## Creating the User Interface
 ### Screen Manager
-The `SDLScreenManager` is a manager for easily creating and sending text, images and soft buttons for your SDL app. To update the UI, simply give the `SDLScreenManager` the new text, images, and buttons, and sandwich the update between the manager's  `beginUpdates` and ` endUpdatesWithCompletionHandler:` methods. Once, `beginUpdates` is called, all screen updates are delayed until `endUpdatesWithCompletionHandler:` is called.
+The `SDLScreenManager` is a manager for easily creating and sending text, images and soft buttons for your SDL app. To update the UI, simply give the manager the new UI data and sandwich the update between the manager's  `beginUpdates` and ` endUpdatesWithCompletionHandler:` methods.
 
 | SDLScreenManager Parameter Name | Description |
 |:--------------------------------------------|:--------------|
