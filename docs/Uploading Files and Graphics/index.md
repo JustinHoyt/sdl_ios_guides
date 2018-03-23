@@ -1,5 +1,5 @@
 ## Uploading Files and Graphics
-When creating a SmartDeviceLink application you should be aware of these three things when using images:
+You should be aware of these three things when using images:
 
 1. You may be connected to a head unit that does not have the ability to display images.
 1. You must upload images from your mobile device to the head unit before using them in a template.
@@ -9,10 +9,6 @@ To learn how to use images once they are uploaded, please see [Displaying Inform
 
 ### Checking if Graphics are Supported
 Before uploading images to a head unit you should first check if the head unit supports graphics. If not, you should avoid uploading unneccessary image data. To check if graphics are supported look at the `SDLManager`'s `registerResponse` property once the `SDLManager` has started successfully.
-
-!!! note 
-If you need to know how to create the `SDLManager`, please see [Getting Started > Integration Basics](Getting Started/Integration Basics).
-!!!
 
 #### Objective-C
 ```objc
@@ -46,7 +42,7 @@ sdlManager.start { [weak self] (success, error) in
 }
 ```
 
-### Uploading an Image using SDLFileManager
+### Uploading an Image Using SDLFileManager
 The `SDLFileManager` uploads files and keeps track of all the uploaded files names during a session. To send data with the `SDLFileManager`, you need to create either a `SDLFile` or `SDLArtwork` object. `SDLFile` objects are created with a local `NSURL` or `NSData`; `SDLArtwork` a `UIImage`.
 
 #### Objective-C
@@ -84,7 +80,7 @@ sdlManager.fileManager.upload(artwork: artwork) { (success, artworkName, bytesAv
 ```
 
 ### Batch File Uploads
-If you want to upload a bunch of files at once, you can use the `SDLFileManager`s batch upload methods. Once all of the uploads have completed you will be notified if any of the uploads failed. If desired, you can also track the progression of each file in the batch .
+If you want to upload a group of files, you can use the `SDLFileManager`'s batch upload methods. Once all of the uploads have completed you will be notified if any of the uploads failed. If desired, you can also track the progress of each file in the group.
 
 #### Objective-C
 ```objc
@@ -119,7 +115,7 @@ sdlManager.fileManager.upload(artworks: [artwork, artwork2], progressHandler: { 
 ```
 
 ### File Persistance
-`SDLFile`, and its subclass `SDLArtwork` support uploading persistant files, i.e. images that do not become deleted when the car turns off. Persistance should be used for images that will show up every time the user opens the app, such as logos and button images. If the image used changes often, you do not want the image to be persistant because it will take up unnecessary space on the head unit. and not for dynamic aspects, such as album artwork.  Objects of type `SDLFile`, and its subclass `SDLArtwork` should be initialized as persistent files if need be.  You can check the persistence via:
+`SDLFile`, and its subclass `SDLArtwork` support uploading persistant files, i.e. images that are not deleted when the car turns off. Persistance should be used for images that will show up every time the user opens the app, such as logos and soft button icons. If the image is only displayed for short time (i.e. like an album cover that is only displayed while the song is playing) the image should not be persistant because it will take up unnecessary space on the head unit. Objects of type `SDLFile`, and its subclass `SDLArtwork` should be initialized as persistent files if need be.  You can check the persistence via:
 
 #### Objective-C
 ```objc
