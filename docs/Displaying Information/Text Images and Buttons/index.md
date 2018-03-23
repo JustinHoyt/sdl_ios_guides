@@ -2,7 +2,7 @@
 All text, images, and soft buttons must be sent as part of a `SDLShow` RPC.
 
 !!! NOTE
-You do not need to send `SDLShow` requests if you are using the `SDLScreenManager`. The `SDLScreenManager` makes it simple to create and update your app's UI. To find out more, please go to [Displaying Information/Creating the User Interface](Displaying Information/Creating the User Interface).
+You do not need to send `SDLShow` requests if you are using the `SDLScreenManager`. The screen manager makes it simple to create and update your app's UI. To find out more, please go to [Displaying Information/Creating the User Interface](Displaying Information/Creating the User Interface).
 !!!
 
 ### Text
@@ -86,8 +86,8 @@ sdlManager.send(request: show) { (request, response, error) in
 }
 ```
 
-### Soft & Subscribe Buttons
-Buttons on the HMI screen are referred to as soft buttons to distinguish them from hard buttons, which are physical buttons on the head unit. Don’t confuse soft buttons with subscribe buttons, which are buttons that can detect user selection on hard buttons (or built-in soft buttons).
+### Soft Buttons
+Buttons on the HMI screen are referred to as soft buttons to distinguish them from hard buttons, which are physical buttons on the head unit. Don’t confuse soft buttons with subscribe buttons, which are buttons that can detect user selection on hard buttons.
 
 #### Soft Buttons
 Soft buttons can be created with text, images or both text and images. The location, size, and number of soft buttons visible on the screen depends on the template. If the button has an image, remember to upload the image first to the head unit before setting the image in the `SDLSoftButton` instance.
@@ -193,25 +193,3 @@ sdlManager.send(request: show) { (request, response, error) in
 // Convenience Init
 let softButton = SDLSoftButton(type: <#T##SDLSoftButtonType#>, text: <#T##String?#>, image: <#T##SDLImage?#>, highlighted: <#T##Bool#>, buttonId: <#T##UInt16#>, systemAction: <#T##SDLSystemAction?#>, handler: <#T##SDLRPCButtonNotificationHandler?##SDLRPCButtonNotificationHandler?##(SDLOnButtonPress?, SDLOnButtonEvent?) -> Void#>)
 ```
-
-#### Subscribe Buttons
-Subscribe buttons are used to detect changes to hard buttons. You can subscribe to the following hard buttons:
-
-| Button  | Template | Button Type |
-| ------------- | ------------- | ------------- |
-| Ok (play/pause) | media template only | soft button and hard button |
-| Seek left | media template only | soft button and hard button |
-| Seek right | media template only | soft button and hard button |
-| Tune up | media template only | hard button |
-| Tune down | media template only | hard button |
-| Preset 0-9 | any template | hard button |
-| Search | any template |hard button |
-| Custom | any template | hard button |
-
-Audio buttons like the OK (i.e. the `play/pause` button), seek left, seek right, tune up, and tune down buttons can only be used with a media template. The OK, seek left, and seek right buttons will also show up on the screen as a soft button in a predefined location dictated by the media template on touchscreens. The app will be notified when the user selects the subscribe button on the screen or when the user manipulates the corresponding hard button.
-
-!!! NOTE
-You will automatically be assigned the media template if you set your configuration app type as `MEDIA`.
-!!!
-
-
