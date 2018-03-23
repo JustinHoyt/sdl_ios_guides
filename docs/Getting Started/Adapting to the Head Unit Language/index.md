@@ -5,7 +5,7 @@ Since a head unit can support multiple languages, you may want to add support fo
 ### Setting the Default Language
 The initial configuration of the `SDLManager` requires a default language when setting the `SDLLifecycleConfiguration`. If not set, the SDL library uses American English (*EN_US*) as the default language. The connection will fail if the head unit does not support the `language` set in the `SDLLifecycleConfiguration`. The `RegisterAppInterfaceResponse` RPC will return `INVALID_DATA` as the reason for rejecting the request.
 
-### What if my App Does Not Support the Head Unit Language?
+### What if My App Does Not Support the Head Unit Language?
 If your app does not support the current head unit language, you should decide on a default language to use in your app. All text should be created using this default language. Unfortunately, your VR commands will probably not work as the VR system will not recogize your users' pronunciation.
 
 ### Getting the Current Head Unit Language
