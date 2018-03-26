@@ -8,8 +8,8 @@ When you send multiple RPCs concurrently there is no guarantee of the order in w
 
 #### Objective-C
 ```objc
-SDLArtwork *artwork1 = [SDLArtwork artworkWithImage:[UIImage imageNamed:@"<#Image name#>"] asImageFormat:SDLArtworkImageFormatPNG];
-SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:[UIImage imageNamed:@"<#Image name#>"] asImageFormat:SDLArtworkImageFormatPNG];
+SDLArtwork *artwork1 = [SDLArtwork artworkWithImage:[UIImage imageNamed:@"<#Image name#>"] asImageFormat:<#SDLArtworkImageFormat#>];
+SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:[UIImage imageNamed:@"<#Image name#>"] asImageFormat:<#SDLArtworkImageFormat#>];
 [self.sdlManager sendRequests:@[artwork1, artwork2] progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
     NSLog(@"Command %@ sent %@, percent complete %f%%", request.name, response.resultCode == SDLResultSuccess ? @"successfully" : @"unsuccessfully", percentComplete * 100);
 } completionHandler:^(BOOL success) {
@@ -19,8 +19,8 @@ SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:[UIImage imageNamed:@"<#Imag
 
 #### Swift
 ```swift
-let artwork1 = SDLArtwork(image: <#UIImage#>, persistent: false, as: .JPG)
-let artwork2 = SDLArtwork(image: <#UIImage#>, persistent: false, as: .JPG)
+let artwork1 = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
+let artwork2 = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
 sdlManager.send([artwork1, artwork2], progressHandler: { (request, response, error, percentComplete) in
     print("Command \(request.name) sent \(response?.resultCode == .success ? "successfully" : "unsuccessfully"), percent complete \(percentComplete * 100)")
 }) { success in
@@ -48,7 +48,8 @@ SDLPerformInteraction *performInteraction = [[SDLPerformInteraction alloc] initW
 
 #### Swift
 ```swift
-let createInteractionChoiceSet = SDLCreateInteractionChoiceSet(id: <#Choice Set Id#>, choiceSet: [SDLChoice(id: <#Choice Id#>, menuName: "<#Menu Name#>", vrCommands: ["<#VR Command#>"])])
+let choice = SDLChoice(id: <#Choice Id#>, menuName: "<#Menu Name#>", vrCommands: ["<#VR Command#>"])
+let createInteractionChoiceSet = SDLCreateInteractionChoiceSet(id: <#Choice Set Id#>, choiceSet: [choice])
 let performInteraction = SDLPerformInteraction(interactionChoiceSetId: <#Choice Set Id#>)
 
 sdlManager.sendSequential(requests: [createInteractionChoiceSet, performInteraction], progressHandler: { (request, response, error, percentageCompleted) -> Bool in
