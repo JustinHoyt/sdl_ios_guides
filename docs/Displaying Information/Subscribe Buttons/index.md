@@ -15,7 +15,7 @@ Subscribe buttons are used to detect changes to hard buttons. You can subscribe 
 There is no way to customize a subscribe button's image or text.
 
 ### Music Player Subscribe Buttons
-The play/pause, seek left, and seek right, tune up, and tune down subscribe buttons can only be used in the `MEDIA` template. The ok, seek left, and seek right buttons will show up on the app's SDL UI as a soft button in a predefined location dictated by the media template. The tune up and tune down subscribe buttons are triggered by hard buttons in the center console or the car's steering wheel. You will automatically be assigned the media template if you set your app's configuration `appType` to `MEDIA`.
+The play/pause, seek left, seek right, tune up, and tune down subscribe buttons can only be used in the `MEDIA` template. The ok, seek left, and seek right buttons will show up on the app's SDL UI as a soft button in a predefined location dictated by the media template. The tune up and tune down subscribe buttons are triggered by hard buttons in the center console or the car's steering wheel. You will automatically be assigned the media template if you set your app's configuration `appType` to `MEDIA`.
 
 #### Objective-C
 ```objc
