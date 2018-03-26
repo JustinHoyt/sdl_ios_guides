@@ -61,7 +61,7 @@ Once the image has been uploaded to the head unit, you can show the image on the
 
 #### Objective-C
 ```objc
-SDLImage* image = [[SDLImage alloc] initWithName:@"<#Uploaded as Name#>" ofType:SDLImageTypeDynamic];
+SDLImage* image = [[SDLImage alloc] initWithName:@"<#Uploaded as Name#>"];
 
 SDLShow* show = [[SDLShow alloc] init];
 show.graphic = image;
@@ -75,7 +75,7 @@ self.sdlManager sendRequest:show withResponseHandler:^(SDLRPCRequest *request, S
 
 #### Swift
 ```swift
-let sdlImage = SDLImage(name: "<#Uploaded As Name#>", ofType: .dynamic)
+let sdlImage = SDLImage(name: "<#Uploaded As Name#>")
 
 let show = SDLShow()
 show.graphic = image
@@ -127,7 +127,7 @@ softButton.type = SDLSoftButtonTypeBoth;
 softButton.text = @"<#Button Text#>";
 
 // Button image
-softButton.image = [[SDLImage alloc] initWithName:@"<#Save As Name#>" ofType:SDLImageTypeDynamic];
+softButton.image = [[SDLImage alloc] initWithName:@"<#Save As Name#>"];
 
 SDLShow *show = [[SDLShow alloc] init];
 
@@ -173,7 +173,7 @@ softButton.type = .both
 softButton.text = "<#Button Text#>"
 
 // Button image
-softButton.image = SDLImage(name: "<#Save As Name#>", ofType: .dynamic)
+softButton.image = SDLImage(name: "<#Save As Name#>")
 
 let show = SDLShow()
 
