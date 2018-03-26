@@ -1,5 +1,5 @@
 ## Subscribe Buttons
-Subscribe buttons are used to detect changes to hard buttons. You can subscribe to the following hard buttons:
+Subscribe buttons are used to detect changes to hard buttons located in the car's center console or steering wheel. You can subscribe to the following hard buttons:
 
 | Button  | Template | Button Type |
 | ------------- | ------------- | ------------- |
@@ -15,7 +15,7 @@ Subscribe buttons are used to detect changes to hard buttons. You can subscribe 
 There is no way to customize a subscribe button's image or text.
 
 ### Music Player Subscribe Buttons
-The play/pause, seek left, seek right, tune up, and tune down subscribe buttons can only be used in the `MEDIA` template. The ok, seek left, and seek right buttons will show up on the app's SDL UI as a soft button in a predefined location dictated by the media template. The tune up and tune down subscribe buttons are triggered by hard buttons in the center console or the car's steering wheel. You will automatically be assigned the media template if you set your app's configuration `appType` to `MEDIA`.
+The play/pause, seek left, seek right, tune up, and tune down subscribe buttons can only be used in the `MEDIA` template. Depending on the manufacturer of the head unit, the subscribe button might also show up as a soft button in the media template. For example, the SYNC 3 HMI will add the ok, seek right, and seek left soft buttons to the media template when you subscribe to those buttons. You will automatically be assigned the media template if you set your app's configuration `appType` to `MEDIA`.
 
 #### Objective-C
 ```objc
