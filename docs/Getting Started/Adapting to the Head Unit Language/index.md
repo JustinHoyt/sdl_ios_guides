@@ -36,9 +36,9 @@ To customize the app name for the head unit's current language, implement the fo
 
     if ([language isEqualToEnum:SDLLanguageEnUs]) {
         update.appName = <#App Name in English#>;
-    } else if ([language isEqualToString:SDLLanguageEsMx]) {
+    } else if ([language isEqualToEnum:SDLLanguageEsMx]) {
         update.appName = <#App Name in Spanish#>;
-    } else if ([language isEqualToString:SDLLanguageFrCa]) {
+    } else if ([language isEqualToEnum:SDLLanguageFrCa]) {
         update.appName = <#App Name in French#>;
     } else {
         return nil;
