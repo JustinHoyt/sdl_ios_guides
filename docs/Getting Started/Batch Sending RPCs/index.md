@@ -25,7 +25,7 @@ sdlManager.send([<#SDLRPCRequest#>], progressHandler: { (request, response, erro
 ```
 
 ### Send Sequential Requests
-Requests sent sequentially are sent in a set order. Only when a response has been received for the previously sent request, is the next request sent.
+Requests sent sequentially are sent in a set order. The next request is only sent when a response has been received for the previously sent request.
 
 #### Objective-C
 ```objc

@@ -23,6 +23,9 @@
               },
               {
                   "name": "Adapting to the Head Unit Language"
+              },
+              {
+                  "name": "Batch Sending RPCs"
               }
             ]
         },
@@ -51,9 +54,6 @@
         },
         {
             "name": "Uploading Files and Graphics"
-        },
-        {
-            "name": "Batch Sending RPCs"
         },
         {
             "name": "Knowing the In-Car UI Status"
