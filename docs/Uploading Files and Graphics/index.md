@@ -1,19 +1,14 @@
 ## Uploading Files and Graphics
-Graphics allows for you to better customize what you would like to have your users see, and provide a better User Interface.
+You should be aware of these three things when using images:
 
-To learn how to use these graphics once they are uploaded, please see [Displaying Information > Text, Images, and Buttons](Displaying Information/Text, Images, and Buttons).
+1. You may be connected to a head unit that does not have the ability to display images.
+1. You must upload images from your mobile device to the head unit before using them in a template.
+1. Persistant images are stored on a head unit between sessions. Ephemeral images are destroyed when a sessions ends.
 
-When developing an application using SmartDeviceLink, two things must always be remembered when using graphics:
+To learn how to use images once they are uploaded, please see [Displaying Information > Text, Images, and Buttons](Displaying Information/Text, Images, and Buttons).
 
-1. You may be connected to a head unit that does not display graphics.
-2. You must upload them from your mobile device to Core before using them.
-
-### Detecting if Graphics are Supported
-Being able to know if graphics are supported is a very important feature of your application, as this avoids you uploading unneccessary images to the head unit. In order to see if graphics are supported, take a look at `SDLManager`'s `registerResponse` property once in the completion handler for `startWithReadyHandler`.
-
-!!! note 
-If you need to know how to create and setup `SDLManager`, please see [Getting Started > Integration Basics](Getting Started/Integration Basics).
-!!!
+### Checking if Graphics are Supported
+Before uploading images to a head unit you should first check if the head unit supports graphics. If not, you should avoid uploading unneccessary image data. To check if graphics are supported look at the `SDLManager`'s `registerResponse` property once the `SDLManager` has started successfully.
 
 #### Objective-C
 ```objc
@@ -47,113 +42,92 @@ sdlManager.start { [weak self] (success, error) in
 }
 ```
 
-### Uploading an Image using SDLFileManager
-`SDLFileManager` handles uploading files, like images, and keeping track of what already exists and what does not. To assist, there are two classes: `SDLFile` and `SDLArtwork`. `SDLFile` is the base class for file uploads and handles pulling data from local `NSURL`s and `NSData`. `SDLArtwork` is subclass of this, and provides additional functionality such as creating a file from a `UIImage`.
+### Uploading an Image Using SDLFileManager
+The `SDLFileManager` uploads files and keeps track of all the uploaded files names during a session. To send data with the `SDLFileManager`, you need to create either a `SDLFile` or `SDLArtwork` object. `SDLFile` objects are created with a local `NSURL` or `NSData`; `SDLArtwork` a `UIImage`.
 
 #### Objective-C
 ```objc
 UIImage* image = [UIImage imageNamed:@"<#Image Name#>"];
 if (!image) {
-    NSLog(@"Error reading from Assets");
+    <#Error Reading from Assets#>
     return;    
 }
 
-SDLArtwork* file = [SDLArtwork artworkWithImage:image name:@"<#Name to Upload As#>" asImageFormat:SDLArtworkImageFormatJPG /* or SDLArtworkImageFormatPNG */];
+SDLArtwork* artwork = [SDLArtwork artworkWithImage:image asImageFormat:<#SDLArtworkImageFormat#>];
 
-[self.sdlManager.fileManager uploadFile:file completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-	if (error) {
-		if (error.code == SDLFileManagerErrorCannotOverwrite) {
-	        // Attempting to upload a file with a name that already exists on the head unit, if you want to overwrite the existing file, you need to set the `overwrite` flag on `SDLArtwork`.
-	    } else {
-	        // Error uploading
-	    }
-	    return;
-	}
-
-    // Successfully uploaded.
+[self.sdlManager.fileManager uploadArtwork:artwork completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
+    if (error != nil) { return; }
+    <#Image Upload Successful#>
+    // To send the image as part of a show request, create a SDLImage object using the artworkName
+    SDLImage *image = [[SDLImage alloc] initWithName:artworkName];
 }];
 ```
 
 #### Swift
 ```swift
 guard let image = UIImage(named: "<#Image Name#>") else {
-	print("Error reading from Assets")
+	<#Error Reading from Assets#>
 	return
 }
-let file = SDLArtwork(image: image, name: "<#Name to Upload As#>", persistent: true, as: .JPG /* or .PNG */)
+let artwork = SDLArtwork(image: image, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
 
-sdlManager.fileManager.upload(file: file) { (success, bytesAvailable, error) in
-    if let error = error {
-        if error._code == SDLFileManagerError.errorCannotOverwrite.rawValue {
-            // Attempting to upload a file with a name that already exists on the head unit, if you want to overwrite the existing file, you need to set the `overwrite` flag on `SDLArtwork`.
-        } else {
-            // Error uploading
-        }
-        return
-    }
-    
-    // Successfully uploaded
+sdlManager.fileManager.upload(artwork: artwork) { (success, artworkName, bytesAvailable, error) in
+    guard error == nil else { return }
+    <#Image Upload Successful#>
+    // To send the image as part of a show request, create a SDLImage object using the artworkName
+    let graphic = SDLImage(name: artworkName)
 }
 ```
 
-!!! IMPORTANT
-The file name can only consist of letters (a-Z) and numbers (0-9), otherwise the SDL Core may fail to find the uploaded file (even if it was uploaded successfully).
-!!!
-
-### Batch Uploading
-You can also batch upload files and be notified when all of the uploads have completed or failed. You can optionally also watch the progress of the batch upload and see when each upload completes.
+### Batch File Uploads
+If you want to upload a group of files, you can use the `SDLFileManager`'s batch upload methods. Once all of the uploads have completed you will be notified if any of the uploads failed. If desired, you can also track the progress of each file in the group.
 
 #### Objective-C
 ```objc
-SDLArtwork *file = [SDLArtwork artworkWithImage:image name:@"<#Name to Upload As#>" asImageFormat:SDLArtworkImageFormatJPG /* or SDLArtworkImageFormatPNG */];
-SDLArtwork *file2 = [SDLArtwork artworkWithImage:image name:@"<#Name to Upload As#>" asImageFormat:SDLArtworkImageFormatJPG /* or SDLArtworkImageFormatPNG */];
+SDLArtwork *artwork = [SDLArtwork artworkWithImage:<#UIImage#> name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
+SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:<#UIImage#> name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
 
-[self.sdlManager.fileManager uploadFiles:@[<#firstFileName, secondFileName#>] progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
-    // Optional handler, there's another method without this callback
-    // A single file has finished uploading. Use this to check individual errors, use a file as soon as its uploaded, or check the progress of the upload (from 0.0 to 1.0)
-    // Return YES to continue uploading, NO to stop here
-    <#code#>
-} completionHandler:^(NSError * _Nullable error) {
-    // All files have finished uploading or errored
-    // The userInfo of the error will contain type [fileName: error]
-    <#code#>
+[self.sdlManager.fileManager uploadArtworks:@[artwork, artwork2] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
+    // A single artwork has finished uploading. Use this to check for individual errors, to use an artwork as soon as its uploaded, or to check the progress of the upload
+    // The upload percentage is calculated as the total file size of all attempted artwork uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
+    // Return YES to continue sending artworks. Return NO to cancel any artworks that have not yet been sent.
+} completionHandler:^(NSArray<NSString *> * _Nonnull artworkNames, NSError * _Nullable error) {
+    // All artworks have completed uploading.
+    // If all arworks were uploaded successfully, the error will be nil
+    // The error's userInfo parameter is of type [artworkName: error message]
 }];
 ```
 
 #### Swift
 ```swift
-guard let image = UIImage(named: "<#Image Name#>") else {
-    print("Error reading from Assets")
-    return
-}
-let file = SDLArtwork(image: image, name: "<#Name to Upload As#>", persistent: true, as: .JPG /* or .PNG */)
+let artwork = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
+let artwork2 = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
 
-sdlManager.fileManager.upload(files: [file], progressHandler: { (fileName, uploadPercentage, error) -> Bool in
-    // Optional handler, there's another method without this callback
-    // A single file has finished uploading. Use this to check individual errors, use a file as soon as its uploaded, or check the progress of the upload (from 0.0 to 1.0)
-    // Return true to continue uploading, false to stop here
-    <#code#>
-}) { (error) in
-    // All files have finished uploading or errored
-    // The userInfo of the error will contain type [fileName: error]
-    <#code#>
+sdlManager.fileManager.upload(artworks: [artwork, artwork2], progressHandler: { (artworkName, uploadPercentage, error) -> Bool in
+    // A single artwork has finished uploading. Use this to check for individual errors, to use an artwork as soon as its uploaded, or to check the progress of the upload
+    // The upload percentage is calculated as the total file size of all attempted artwork uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
+    // Return true to continue sending artworks. Return false to cancel any artworks that have not yet been sent.
+}) { (artworkNames, error) in
+    // All artworks have completed uploading.
+    // If all arworks were uploaded successfully, the error will be nil
+    // The error's userInfo parameter is of type [artworkName: error message]
 }
 ```
 
 ### File Persistance
-`SDLFile`, and its subclass `SDLArtwork` support uploading persistant files, i.e. images that do not become deleted when the car turns off. Persistance should be used for images relating to your UI, such as soft button images, and not for dynamic aspects, such as Album Artwork.  Objects of type `SDLFile`, and its subclass `SDLArtwork` should be initialized as persistent files if need be.  You can check the persistence via:  
+`SDLFile`, and its subclass `SDLArtwork` support uploading persistant files, i.e. images that are not deleted when the car turns off. Persistance should be used for images that will show up every time the user opens the app, such as logos and soft button icons. If the image is only displayed for short time (i.e. like an album cover that is only displayed while the song is playing) the image should not be persistant because it will take up unnecessary space on the head unit. Objects of type `SDLFile`, and its subclass `SDLArtwork` should be initialized as persistent files if need be.  You can check the persistence via:
 
 #### Objective-C
 ```objc
-if(file.isPersistent) {
-    // File was initialized as persistent
+if(artwork.isPersistent) {
+    <#File was initialized as persistent#>
 }
 ```
 
 #### Swift
 ```swift
-if file.isPersistent {
-    // File was initialized as persistent
+if artwork.isPersistent {
+    <#File was initialized as persistent#>
 }
 ```
 
@@ -188,7 +162,7 @@ let bytesAvailable = sdlManager.fileManager.bytesAvailable
 ```
 
 ### Check if a File Has Already Been Uploaded
-Although the file manager will return with an error if you attempt to upload a file of the same name that already exists, you may still be able to find out the currently uploaded images via `SDLFileManager`'s `remoteFileNames` property.
+You can check out if an image has already been uploaded to the head unit via the `SDLFileManager`'s `remoteFileNames` property.
 
 #### Objective-C
 ```objc
@@ -199,9 +173,9 @@ BOOL isFileOnHeadUnit = [self.sdlManager.fileManager.remoteFileNames containsObj
 ```swift
 if let fileIsOnHeadUnit = sdlManager.fileManager.remoteFileNames.contains("<#Name Uploaded As#>") {
     if fileIsOnHeadUnit {
-        // File exists
+        <#File exists#>
     } else {
-        // File does not exist
+        <#File does not exist#>
     }
 }
 ```
@@ -213,9 +187,8 @@ Use the file manager’s delete request to delete a file associated with a file 
 ```objc
 [self.sdlManager.fileManager deleteRemoteFileWithName:@"<#Save As Name#>" completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *error) {
     if (success) {
-        // Image was deleted successfully
+        <#Image was deleted successfully#>
     }
-    <#code#>
 }];
 ```
 
@@ -223,29 +196,27 @@ Use the file manager’s delete request to delete a file associated with a file 
 ```swift
 sdlManager.fileManager.delete(fileName: "<#Save As Name#>") { (success, bytesAvailable, error) in
     if success {
-        // Image was deleted successfully
+        <#Image was deleted successfully#>
     }
-    <#code#>
+
 }
 ```
 
 ### Batch Delete Files
 ```objc
-[self.sdlManager.fileManager deleteRemoteFileWithNames:@[@"<#Save As Name#>", @"<#Save As Name 2>"] completionHandler:^(NSError *error) {
+[self.sdlManager.fileManager deleteRemoteFileWithNames:@[@"<#Save As Name#>", @"<#Save As Name 2#>"] completionHandler:^(NSError *error) {
     if (error == nil) {
-        // Image was deleted successfully
+        <#Images were deleted successfully#>
     }
-    <#code#>
 }];
 ```
 
 #### Swift
 ```swift
-sdlManager.fileManager.delete(fileNames: ["<#Save As Name#>", "<#Save as Name 2>"]) { (error) in
-    if success {
-        // Image was deleted successfully
+sdlManager.fileManager.delete(fileNames: ["<#Save As Name#>", "<#Save as Name 2#>"]) { (error) in
+    if (error == nil) {
+        <#Images were deleted successfully#>
     }
-    <#code#>
 }
 ```
 
@@ -257,8 +228,8 @@ Images may be formatted as PNG, JPEG, or BMP. Check the `RegisterAppInterfaceRes
 If an image is uploaded that is larger than the supported size, that image will be scaled down to accomodate. All image sizes are available from the `SDLManager`'s `registerResponse` property once in the completion handler for `startWithReadyHandler`.
 
 #### Image Specifications
-ImageName 		  	 | Used in RPC				  |	Details 																							  |	Height 		 | Width  | Type
----------------------|----------------------------|-------------------------------------------------------------------------------------------------------|--------------|--------|-------
+| ImageName | Used in RPC | Details | Height | Width | Type |
+|:--------------|:----------------|:--------|:---------|:-------|:-------|
 softButtonImage		 | Show 					  | Will be shown on softbuttons on the base screen														  | 70px         | 70px   | png, jpg, bmp
 choiceImage 		 | CreateInteractionChoiceSet | Will be shown in the manual part of an performInteraction either big (ICON_ONLY) or small (LIST_ONLY) | 70px         | 70px   | png, jpg, bmp
 choiceSecondaryImage | CreateInteractionChoiceSet | Will be shown on the right side of an entry in (LIST_ONLY) performInteraction						  | 35px 		 | 35px   | png, jpg, bmp

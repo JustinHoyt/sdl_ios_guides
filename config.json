@@ -23,6 +23,9 @@
               },
               {
                   "name": "Adapting to the Head Unit Language"
+              },
+              {
+                  "name": "Batch Sending RPCs"
               }
             ]
         },
@@ -33,7 +36,13 @@
                     "name": "Designing the User Interface"
                 },
                 {
+                    "name": "Creating the User Interface"
+                },
+                {
                     "name": "Text Images and Buttons"
+                },
+                {
+                	"name": "Subscribe Buttons"
                 },
                 {
                     "name": "Menus"
