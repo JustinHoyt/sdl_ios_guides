@@ -14,9 +14,9 @@ The `SDLScreenManager` is a manager for easily creating and sending text, images
 | textAlignment | The text justification for the text fields. The text alignment can be left, center, or right  |
 | softButtonObjects | An array of buttons. Each template supports a different number of soft buttons |
 | textField1Type | The type of data provided in `textField1` |
-| textField1Type | The type of data provided in `textField2` |
-| textField1Type | The type of data provided in `textField3` |
-| textField1Type | The type of data provided in `textField4` |
+| textField2Type | The type of data provided in `textField2` |
+| textField3Type | The type of data provided in `textField3` |
+| textField4Type | The type of data provided in `textField4` |
 
 #### Objective-C
 ```objc
