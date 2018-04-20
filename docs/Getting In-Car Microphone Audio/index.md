@@ -45,7 +45,7 @@ SDLPerformAudioPassThru *audioPassThru = [[SDLPerformAudioPassThru alloc] initWi
 
 audioPassThru.audioDataHandler = ^(NSData * _Nullable audioData) {
     // Do something with current audio data.
-    NSData *audioData = onAudioPassThru.bulkData;
+    if (audioData.length == 0) { return; }
     <#code#>
 }
 
