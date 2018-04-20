@@ -68,7 +68,7 @@ sdlManager.send(audioPassThru)
 
 !!! NOTE
 The format of audio data is described as follows:
-- It does not include any header like RIFF header at the beginning.
+- It does not include a header (such as a RIFF header) at the beginning.
 - The audio sample is in linear PCM format.
 - The audio data includes only one channel (i.e. monaural).
 - For bit rates of 8 bits, the audio samples are unsigned. For bit rates of 16 bits, the audio samples are signed and are in little endian.
