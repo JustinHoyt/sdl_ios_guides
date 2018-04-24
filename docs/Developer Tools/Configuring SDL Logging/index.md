@@ -103,9 +103,8 @@ SDLLogFilter *filter = [SDLLogFilter filterByDisallowingString:@"Test" caseSensi
 let filter = SDLLogFilter(disallowingString: "Test", caseSensitive: false)
 ```
 
-
 ### Add Custom SDL Logs to Your Project
-You also have the ability to add custom SDL logs in your project.
+You also have the ability to add custom SDL logs in your project. Custom logs will be consolidated with the SDL iOS library logs.
 
 #### Objective-C Projects
 Simply use the convenient log macros to create a custom SDL log in your project. 
