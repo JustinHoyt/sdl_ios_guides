@@ -1,5 +1,5 @@
 ## Configuring SDL Logging
-SDL iOS v5.0 includes a powerful new built-in logging framework designed to make debugging easier. It provides many of the features common to other 3rd party logging frameworks for iOS, and can be used by your own app as well. We recommend that your app's integration with SDL provide logging using this framework rather than any other 3rd party framework your app may be using or `NSLog`. This will consolidate all SDL related logs in a common format and to common destinations.
+SDL iOS v5.0 includes a powerful new built-in logging framework designed to make debugging easier. It provides many of the features common to other 3rd party logging frameworks for iOS and can be used by your own app as well. We recommend that your app's integration with SDL provide logging using this framework rather than any other 3rd party framework your app may be using or `NSLog`. This will consolidate all SDL related logs in a common format and to common destinations.
 
 ### Configuring SDL Logging
 SDL will configure its logging into a production-friendly configuration by default. If you wish to use a debug or a custom configuration, then you will have to specify this yourself. `SDLConfiguration` allows you to pass a `SDLLogConfiguration` with custom values. A few of these values will be covered in this section, the others are in their own sections below.
@@ -39,6 +39,14 @@ The configuration provides two properties, `asynchronous` and `errorsAsynchronou
 
 #### Log level
 The `globalLogLevel` defines which logs will be logged to the target outputs. For example, if you set the log level to `debug`, all error, warning, and debug level logs will be logged, but verbose level logs will not be logged.
+
+| SDLLogLevel | Visible Logs | 
+| ------------- | ------------- |
+| Off | none |
+| Error | error |
+| Warning | error and warning |
+| Debug | error, warning and debug |
+| Verbose | error, warning, debug and verbose |
 
 !!! NOTE
 Although the `default` log level is defined in the SDLLogLevel enum, it should not be used as a global log level. See the [API documentation](https://smartdevicelink.com/en/docs/iOS/master/Enums/SDLLogLevel/) for more detail.
@@ -95,8 +103,9 @@ SDLLogFilter *filter = [SDLLogFilter filterByDisallowingString:@"Test" caseSensi
 let filter = SDLLogFilter(disallowingString: "Test", caseSensitive: false)
 ```
 
+
 ### Add Custom SDL Logs to Your Project
-You also have the ability to add custom SDL logs in your project. Your custom logs will act in accordance with your `SDLLogConfiguration` settings. 
+You also have the ability to add custom SDL logs in your project.
 
 #### Objective-C Projects
 Simply use the convenient log macros to create a custom SDL log in your project. 
@@ -109,7 +118,7 @@ SDLLogE(@"This is an error log");
 ```
 
 #### Swift Projects
-To add custom SDL logs in your Swift project you must first install a submodule called **SmartDeviceLink/Swift**.
+To add custom SDL logs to your Swift project you must first install a submodule called **SmartDeviceLink/Swift**.
 
 ##### CocoaPods
 If the SDL iOS library was installed using [CocoaPods](https://cocoapods.org), simply add the submodule to the **Podfile** and then install the submodule by running `pod install` in the root directory of the project.
