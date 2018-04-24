@@ -45,7 +45,7 @@ SDLPerformAudioPassThru *audioPassThru = [[SDLPerformAudioPassThru alloc] initWi
 
 audioPassThru.audioDataHandler = ^(NSData * _Nullable audioData) {
     // Do something with current audio data.
-    NSData *audioData = onAudioPassThru.bulkData;
+    if (audioData.length == 0) { return; }
     <#code#>
 }
 
@@ -65,6 +65,14 @@ audioPassThru.audioDataHandler = { (data) in
 sdlManager.send(audioPassThru) 
 ```
 
+
+!!! NOTE
+The format of audio data is described as follows:
+- It does not include a header (such as a RIFF header) at the beginning.
+- The audio sample is in linear PCM format.
+- The audio data includes only one channel (i.e. monaural).
+- For bit rates of 8 bits, the audio samples are unsigned. For bit rates of 16 bits, the audio samples are signed and are in little endian.
+!!!
 
 !!! NOTE
 This audio data is only the current chunk of audio data, so the developer must be in charge of managing previously retrieved audio data.
