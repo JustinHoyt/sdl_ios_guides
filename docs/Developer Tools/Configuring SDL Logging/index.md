@@ -117,7 +117,7 @@ If the SDL iOS library was installed using [CocoaPods](https://cocoapods.org), s
 ```swift
 target '<#Your Project Name#>' do
     pod 'SmartDeviceLink', '~> <#SDL Version#>'
-    pod 'SmartDeviceLink/Swift' '~> <#SDL Version#>'
+    pod 'SmartDeviceLink/Swift', '~> <#SDL Version#>'
 end
 ```
 
