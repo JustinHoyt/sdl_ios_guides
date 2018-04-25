@@ -25,6 +25,9 @@
                   "name": "Adapting to the Head Unit Language"
               },
               {
+              	 "name": "Understanding Permissions"
+              },
+              {
                   "name": "Batch Sending RPCs"
               }
             ]
@@ -54,9 +57,6 @@
         },
         {
             "name": "Uploading Files and Graphics"
-        },
-        {
-            "name": "Knowing the In-Car UI Status"
         },
         {
             "name": "Adding the Lock Screen"
