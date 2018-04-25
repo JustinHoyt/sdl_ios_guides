@@ -103,11 +103,17 @@ SDLLogFilter *filter = [SDLLogFilter filterByDisallowingString:@"Test" caseSensi
 let filter = SDLLogFilter(disallowingString: "Test", caseSensitive: false)
 ```
 
-### Add Custom SDL Logs to Your Project
-In addition to viewing the library logs, you also have the ability to add custom SDL logs to your project. The behavior of custom SDL logs, just like the library SDL logs, is based on your `SDLLogConfiguration` settings.
+### Logging with the SDL Logger
+In addition to viewing the library logs, you also have the ability to log with the SDL logger. All messages logged through the SDL logger, including your own, will use your `SDLLogConfiguration` settings.
 
 #### Objective-C Projects
-Simply use the convenient log macros to create a custom SDL log in your project. 
+First, import the the `SDLLogMacros` header.
+
+```
+#import "SDLLogMacros.h"
+```
+
+Then, simply use the convenient log macros to create a custom SDL log in your project. 
 
 ```objc
 SDLLogV(@"This is a verbose log");
