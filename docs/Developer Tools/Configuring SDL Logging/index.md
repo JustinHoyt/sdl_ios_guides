@@ -104,7 +104,7 @@ let filter = SDLLogFilter(disallowingString: "Test", caseSensitive: false)
 ```
 
 ### Add Custom SDL Logs to Your Project
-You also have the ability to add custom SDL logs in your project. Custom logs will be consolidated with the SDL iOS library logs.
+In addition to viewing the library logs, you also have the ability to add custom SDL logs to your project. The behavior of custom SDL logs, just like the library SDL logs, is based on your `SDLLogConfiguration` settings.
 
 #### Objective-C Projects
 Simply use the convenient log macros to create a custom SDL log in your project. 
@@ -120,7 +120,7 @@ SDLLogE(@"This is an error log");
 To add custom SDL logs to your Swift project you must first install a submodule called **SmartDeviceLink/Swift**.
 
 ##### CocoaPods
-If the SDL iOS library was installed using [CocoaPods](https://cocoapods.org), simply add the submodule to the **Podfile** and then install the submodule by running `pod install` in the root directory of the project.
+If the SDL iOS library was installed using [CocoaPods](https://cocoapods.org), simply add the submodule to the **Podfile** and then install by running `pod install` in the root directory of the project.
 
 ```swift
 target '<#Your Project Name#>' do
