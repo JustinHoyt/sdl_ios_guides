@@ -118,13 +118,13 @@ When you set up the observer, you will get an unique id back. Use this id to uns
 sdlManager.permissionManager.removeObserver(forIdentifier: observerId)
 ```
 
-### More Detailed HMI Information
-When an interaction occurs relating to your application, there is some additional pieces of information that can be observed that help figure out a more descriptive picture of what is going on with the Head Unit.
+### Additional HMI State Information
+If you want more detail about the current state of your SDL app, you can also monitor the audio streaming state and get notifications when something blocks the main screen of your app.
 
 #### Audio Streaming State
-The Audio Streaming State informs your app whether any currently streaming audio is audible to user (AUDIBLE) or not (NOT_AUDIBLE). A value of NOT_AUDIBLE means that either the application's audio will not be audible to the user, or that the application's audio should not be audible to the user (i.e. some other application on the mobile device may be streaming audio and the application's audio would be blended with that other audio).
+The Audio Streaming State informs your app whether any currently streaming audio is audible to user (`AUDIBLE`) or not (`NOT_AUDIBLE`). A value of `NOT_AUDIBLE` means that either the application's audio will not be audible to the user, or that the application's audio should not be audible to the user (i.e. some other application on the mobile device may be streaming audio and the application's audio would be blended with that other audio).
 
-You will see this come in for things such as Alert, PerformAudioPassThru, Speaks, etc.
+You will get these notifications when an alert pops up, when you start recording the in-car audio, when voice recognition is active, etc.
 
 Audio Streaming State   | What does this mean?
 ------------------------|------------------------------------------------------------
@@ -135,19 +135,19 @@ NOT_AUDIBLE 			| Your streaming audio is not audible. This could occur during a 
 #### Objective-C
 ```objc
 - (void)audioStreamingState:(nullable SDLAudioStreamingState)oldState didChangeToState:(SDLAudioStreamingState)newState {
-    <# code #>
+    <#code#>
 }
 ```
 
 #### Swift
 ```swift
 func audioStreamingState(_ oldState: SDLAudioStreamingState?, didChangeToState newState: SDLAudioStreamingState) {
-    <# code #>
+    <#code#>
 }
 ```
 
 #### System Context
-System Context informs your app if there is potentially a blocking HMI component while your app is still visible. An example of this would be if your application is open, and you display an Alert. Your app will receive a System Context of ALERT while it is presented on the screen, followed by MAIN when it is dismissed.
+System Context informs your app if there is potentially a blocking HMI component while your app is still visible. An example of this would be if your application is open and you display an Alert. Your app will receive a System Context of `ALERT` while it is presented on the screen, followed by `MAIN` when it is dismissed.
 
 System Context State   | What does this mean?
 -----------------------|------------------------------------------------------------
@@ -155,18 +155,18 @@ MAIN        		   | No user interaction is in progress that could be blocking you
 VRSESSION  			   | Voice Recognition is currently in progress.
 MENU     			   | A menu interaction is currently in-progress. 
 HMI_OBSCURED    	   | The app's display HMI is being blocked by either a system or other app's overlay (another app's Alert, for instance).
-ALERT 				   | An alert that you have sent is currently visible (Other apps will not receive this).
+ALERT 				   | An alert that you have sent is currently visible.
 
 #### Objective-C
 ```objc
 - (void)systemContext:(nullable SDLSystemContext)oldContext didChangeToContext:(SDLSystemContext)newContext {
-    <# code #>
+    <#code#>
 }
 ```
 
 #### Swift
 ```swift
 func systemContext(_ oldContext: SDLSystemContext?, didChangeToContext newContext: SDLSystemContext) {
-    <# code #>
+    <#code#>
 }
 ```
