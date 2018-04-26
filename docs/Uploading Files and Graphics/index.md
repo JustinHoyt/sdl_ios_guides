@@ -1,9 +1,10 @@
 ## Uploading Files and Graphics
-You should be aware of these three things when using images:
+You should be aware of these four things when using images in your SDL app:
 
 1. You may be connected to a head unit that does not have the ability to display images.
 1. You must upload images from your mobile device to the head unit before using them in a template.
 1. Persistant images are stored on a head unit between sessions. Ephemeral images are destroyed when a sessions ends.
+1. Images can only be uploaded when the `hmiLevel` is 
 
 To learn how to use images once they are uploaded, please see [Displaying Information > Text, Images, and Buttons](Displaying Information/Text, Images, and Buttons).
 
