@@ -1,5 +1,6 @@
 ## Understanding Permissions
 While you are creating your SDL app, you must remember that just because your app is connected to a head unit it doesn't necessary mean that your app has the required permissions to send RPCs to the head unit. There are three important things to remember regarding permissions:
+
 1. You may not be able to send a RPC when the SDL app is closed, in the background, or obscured by a system alert. Each RPC is assigned a set of `hmiLevel`s when it is allowed to be sent.
 1. For some RPCs, like those that access vehicle data or make a phone call, you may need special permissions from the OEM to use. This permission is granted when you submit your app to the OEM for approval. Each OEM decides which RPCs it will restrict access to, so it is up you to check if you are allowed to use the RPC with the head unit.
 1. Some head units may not support all RPCs.
@@ -8,7 +9,7 @@ While you are creating your SDL app, you must remember that just because your ap
 ### HMI Levels
 When your app is connected to the head unit you will receive notifications when the SDL app's HMI status changes. Your app can be in one of four different `hmiLevel`s:
 
-HMI Level   | The App's UI Status
+HMI Level   | What does this mean?
 ------------|------------------------------------------------------------
 NONE        | The user has not yet opened your app, or the app has been killed.
 BACKGROUND  | The user has opened your app, but is currently in another part of the head unit.
