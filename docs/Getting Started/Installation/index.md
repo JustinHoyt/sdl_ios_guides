@@ -35,6 +35,18 @@ sudo gem install cocoapods
 
         open <#Your Project Name#>.xcworkspace
 
+1. foo
+
+  ````python
+print 'bar'
+  ````
+
+  1.
+
+    ````python
+print 'bar'
+    ````
+
 
 #### Carthage Installation
 SDL iOS supports Carthage! Install using Carthage by following [this guide](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
