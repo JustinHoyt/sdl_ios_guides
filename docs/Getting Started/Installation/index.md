@@ -38,13 +38,13 @@ sudo gem install cocoapods
 1. foo
 
   ````python
-print 'bar'
+  print 'bar'
   ````
 
   1.
 
     ````python
-print 'bar'
+    print 'bar'
     ````
 
 
