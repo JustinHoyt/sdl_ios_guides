@@ -10,9 +10,12 @@ There are three different ways to install the SDL SDK in your project: CocoaPods
 1. Open the terminal app on your Mac.
 1. Make sure you have the latest version of [CocoaPods](https://cocoapods.org) installed. For more information on installing CocoaPods on your system please consult: [https://cocoapods.org](https://cocoapods.org).
 
-  ````bash
-sudo gem install cocoapods
-  ````
+        ````bash
+        print 'bar'
+        ````
+
+        #!bash#   
+        sudo gem install cocoapods
 
 1. Navigate to the root directory of your app. Make sure your current folder contains the **.xcodeproj** file
 1. Create a new **Podfile**.
@@ -34,18 +37,6 @@ sudo gem install cocoapods
 1. Open the **.xcworkspace** file. To open from the  terminal, type:  
 
         open <#Your Project Name#>.xcworkspace
-
-1. foo
-
-  ````python
-  print 'bar'
-  ````
-
-  1.
-
-    ````python
-    print 'bar'
-    ````
 
 
 #### Carthage Installation
