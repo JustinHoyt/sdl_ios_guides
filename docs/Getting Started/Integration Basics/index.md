@@ -164,7 +164,7 @@ In order to instantiate the `SDLManager` class, you must first configure an `SDL
 #### Network Connection Type
 There are two different ways to connect your app to a SDL Core: with a TCP (Wi-Fi) network connection or with an iAP (USB / Bluetooth) network connection. Use TCP for debugging and use iAP for production level apps.
 
-#### iAP
+**iAP**
 ##### Objective-C
 ```objc
 SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"<#App Name#>" appId:@"<#App Id#>"];
@@ -174,7 +174,7 @@ SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration d
 let lifecycleConfiguration = SDLLifecycleConfiguration(appName:"<#App Name#>", appId: "<#App Id#>")
 ```
 
-#### TCP
+**TCP**
 ##### Objective-C
 ```objc
 SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration debugConfigurationWithAppName:@"<#App Name#>" appId:@"<#App Id#>" ipAddress:@"<#IP Address#>" port:<#Port#>];
@@ -270,7 +270,6 @@ SDLLogConfiguration.default()
 
 ### 7. Set the Configuration
 The `SDLConfiguration` class is used to set the lifecycle, lock screen, logging, and optionally (dependent on if you are a Navigation or Projection app) streaming media configurations for the app. Use the lifecycle configuration settings above to instantiate a `SDLConfiguration` instance.
-
 ##### Objective-C
 ```objc
 SDLConfiguration* configuration = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration]];
@@ -410,7 +409,6 @@ static NSString* const AppId = @"<#App Id#>";
 
 NS_ASSUME_NONNULL_END
 ```
-
 ##### Swift
 ```swift
 import SmartDeviceLink
@@ -482,5 +480,5 @@ In addition there are three optional methods:
 1. `systemContext:didChangeToContext:` Called when the system context (i.e. a menu is open, an alert is visible,  a voice recognition session is in progress) of this application changes on the remote system. For more information, please refer to [Understanding Permissions](Getting Started/Understanding Permissions).
 1. `managerShouldUpdateLifecycleToLanguage:` Called when the head unit language does not match the `language` set in the `SDLLifecycleConfiguration` but does match a language included in `languagesSupported`. If desired, you can customize the `appName`, the `shortAppName`,  and `ttsName` for the head unit's current language. For more information about supporting more than one language in your app please refer to [Getting Started/Adapting to the Head Unit Language](Getting Started/Adapting to the Head Unit Language).
 
-### Where to go from here
+### Where to Go From Here
 You should now be able to connect to a head unit or emulator. From here, [learn about designing a user interface](Displaying Information/Designing a User Interface). For further details on connecting, see [Connecting to a SDL Core](Getting Started/Connecting to a SDL Core).
