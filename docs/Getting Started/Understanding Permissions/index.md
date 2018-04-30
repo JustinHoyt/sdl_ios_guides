@@ -1,7 +1,7 @@
 ## Understanding Permissions
-While you are creating your SDL app, you must remember that just because your app is connected to a head unit it doesn't necessary mean that your app has the required permissions to send RPCs to the head unit. There are three important things to remember regarding permissions:
+While creating your SDL app, remember that just because your app is connected to a head unit it does not mean that the app has permission to send RPCs. If your app does not have the required permissions, the RPC will be rejected. There are three important things to remember in regards to permissions:
 
-1. You may not be able to send a RPC when the SDL app is closed, in the background, or obscured by a system alert. Each RPC is assigned a set of `hmiLevel`s when it is allowed to be sent.
+1. You may not be able to send a RPC when the SDL app is closed, in the background, or obscured by an alert. Each RPC has a set of `hmiLevel`s when it can be sent.
 1. For some RPCs, like those that access vehicle data or make a phone call, you may need special permissions from the OEM to use. This permission is granted when you submit your app to the OEM for approval. Each OEM decides which RPCs it will restrict access to, so it is up you to check if you are allowed to use the RPC with the head unit.
 1. Some head units may not support all RPCs.
 
@@ -66,7 +66,7 @@ func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
 ### Permission Manager
 When your app first connects to the head unit, it will receive an `OnPermissionsChange` notification. This notification contains all RPCs the head unit supports and the `hmiLevel` permissions for each RPC. Use the `SDLManager`'s permission manager to check the current permission status of a specific RPC or group of RPCs. If desired, you may also subscribe to get notifications when the RPC(s) permission status changes. 
 
-#### Check Current Permissions of a Single RPC
+**Check Current Permissions of a Single RPC**
 #### Objective-C
 ```objc
 BOOL isAllowed = [self.sdlManager.permissionManager isRPCAllowed:<#RPC name#>];
@@ -77,7 +77,7 @@ BOOL isAllowed = [self.sdlManager.permissionManager isRPCAllowed:<#RPC name#>];
 let isAllowed = sdlManager.permissionManager.isRPCAllowed(<#RPC name#>)
 ```
 
-#### Check Current Permissions of a Group of RPCs
+**Check Current Permissions of a Group of RPCs**
 #### Objective-C
 ```objc
 SDLPermissionGroupStatus groupPermissionStatus = [self.sdlManager.permissionManager groupStatusOfRPCs:@[<#RPC name#>, <#RPC name#>]rpcGroup];
@@ -90,7 +90,7 @@ let groupPermissionStatus = sdlManager.permissionManager.groupStatus(ofRPCs:[<#R
 let individualPermissionStatuses = sdlManager.permissionManager.status(ofRPCs:[<#RPC name#>, <#RPC name#>])
 ```
 
-#### Observe Permissions
+**Observe Permissions**
 If desired, you can set an observer for a group of permissions. The observer's handler will be called when the permissions for the group changes. If you want to be notified when the permission status of any of RPCs in the group change, set the `groupType` to `SDLPermissionGroupTypeAny`. If you only want to be notified when all of the RPCs in the group are allowed or not allowed, set the `groupType` to `SDLPermissionGroupTypeAllAllowed`.
 
 #### Objective-C
@@ -107,8 +107,9 @@ let observerId = sdlManager.permissionManager.addObserver(forRPCs: <#RPC name#>,
 })
 ```
 
-#### Stop Observing Permissions
+**Stop Observing Permissions**
 When you set up the observer, you will get an unique id back. Use this id to unsubscribe to the permissions at a later date.
+
 #### Objective-C
 ```objc
 [self.sdlManager.permissionManager removeObserverForIdentifier:observerId];
@@ -120,7 +121,7 @@ sdlManager.permissionManager.removeObserver(forIdentifier: observerId)
 ```
 
 ### Additional HMI State Information
-If you want more detail about the current state of your SDL app, you can also monitor the audio streaming state and get notifications when something blocks the main screen of your app.
+If you want more detail about the current state of your SDL app you can monitor the audio streaming state as well as get notifications when something blocks the main screen of your app.
 
 #### Audio Streaming State
 The Audio Streaming State informs your app whether any currently streaming audio is audible to user (`AUDIBLE`) or not (`NOT_AUDIBLE`). A value of `NOT_AUDIBLE` means that either the application's audio will not be audible to the user, or that the application's audio should not be audible to the user (i.e. some other application on the mobile device may be streaming audio and the application's audio would be blended with that other audio).
