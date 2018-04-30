@@ -5,7 +5,6 @@ While creating your SDL app, remember that just because your app is connected to
 1. For some RPCs, like those that access vehicle data or make a phone call, you may need special permissions from the OEM to use. This permission is granted when you submit your app to the OEM for approval. Each OEM decides which RPCs it will restrict access to, so it is up you to check if you are allowed to use the RPC with the head unit.
 1. Some head units may not support all RPCs.
 
-
 ### HMI Levels
 When your app is connected to the head unit you will receive notifications when the SDL app's HMI status changes. Your app can be in one of four different `hmiLevel`s:
 
@@ -18,10 +17,9 @@ FULL        | Your app is currently in focus on the screen.
 
 Be careful with sending user interface related RPCs in the `NONE` and `BACKGROUND` levels; some head units may reject RPCs sent in those states. We recommended that you wait until your app's `hmiLevel` enters `FULL` to set up your app's UI.
 
-### Monitoring the HMI Level
+#### Monitoring the HMI Level
 The easiest way to monitor the `hmiLevel` of your SDL app is through a required delegate callback of `SDLManagerDelegate`. The function `hmiLevel:didChangeToLevel:` is called every time your app's `hmiLevel` changes.
-
-#### Objective-C
+##### Objective-C
 ```objc
 - (void)hmiLevel:(SDLHMILevel)oldLevel didChangeToLevel:(SDLHMILevel)newLevel {
     if (![newLevel isEqualToEnum:SDLHMILevelNone] && (self.firstHMILevel == SDLHMIFirstStateNone)) {
@@ -41,8 +39,7 @@ The easiest way to monitor the `hmiLevel` of your SDL app is through a required 
     }
 }
 ```
-
-#### Swift
+##### Swift
 ```swift
 fileprivate var firstHMILevel: SDLHMILevel = .none
 func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
@@ -103,7 +100,7 @@ let observerId = sdlManager.permissionManager.addObserver(forRPCs: <#RPC name#>,
 })
 ```
 
-#### Stop Observing Permissions**
+#### Stop Observing Permissions
 When you set up the observer, you will get an unique id back. Use this id to unsubscribe to the permissions at a later date.
 ##### Objective-C
 ```objc
@@ -128,14 +125,13 @@ AUDIBLE     			| Any audio you are streaming will be audible to the user.
 ATTENUATED  			| Some kind of audio mixing is occuring between what you are streaming, if anything, and some system level sound. This can be visible is displaying an Alert with `playTone` set to `true`.
 NOT_AUDIBLE 			| Your streaming audio is not audible. This could occur during a VRSESSSION System Context.
 
-#### Objective-C
+##### Objective-C
 ```objc
 - (void)audioStreamingState:(nullable SDLAudioStreamingState)oldState didChangeToState:(SDLAudioStreamingState)newState {
     <#code#>
 }
 ```
-
-#### Swift
+##### Swift
 ```swift
 func audioStreamingState(_ oldState: SDLAudioStreamingState?, didChangeToState newState: SDLAudioStreamingState) {
     <#code#>
@@ -153,14 +149,14 @@ MENU     			   | A menu interaction is currently in-progress.
 HMI_OBSCURED    	   | The app's display HMI is being blocked by either a system or other app's overlay (another app's Alert, for instance).
 ALERT 				   | An alert that you have sent is currently visible.
 
-#### Objective-C
+##### Objective-C
 ```objc
 - (void)systemContext:(nullable SDLSystemContext)oldContext didChangeToContext:(SDLSystemContext)newContext {
     <#code#>
 }
 ```
 
-#### Swift
+##### Swift
 ```swift
 func systemContext(_ oldContext: SDLSystemContext?, didChangeToContext newContext: SDLSystemContext) {
     <#code#>
