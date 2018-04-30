@@ -315,10 +315,10 @@ In production, your app will be watching for connections using iAP, which will n
 
 If the connection is successful, you can start sending RPCs to the SDL Core. However, some RPCs can only be sent when the HMI is in the FULL or LIMITED state. If the SDL Core's HMI is not ready to accept these RPCs, your requests will be ignored. If you want to make sure that the SDL Core will not ignore your RPCs, use the `SDLManagerDelegate` methods in the next section.
 
-### 10. Example Implementation of a Proxy Class  
+### Example Implementation of a Proxy Class  
 The following code snippet has an example of setting up both a TCP and iAP connection.
 ##### Objective-C
-**ProxyManager.h**
+###### ProxyManager.h
 ```objc
 #import <Foundation/Foundation.h>
 
@@ -334,7 +334,7 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
-**ProxyManager.m**
+###### ProxyManager.m 
 ```objc
 #import <SmartDeviceLink/SmartDeviceLink.h>
 
