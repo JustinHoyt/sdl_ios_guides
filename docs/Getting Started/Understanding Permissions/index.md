@@ -12,10 +12,12 @@ HMI Level   | What does this mean?
 ------------|------------------------------------------------------------
 NONE        | The user has not yet opened your app, or the app has been killed.
 BACKGROUND  | The user has opened your app, but is currently in another part of the head unit.
-LIMITED     | A user has opened your app, but the main screen is obscured by a message or an alert.
+LIMITED     | A user has opened your app, but the main screen is obscured by a menu or an alert.
 FULL        | Your app is currently in focus on the screen.
 
 Be careful with sending user interface related RPCs in the `NONE` and `BACKGROUND` levels; some head units may reject RPCs sent in those states. We recommended that you wait until your app's `hmiLevel` enters `FULL` to set up your app's UI.
+
+To get more detailed information about what state your SDL app is in, check the system context. You can find more information about the system context below.
 
 #### Monitoring the HMI Level
 The easiest way to monitor the `hmiLevel` of your SDL app is through a required delegate callback of `SDLManagerDelegate`. The function `hmiLevel:didChangeToLevel:` is called every time your app's `hmiLevel` changes.
