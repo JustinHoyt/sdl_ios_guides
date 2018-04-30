@@ -222,10 +222,10 @@ sdlManager.fileManager.delete(fileNames: ["<#Save As Name#>", "<#Save as Name 2#
 
 ## Image Specifics
 ### Image File Type
-Images may be formatted as PNG, JPEG, or BMP. Check the `RegisterAppInterfaceResponse.displayCapability` properties to find out what image formats the head unit supports.
+Images may be formatted as PNG, JPEG, or BMP. Check the `systemCapabilityManager.displayCapability` properties to find out what image formats the head unit supports.
 
 ### Image Sizes
-If an image is uploaded that is larger than the supported size, that image will be scaled down to accomodate. All image sizes are available from the `SDLManager`'s `registerResponse` property once in the completion handler for `startWithReadyHandler`.
+If an image is uploaded that is larger than the supported size, that image will be scaled down to accomodate. All image sizes are available from the `SDLManager`'s `systemCapabilityManager` property once in the completion handler for `startWithReadyHandler`.
 
 #### Image Specifications
 | ImageName | Used in RPC | Details | Height | Width | Type |
