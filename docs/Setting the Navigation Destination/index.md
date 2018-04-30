@@ -17,15 +17,11 @@ SendLocation has 3 possible results that you should expect:
 3. DISALLOWED - Your app does not have permission to use SendLocation.
 
 ### Detecting if SendLocation is Available
-To check if SendLocation is supported, you may look at `SDLManager`'s `registerResponse` property after the ready handler is called. Or, you may use `SDLManager`'s `permissionManager` property to ask for the permission status of `SendLocation`.
+To check if SendLocation is supported, you may look at `SDLManager`'s `systemCapabilityManager` property after the ready handler is called. Or, you may use `SDLManager`'s `permissionManager` property to ask for the permission status of `SendLocation`.
 
 #### Objective-C
 ```objc
-SDLHMICapabilities *hmiCapabilities = self.sdlManager.registerResponse.hmiCapabilities;
 BOOL isNavigationSupported = NO;
-if (hmiCapabilities != nil) {
-    isNavigationSupported = hmiCapabilities.navigation.boolValue;
-}
 
 __weak typeof (self) weakSelf = self;
 [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
@@ -33,20 +29,26 @@ __weak typeof (self) weakSelf = self;
         NSLog(@"SDL errored starting up: %@", error);
         return;
     }
+
+    SDLHMICapabilities *hmiCapabilities = self.sdlManager.systemCapabilityManager.hmiCapabilities;
+    if (hmiCapabilities != nil) {
+        isNavigationSupported = hmiCapabilities.navigation.boolValue;
+    }
 }];
 ```
 
 #### Swift
 ```swift
 var isNavigationSupported = false
-if let hmiCapabilities = self.sdlManager.registerResponse?.hmiCapabilities, let navigationSupported = hmiCapabilities.navigation?.boolValue {
-    isNavigationSupported = navigationSupported
-}
 
 sdlManager.start { (success, error) in
     if !success {
         print("SDL errored starting up: \(error.debugDescription)")
         return
+    }
+
+    if let hmiCapabilities = self.sdlManager.systemCapabilityManager.hmiCapabilities, let navigationSupported = hmiCapabilities.navigation?.boolValue {
+        isNavigationSupported = navigationSupported
     }
 }
 ```
