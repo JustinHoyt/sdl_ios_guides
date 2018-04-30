@@ -14,54 +14,34 @@ Every template has a default menu button. The position of this button varies bet
 ![Menu Structure](assets/MenuStructure.png)
 
 #### Add Menu Items
+
+##### Using the Screen Manager
+As of iOS library v. 6.0, the best way to create and update your menu is the use the Screen Manager API. The screen manager contains two menu related properties: `menu`, and `voiceCommands`. Setting an array of `SDLMenuCell`s into the `menu` property will automatically set and update your menu and submenus, while setting an array of `SDLVoiceCommand`s into the `voiceCommands` property allows you to use "hidden" menu items that only contain voice recognition data. The user can then use the IVI system's voice engine to activate this command even though it will not be displayed within the main menu.
+
+##### Using RPCs
 The `SDLAddCommand` RPC can be used to add items to the root menu or to a submenu. Each `SDLAddCommand` RPC must be sent with a unique id, a voice-recognition command, and a set of menu parameters. The menu parameters include the menu name, the position of the item in the menu, and the id of the menu item’s parent. If the menu item is being added to the root menu, then the parent id is 0. If it is being added to a submenu, then the parent id is the submenu’s id.
 
 #### Objective-C
 ```objc
-// Create the menu parameters
-// The parent id is 0 if adding to the root menu
-// If adding to a submenu, the parent id is the submenu's id
-SDLMenuParams* menuParameters = [[SDLMenuParams alloc] initWithMenuName:@"Menu Item Name" parentId:0 position:0];
-
-// For menu items, be sure to use unique ids.
-SDLAddCommand* menuItem = [[SDLAddCommand alloc] initWithId:<#Unique Id#> vrCommands:@[@"<#Voice Recognition Command#>"] handler:^(SDLOnCommand *command) {
-    if ([onCommand.triggerSource isEqualToEnum:SDLTriggerSourceMenu]) {
-      // Menu Item Was Selected
-    }
+// Create the menu cell
+__weak typeof(self) weakself = self;
+SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:<#Menu Item Text#> icon:<#Menu Item Artwork#> voiceCommands:@[<#Menu Item #>] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    // Menu item was selected, check the `triggerSource` to know if the user used touch or voice to activate it
+    <#Handle the cell's selection#>
 }];
 
-// Set the menu parameters
-menuItem.menuParams = menuParameters;
-
-[self.sdlManager sendRequest:menuItem withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
-    if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
-      // The menuItem was created successfully
-    }
-}];
+self.sdlManager.screenManager.menu = @[cell];
 ```
 
 #### Swift
 ```swift
-// Create the menu parameters
-// The parent id is 0 if adding to the root menu
-// If adding to a submenu, the parent id is the submenu's id
-let menuParameters = SDLMenuParams(menuName: "<#Menu Item Name#>", parentId: 0, position: 0)
-
-// For menu items, be sure to use unique ids.
-let menuItem = SDLAddCommand(id: <#Unique Id#>, vrCommands: ["<#Voice Recognition Command#>"]) { (command) in
-  if command.triggerSource == .menu {
-    // Menu Item Was Selected
-  }
+// Create the menu cell
+let cell = SDLMenuCell(title: <#T##String#>, icon: <#T##SDLArtwork?#>, voiceCommands: <#T##[String]?#>) { (triggerSource: SDLTriggerSource) in
+    // Menu item was selected, check the `triggerSource` to know if the user used touch or voice to activate it
+    <#code#>
 }
 
-// Set the menu parameters
-menuItem.menuParams = menuParameters
-
-sdlManager.send(request: menuItem) { (request, response, error) in
-  if response?.resultCode == .success {
-      // The menuItem was created successfully
-  }
-}
+self.sdlManager.screenManager.menu = [cell]
 ```
 
 #### Add a Submenu
@@ -69,75 +49,57 @@ To create a submenu, first send a `SDLAddSubMenu` RPC. When a response is receiv
 
 #### Objective-C
 ```objc
-SDLAddSubMenu* subMenu = [[SDLAddSubMenu alloc] initWithId:<#Unique Id#> menuName:@"<#SubMenu Item Name#>"];
-
-[self.sdlManager sendRequest:subMenu withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
-  if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
-    // The submenu was created successfully, start adding the submenu items
-  }
+// Create the inner menu cell
+__weak typeof(self) weakself = self;
+SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:<#Menu Item Text#> icon:<#Menu Item Artwork#> voiceCommands:@[<#Menu Item #>] handler:^(SDLTriggerSource  _Nonnull triggerSource) {
+    // Menu item was selected, check the `triggerSource` to know if the user used touch or voice to activate it
+    <#Handle the cell's selection#>
 }];
+
+// Create and set the submenu cell
+SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:<#Menu Item Text#> subCells:@[cell]];
+self.sdlManager.screenManager.menu = @[submenuCell];
 ```
 
 #### Swift
 ```swift
-let subMenu = SDLAddSubMenu(id: <#Unique Id#>, menuName: "<#SubMenu Item Name#>")!
-
-sdlManager.send(request: subMenu) { (request, response, error) in
-    if response?.resultCode == .success {
-        // The submenu was created successfully, start adding the submenu items
-    }
+// Create the inner menu cell
+let cell = SDLMenuCell(title: <#T##String#>, icon: <#T##SDLArtwork?#>, voiceCommands: <#T##[String]?#>) { (triggerSource: SDLTriggerSource) in
+    // Menu item was selected, check the `triggerSource` to know if the user used touch or voice to activate it
+    <#code#>
 }
+
+let submenuCell = SDLMenuCell(title: <#T##String#>, subCells:<#T##[SDLMenuCell]#>)
+self.sdlManager.screenManager.menu = @[submenuCell]
 ```
+
+#### Artworks
+Artworks will be automatically handled when using the screen manager API. First, a "non-artwork" menu will be displayed, then, when the artworks have finished uploading, the "artwork-ified" menu will be displayed. If you are doing this manually with RPCs, you will have to upload artworks using the file manager yourself, and send the correct menu when they are ready.
 
 #### Delete Menu Items
-Use the cmdID of the menu item to tell the SDL Core which item to delete using the `SDLDeleteCommand` RPC.
+When using the screen manager, this will be intelligently handled for you. If you want to show new menu items, simply set a new array of menu cells. The screen manager will handle deleting and adding new commands and submenus for you. If you are doing this manually, you must use the `SDLDeleteCommand` and `SDLDeleteSubMenu` RPCs, passing the `cmdID`s you wish to delete.
+
+#### Voice Commands
+Updating voice commands is as easy as updating menu cells. You simply must set `SDLVoiceCommand` objects to the `voiceCommands` array on the screen manager.
 
 #### Objective-C
 ```objc
-SDLDeleteCommand *deleteMenuItem = [[SDLDeleteCommand alloc] initWithId:<#Id of Menu Item To Delete#>];
+// Create the voice command
+__weak typeof(self) weakself = self;
+SDLVoiceCommand *voiceCommand = [[SDLVoiceCommand alloc] initWithVoiceCommands:<#(nonnull NSArray<NSString *> *)#> handler:<#^(void)handler#>];
 
-[self.sdlManager sendRequest:deleteMenuItem withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
-  if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
-    // The menu item was successfully deleted
-  }
-}];
+self.sdlManager.screenManager.voiceCommands = @[voiceCommand];
 ```
 
 #### Swift
 ```swift
-let deleteMenuItem = SDLDeleteCommand(id: <#Id of Menu Item To Delete#>)
-
-sdlManager.send(request: deleteMenuItem) { (request, response, error) in
-    if response?.resultCode == .success {
-        // The menu item was successfully deleted
-    }
+// Create the voice command
+let voiceCommand = SDLVoiceCommand(voiceCommands: <#T##[String]#>) {
+    <#code#>
 }
+
+self.sdlManager.screenManager.voiceCommands = [voiceCommand]
 ```
-
-#### Delete Submenus
-Use the menuID to tell the SDLCore which item to delete using the `SDLDeleteSubMenu` RPC.
-
-#### Objective-C
-```objc
-SDLDeleteSubMenu *deleteSubMenu = [[SDLDeleteSubMenu alloc] initWithId:<#Id of Sub Menu Item to Delete#>];
-
-[self.sdlManager sendRequest:deleteSubMenu withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
-  if ([response.resultCode isEqualToEnum:SDLResultSuccess]) {
-    // The sub menu was successfully deleted
-  }
-}];
-```
-
-#### Swift
-```swift
-let deleteSubMenu = SDLDeleteSubMenu(id: <#Id of Sub Menu Item to Delete#>)
-
-sdlManager.send(request: deleteSubMenu) { (request, response, error) in
-    if response?.resultCode == .success {
-        // The sub menu was successfully deleted
-    }
-}
-```  
 
 ### Custom Menus
 ![Perform Interaction Layout](assets/PerformInteractionListOnly.png)
