@@ -4,8 +4,8 @@ SmartDeviceLink works by sending remote procedure calls (RPCs) back and forth be
 
 ### Set Up a Proxy Manager Class
 You will need a class that manages the RPCs sent back and forth between your app and SDL Core. Since there should be only one active connection to the SDL Core, you may wish to implement this proxy class using the singleton pattern.
-#### Objective-C
-**ProxyManager.h**
+##### Objective-C
+###### ProxyManager.h
 ```objc
 #import <Foundation/Foundation.h>
 
@@ -19,8 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 ```
-
-**ProxyManager.m**
+###### ProxyManager.m
 ```objc
 #import "ProxyManager.h"
 
@@ -54,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
-#### Swift
+##### Swift
 ```swift
 class ProxyManager: NSObject {
   // Singleton
@@ -70,7 +69,7 @@ Your app should always start passively watching for a connection with a SDL Core
 
 The connect method will be implemented later. To see a full example, navigate to the bottom of this page.
 
-#### Objective-C
+##### Objective-C
 ```objc
 @implementation AppDelegate
 
@@ -81,8 +80,7 @@ The connect method will be implemented later. To see a full example, navigate to
 
 @end
 ```
-
-#### Swift
+##### Swift
 ```swift
 class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -96,18 +94,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 ### Import the SDL Library
 At the top of the *ProxyManager* class, import the SDL for iOS library.
-#### Objective-C
+##### Objective-C
 ```objc
 #import <SmartDeviceLink/SmartDeviceLink.h>
 ```
-#### Swift
+##### Swift
 ```swift
 import SmartDeviceLink
 ```
 
 ### Create the SDL Manager
 The `SDLManager` is the main class of SmartDeviceLink. It will handle setting up the initial connection with the head unit. It will also help you upload images and send RPCs.
-#### Objective-C
+##### Objective-C
 ```objc
 #import "ProxyManager.h"
 #import "SmartDeviceLink.h"
@@ -145,7 +143,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 ```
-#### Swift
+##### Swift
 ```swift
 class ProxyManager: NSObject {
   // Manager
@@ -321,7 +319,7 @@ If the connection is successful, you can start sending RPCs to the SDL Core. How
 ### 10. Example Implementation of a Proxy Class  
 The following code snippet has an example of setting up both a TCP and iAP connection.
 ##### Objective-C
-ProxyManager.h
+**ProxyManager.h**
 ```objc
 #import <Foundation/Foundation.h>
 
@@ -337,7 +335,7 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
-ProxyManager.m
+**ProxyManager.m**
 ```objc
 #import <SmartDeviceLink/SmartDeviceLink.h>
 
