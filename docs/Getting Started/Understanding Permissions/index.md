@@ -66,56 +66,50 @@ func hmiLevel(_ oldLevel: SDLHMILevel, didChangeToLevel newLevel: SDLHMILevel) {
 ### Permission Manager
 When your app first connects to the head unit, it will receive an `OnPermissionsChange` notification. This notification contains all RPCs the head unit supports and the `hmiLevel` permissions for each RPC. Use the `SDLManager`'s permission manager to check the current permission status of a specific RPC or group of RPCs. If desired, you may also subscribe to get notifications when the RPC(s) permission status changes. 
 
-**Check Current Permissions of a Single RPC**
-#### Objective-C
+#### Check Current Permissions of a Single RPC
+##### Objective-C
 ```objc
 BOOL isAllowed = [self.sdlManager.permissionManager isRPCAllowed:<#RPC name#>];
 ```
-
-#### Swift
+##### Swift
 ```swift
 let isAllowed = sdlManager.permissionManager.isRPCAllowed(<#RPC name#>)
 ```
 
-**Check Current Permissions of a Group of RPCs**
-#### Objective-C
+#### Check Current Permissions of a Group of RPCs
+##### Objective-C
 ```objc
 SDLPermissionGroupStatus groupPermissionStatus = [self.sdlManager.permissionManager groupStatusOfRPCs:@[<#RPC name#>, <#RPC name#>]rpcGroup];
 NSDictionary *individualPermissionStatuses = [self.sdlManager.permissionManager statusOfRPCs:@[<#RPC name#>, <#RPC name#>]];
 ```
-
-#### Swift
+##### Swift
 ```swift
 let groupPermissionStatus = sdlManager.permissionManager.groupStatus(ofRPCs:[<#RPC name#>, <#RPC name#>])
 let individualPermissionStatuses = sdlManager.permissionManager.status(ofRPCs:[<#RPC name#>, <#RPC name#>])
 ```
 
-**Observe Permissions**
+#### Observe Permissions
 If desired, you can set an observer for a group of permissions. The observer's handler will be called when the permissions for the group changes. If you want to be notified when the permission status of any of RPCs in the group change, set the `groupType` to `SDLPermissionGroupTypeAny`. If you only want to be notified when all of the RPCs in the group are allowed or not allowed, set the `groupType` to `SDLPermissionGroupTypeAllAllowed`.
-
-#### Objective-C
+##### Objective-C
 ```objc
 SDLPermissionObserverIdentifier observerId = [self.sdlManager.permissionManager addObserverForRPCs:@[<#RPC name#>, <#RPC name#>] groupType:<#SDLPermissionGroupType#> withHandler:^(NSDictionary<SDLPermissionRPCName, NSNumber<SDLBool> *> * _Nonnull change, SDLPermissionGroupStatus status) {
     <#RPC group status changed#>
 }];
 ```
-
-#### Swift
+##### Swift
 ```swift
 let observerId = sdlManager.permissionManager.addObserver(forRPCs: <#RPC name#>, <#RPC name#>, groupType:<#SDLPermissionGroupType#>, withHandler: { (individualStatuses, groupStatus) in
     <#RPC group status changed#>
 })
 ```
 
-**Stop Observing Permissions**
+#### Stop Observing Permissions**
 When you set up the observer, you will get an unique id back. Use this id to unsubscribe to the permissions at a later date.
-
-#### Objective-C
+##### Objective-C
 ```objc
 [self.sdlManager.permissionManager removeObserverForIdentifier:observerId];
 ```
-
-#### Swift
+##### Swift
 ```swift
 sdlManager.permissionManager.removeObserver(forIdentifier: observerId)
 ```
