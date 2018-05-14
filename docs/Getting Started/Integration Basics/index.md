@@ -5,10 +5,9 @@ SmartDeviceLink works by sending remote procedure calls (RPCs) back and forth be
 ### Set Up a Proxy Manager Class
 You will need a class that manages the RPCs sent back and forth between your app and SDL Core. Since there should be only one active connection to the SDL Core, you may wish to implement this proxy class using the singleton pattern.
 
+##### Objective-C
+###### ProxyManager.h
 
-#### Objective-C
-
-**ProxyManager.h**
 ```objc
 #import <Foundation/Foundation.h>
 
@@ -23,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
-**ProxyManager.m**
+###### ProxyManager.m
 ```objc
 #import "ProxyManager.h"
 
@@ -57,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
-#### Swift
+##### Swift
 ```swift
 class ProxyManager: NSObject {
   // Singleton
@@ -73,7 +72,7 @@ Your app should always start passively watching for a connection with a SDL Core
 
 The connect method will be implemented later. To see a full example, navigate to the bottom of this page.
 
-#### Objective-C
+##### Objective-C
 ```objc
 @implementation AppDelegate
 
@@ -85,7 +84,7 @@ The connect method will be implemented later. To see a full example, navigate to
 @end
 ```
 
-#### Swift
+##### Swift
 ```swift
 class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -100,12 +99,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ### Import the SDL Library
 At the top of the *ProxyManager* class, import the SDL for iOS library.
 
-#### Objective-C
+##### Objective-C
 ```objc
 #import <SmartDeviceLink/SmartDeviceLink.h>
 ```
 
-#### Swift
+##### Swift
 ```swift
 import SmartDeviceLink
 ```
@@ -113,7 +112,7 @@ import SmartDeviceLink
 ### Create the SDL Manager
 The `SDLManager` is the main class of SmartDeviceLink. It will handle setting up the initial connection with the head unit. It will also help you upload images and send RPCs.
 
-#### Objective-C
+##### Objective-C
 ```objc
 #import "ProxyManager.h"
 #import "SmartDeviceLink.h"
@@ -152,7 +151,7 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
-#### Swift
+##### Swift
 ```swift
 class ProxyManager: NSObject {
   // Manager
@@ -173,46 +172,43 @@ In order to instantiate the `SDLManager` class, you must first configure an `SDL
 #### Network Connection Type
 There are two different ways to connect your app to a SDL Core: with a TCP (Wi-Fi) network connection or with an iAP (USB / Bluetooth) network connection. Use TCP for debugging and use iAP for production level apps.
 
-#### iAP
-#### Objective-C
+##### iAP
+###### Objective-C
 ```objc
 SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"<#App Name#>" appId:@"<#App Id#>"];
 ```
-
-#### Swift
+###### Swift
 ```swift
 let lifecycleConfiguration = SDLLifecycleConfiguration(appName:"<#App Name#>", appId: "<#App Id#>")
 ```
 
-#### TCP
-#### Objective-C
+##### TCP
+###### Objective-C
 ```objc
 SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration debugConfigurationWithAppName:@"<#App Name#>" appId:@"<#App Id#>" ipAddress:@"<#IP Address#>" port:<#Port#>];
 ```
-
-#### Swift
+###### Swift
 ```swift
 let lifecycleConfiguration = SDLLifecycleConfiguration(appName: "<#App Name#>", appId: "<#App Id#>", ipAddress: "<#IP Address#>", port: <#Port#>))
 ```  
 
 !!! NOTE
-If you are using an emulator, the IP address is your computer or virtual machine’s IP address, and the port number is usually 12345. If these values are not correct, or emulator is not running, your app with not run, as TCP connections occur on the main thread.
+If you are using an emulator, the IP address is your computer or virtual machine’s IP address, and the port number is usually **12345**. If these values are not correct, or emulator is not running, your app with not run, as TCP connections occur on the main thread.
 !!!
 
 !!! IMPORTANT
-If you are using a head unit or TDK, and are using the [relay app](https://github.com/smartdevicelink/relay_app_ios) for debugging, the IP address and port number should be set to the same IP address and port number as the app. This information appears in the relay app once the server is turned on in the relay app. Also be sure that the device is on the same network as your app.
+If you are using a head unit or TDK, and are using the [Relay app](Developer Tools/Relay) for debugging, the IP address and port number should be set to the same IP address and port number as the app. This information appears in the Relay app once the server is turned on in the app. Also be sure that the device is on the same network as your app.
 !!!
 
-
-### 2. Short app name (optional)
+### 2. Short App Name (optional)
 This is a shortened version of your app name that is substituted when the full app name will not be visible due to character count constraints. You will want to make this as short as possible.
 
-#### Objective-C
+##### Objective-C
 ```objc
 lifecycleConfiguration.shortAppName = @"<#Shortened App Name#>";
 ```
 
-#### Swift
+##### Swift
 ```swift
 lifecycleConfiguration.shortAppName = "<#Shortened App Name#>"
 ```
@@ -220,7 +216,7 @@ lifecycleConfiguration.shortAppName = "<#Shortened App Name#>"
 ### 3. App Icon
 This is a custom icon for your application. Please refer to [Uploading Files and Graphics](Uploading Files and Graphics) for icon sizes.
 
-#### Objective-C
+##### Objective-C
 ```objc
 UIImage* appImage = [UIImage imageNamed:@"<#AppIcon Name#>"];
 if (appImage) {
@@ -229,7 +225,7 @@ if (appImage) {
 }
 ```
 
-#### Swift
+##### Swift
 ```swift
 if let appImage = UIImage(named: "<#AppIcon Name#>") {
   let appIcon = SDLArtwork(image: appImage, name: "<#Name to Upload As#>", persistent: true, as: .JPG /* or .PNG */)
@@ -249,76 +245,76 @@ The app type is used by car manufacturers to decide how to categorize your app. 
 Navigation and projection apps usually require special permissions and use video streaming to project a UI.
 !!!
 
-#### Objective-C
+##### Objective-C
 ```objc
 lifecycleConfiguration.appType = SDLAppHMITypeMedia;
 ```
 
-#### Swift
+##### Swift
 ```swift
 lifecycleConfiguration.appType = .media
 ```
 
-### 2. Lock screen
+### 5. Lock Screen
 A lock screen is used to prevent the user from interacting with the app on the smartphone while they are driving. When the vehicle starts moving, the lock screen is activated. Similarly, when the vehicle stops moving, the lock screen is removed. You must implement a lock screen in your app for safety reasons. Any application without a lock screen will not get approval for release to the public.
 
 The SDL SDK can take care of the lock screen implementation for you, automatically using your app logo and the connected vehicle logo. If you do not want to use the default lock screen, you can implement your own custom lock screen.
 
 For more information, please refer to the [Adding the Lock Screen](Adding the Lock Screen) section, for this guide we will be using `SDLLockScreenConfiguration`'s basic `enabledConfiguration`.
 
-#### Objective-C
+##### Objective-C
 ```objc
 [SDLLockScreenConfiguration enabledConfiguration]
 ```
 
-#### Swift
+##### Swift
 ```swift
 SDLLockScreenConfiguration.enabled()
 ```
 
-### 3. Logging
+### 6. Logging
 A logging configuration is used to define where and how often SDL will log. It will also allow you to set your own logging modules and filters.
 
-#### Objective-C
+##### Objective-C
 ```objc
 [SDLLogConfiguration defaultConfiguration]
 ```
 
-#### Swift
+##### Swift
 ```objc
 SDLLogConfiguration.default()
 ```
 
-### 4. Set the Configuration
+### 7. Set the Configuration
 The `SDLConfiguration` class is used to set the lifecycle, lock screen, logging, and optionally (dependent on if you are a Navigation or Projection app) streaming media configurations for the app. Use the lifecycle configuration settings above to instantiate a `SDLConfiguration` instance.
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLConfiguration* configuration = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration]];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let configuration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: .enabled(), logging: .default())
 ```
 
-### 4. Create a SDLManager
+### 8. Create a SDLManager
 Now you can use the `SDLConfiguration` instance to instantiate the `SDLManager`.
 
-#### Objective-C
+##### Objective-C
 ```objc
 self.sdlManager = [[SDLManager alloc] initWithConfiguration:configuration delegate:self];
 ```
 
-#### Swift**
+##### Swift
 ```swift
 sdlManager = SDLManager(configuration: configuration, delegate: self)
 ```
 
-### 5. Start the SDLManager
+### 9. Start the SDLManager
 The manager should be started as soon as possible in your application's lifecycle. We suggest doing this in the `didFinishLaunchingWithOptions()` method in your *AppDelegate* class. Once the manager has been initialized, it will immediately start watching for a connection with the remote system. The manager will passively search for a connection with a SDL Core during the entire lifespan of the app. If the manager detects a connection with a SDL Core, the `startWithReadyHandler` will be called.
 
-#### Objective-C
+##### Objective-C
 ```objc
 [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
   if (success) {
@@ -327,7 +323,7 @@ The manager should be started as soon as possible in your application's lifecycl
 }];
 ```
 
-#### Swift
+##### Swift
 ```swift
 sdlManager.start { (success, error) in
     if success {
@@ -340,13 +336,13 @@ sdlManager.start { (success, error) in
 In production, your app will be watching for connections using iAP, which will not use any additional battery power than normal.  
 !!!  
 
-If the connection is successful, you can start sending RPCs to the SDL Core. However, some RPCs can only be sent when the HMI is in the FULL or LIMITED state. If the SDL Core's HMI is not ready to accept these RPCs, your requests will be ignored. If you want to make sure that the SDL Core will not ignore your RPCs, use the `SDLManagerDelegate` methods in the next section.
+If the connection is successful, you can start sending RPCs to the SDL Core. However, some RPCs can only be sent when the HMI is in the `FULL` or `LIMITED` state. If the SDL Core's HMI is not ready to accept these RPCs, your requests will be ignored. If you want to make sure that the SDL Core will not ignore your RPCs, use the `SDLManagerDelegate` methods in the next section.
 
-### 6. Example Implementation of a Proxy Class  
+### Example Implementation of a Proxy Class  
 The following code snippet has an example of setting up both a TCP and iAP connection.
 
-#### Objective-C
-ProxyManager.h
+##### Objective-C
+###### ProxyManager.h
 ```objc
 #import <Foundation/Foundation.h>
 
@@ -362,7 +358,7 @@ NS_ASSUME_NONNULL_BEGIN
 NS_ASSUME_NONNULL_END
 ```
 
-ProxyManager.m
+###### ProxyManager.m 
 ```objc
 #import <SmartDeviceLink/SmartDeviceLink.h>
 
@@ -438,7 +434,7 @@ static NSString* const AppId = @"<#App Id#>";
 NS_ASSUME_NONNULL_END
 ```
 
-#### Swift
+##### Swift
 ```swift
 import SmartDeviceLink
 
@@ -500,17 +496,14 @@ extension ProxyManager: SDLManagerDelegate {
 ### Implement the SDL Manager Delegate
 The *ProxyManager* class should conform to the `SDLManagerDelegate` protocol. This means that the *ProxyManager* class must implement the following required methods:
 
-1. `managerDidDisconnect` This function is called only once, when the proxy disconnects from the SDL Core. Do any cleanup you need to do in this function.
-1. `hmiLevel:didChangeToLevel:` This function is called when the HMI level changes for the app. The HMI level can be `FULL`, `LIMITED`, `BACKGROUND`, or `NONE`. It is important to note that most RPCs sent while the HMI is in `BACKGROUND` or `NONE` mode will be ignored by the SDL Core.
+1. `managerDidDisconnect` This function is called when the proxy disconnects from the SDL Core. Do any cleanup you need to do in this function.
+1. `hmiLevel:didChangeToLevel:` This function is called when the HMI level changes for the app. The HMI level can be `FULL`, `LIMITED`, `BACKGROUND`, or `NONE`. It is important to note that most RPCs sent while the HMI is in `BACKGROUND` or `NONE` mode will be ignored by the SDL Core. For more information, please refer to [Understanding Permissions](Getting Started/Understanding Permissions).
 
-In addition there are three optional methods:
+In addition, there are three optional methods:
 
-1. `audioStreamingState:didChangeToState:` Called when the audio streaming state of this application changes on the remote system.
-1. `systemContext:didChangeToContext:` Called when the system context (i.e. a menu is open, an alert is visible,  a voice recognition session is in progress) of this application changes on the remote system.
+1. `audioStreamingState:didChangeToState:` Called when the audio streaming state of this application changes on the remote system. For more information, please refer to [Understanding Permissions](Getting Started/Understanding Permissions).
+1. `systemContext:didChangeToContext:` Called when the system context (i.e. a menu is open, an alert is visible,  a voice recognition session is in progress) of this application changes on the remote system. For more information, please refer to [Understanding Permissions](Getting Started/Understanding Permissions).
 1. `managerShouldUpdateLifecycleToLanguage:` Called when the head unit language does not match the `language` set in the `SDLLifecycleConfiguration` but does match a language included in `languagesSupported`. If desired, you can customize the `appName`, the `shortAppName`,  and `ttsName` for the head unit's current language. For more information about supporting more than one language in your app please refer to [Getting Started/Adapting to the Head Unit Language](Getting Started/Adapting to the Head Unit Language).
 
-### The Different HMI Levels:
-Please refer to [Knowing the In-Car UI Status](Knowing the In-Car UI Status) for information about HMI levels.
-
-### Where to go from here
+### Where to Go From Here
 You should now be able to connect to a head unit or emulator. From here, [learn about designing a user interface](Displaying Information/Designing a User Interface). For further details on connecting, see [Connecting to a SDL Core](Getting Started/Connecting to a SDL Core).
