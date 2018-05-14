@@ -12,7 +12,7 @@ HMI Level   | What does this mean?
 ------------|------------------------------------------------------------
 NONE        | The user has not yet opened your app, or the app has been killed.
 BACKGROUND  | The user has opened your app, but is currently in another part of the head unit.
-LIMITED     | This level only applies to media apps (i.e. apps with an `appType` of `media`). The user has opened your app, but is currently in another part of the head unit. The app can receive button presses from the play, seek, tune, and preset buttons.
+LIMITED     | This level only applies to media and navigation apps (i.e. apps with an `appType` of `MEDIA` or `NAVIGATION`). The user has opened your app, but is currently in another part of the head unit. The app can receive button presses from the play, seek, tune, and preset buttons.
 FULL        | Your app is currently in focus on the screen.
 
 Be careful with sending user interface related RPCs in the `NONE` and `BACKGROUND` levels; some head units may reject RPCs sent in those states. We recommended that you wait until your app's `hmiLevel` enters `FULL` to set up your app's UI.
