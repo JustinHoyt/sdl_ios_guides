@@ -85,8 +85,8 @@ If you want to upload a group of files, you can use the `SDLFileManager`'s batch
 
 #### Objective-C
 ```objc
-SDLArtwork *artwork = [SDLArtwork artworkWithImage:<#UIImage#> name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
-SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:<#UIImage#> name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
+SDLArtwork *artwork = [SDLArtwork artworkWithImage:image asImageFormat:<#SDLArtworkImageFormat#>];
+SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:image asImageFormat:<#SDLArtworkImageFormat#>];
 
 [self.sdlManager.fileManager uploadArtworks:@[artwork, artwork2] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
     // A single artwork has finished uploading. Use this to check for individual errors, to use an artwork as soon as its uploaded, or to check the progress of the upload
@@ -120,7 +120,7 @@ sdlManager.fileManager.upload(artworks: [artwork, artwork2], progressHandler: { 
 
 #### Objective-C
 ```objc
-if(artwork.isPersistent) {
+if (artwork.isPersistent) {
     <#File was initialized as persistent#>
 }
 ```
@@ -162,7 +162,7 @@ NSUInteger bytesAvailable = self.sdlManager.fileManager.bytesAvailable;
 let bytesAvailable = sdlManager.fileManager.bytesAvailable
 ```
 
-### Check if a File Has Already Been Uploaded
+### Check if a File has Already Been Uploaded
 You can check out if an image has already been uploaded to the head unit via the `SDLFileManager`'s `remoteFileNames` property.
 
 #### Objective-C
