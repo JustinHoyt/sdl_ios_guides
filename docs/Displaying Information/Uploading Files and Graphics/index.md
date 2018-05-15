@@ -6,7 +6,7 @@ You should be aware of these four things when using images in your SDL app:
 1. Persistant images are stored on a head unit between sessions. Ephemeral images are destroyed when a sessions ends.
 1. Images can not be uploaded when the app's `hmiLevel` is `NONE`. For more information about permissions, please review [Getting Started/Understanding Permissions](Getting Started/Understanding Permissions).
 
-To learn how to use images once they are uploaded, please see [Displaying Information > Text, Images, and Buttons](Displaying Information/Text Images and Buttons).
+To learn how to use images once they are uploaded, please see [Displaying Information/Text, Images, and Buttons](Displaying Information/Text Images and Buttons).
 
 ### Checking if Graphics are Supported
 Before uploading images to a head unit you should first check if the head unit supports graphics. If not, you should avoid uploading unneccessary image data. To check if graphics are supported look at the `SDLManager`'s `registerResponse` property once the `SDLManager` has started successfully.
