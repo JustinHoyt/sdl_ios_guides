@@ -85,10 +85,10 @@ If you want to upload a group of files, you can use the `SDLFileManager`'s batch
 
 #### Objective-C
 ```objc
-SDLArtwork *artwork = [SDLArtwork artworkWithImage:image asImageFormat:<#SDLArtworkImageFormat#>];
-SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:image asImageFormat:<#SDLArtworkImageFormat#>];
+SDLArtwork *artwork1 = [SDLArtwork artworkWithImage:<#UIImage#> asImageFormat:<#SDLArtworkImageFormat#>];
+SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:<#UIImage#> asImageFormat:<#SDLArtworkImageFormat#>];
 
-[self.sdlManager.fileManager uploadArtworks:@[artwork, artwork2] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
+[self.sdlManager.fileManager uploadArtworks:@[artwork1, artwork2] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
     // A single artwork has finished uploading. Use this to check for individual errors, to use an artwork as soon as its uploaded, or to check the progress of the upload
     // The upload percentage is calculated as the total file size of all attempted artwork uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
     // Return YES to continue sending artworks. Return NO to cancel any artworks that have not yet been sent.
@@ -101,10 +101,10 @@ SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:image asImageFormat:<#SDLArt
 
 #### Swift
 ```swift
-let artwork = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
+let artwork1 = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
 let artwork2 = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
 
-sdlManager.fileManager.upload(artworks: [artwork, artwork2], progressHandler: { (artworkName, uploadPercentage, error) -> Bool in
+sdlManager.fileManager.upload(artworks: [artwork1, artwork2], progressHandler: { (artworkName, uploadPercentage, error) -> Bool in
     // A single artwork has finished uploading. Use this to check for individual errors, to use an artwork as soon as its uploaded, or to check the progress of the upload
     // The upload percentage is calculated as the total file size of all attempted artwork uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
     // Return true to continue sending artworks. Return false to cancel any artworks that have not yet been sent.

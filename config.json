@@ -49,11 +49,11 @@
                 },
                 {
                     "name": "Alerts"
+                }, 
+                {
+                    "name": "Uploading Files and Graphics"
                 }
             ]
-        },
-        {
-            "name": "Uploading Files and Graphics"
         },
         {
             "name": "Knowing the In-Car UI Status"
