@@ -1,11 +1,12 @@
 ## Uploading Files and Graphics
-You should be aware of these three things when using images:
+You should be aware of these four things when using images in your SDL app:
 
 1. You may be connected to a head unit that does not have the ability to display images.
 1. You must upload images from your mobile device to the head unit before using them in a template.
-1. Persistant images are stored on a head unit between sessions. Ephemeral images are destroyed when a sessions ends.
+1. Persistant images are stored on a head unit between sessions. Ephemeral images are destroyed when a session ends (i.e. when the user turns off their vehicle).
+1. Images can not be uploaded when the app's `hmiLevel` is `NONE`. For more information about permissions, please review [Getting Started/Understanding Permissions](Getting Started/Understanding Permissions).
 
-To learn how to use images once they are uploaded, please see [Displaying Information > Text, Images, and Buttons](Displaying Information/Text, Images, and Buttons).
+To learn how to use images once they are uploaded, please see [Displaying Information/Text, Images, and Buttons](Displaying Information/Text Images and Buttons).
 
 ### Checking if Graphics are Supported
 Before uploading images to a head unit you should first check if the head unit supports graphics. If not, you should avoid uploading unneccessary image data. To check if graphics are supported look at the `SDLManager`'s `registerResponse` property once the `SDLManager` has started successfully.
@@ -84,10 +85,10 @@ If you want to upload a group of files, you can use the `SDLFileManager`'s batch
 
 #### Objective-C
 ```objc
-SDLArtwork *artwork = [SDLArtwork artworkWithImage:<#UIImage#> name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
-SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:<#UIImage#> name:@"<#Name to Upload As#>" asImageFormat:<#SDLArtworkImageFormat#>];
+SDLArtwork *artwork1 = [SDLArtwork artworkWithImage:<#UIImage#> asImageFormat:<#SDLArtworkImageFormat#>];
+SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:<#UIImage#> asImageFormat:<#SDLArtworkImageFormat#>];
 
-[self.sdlManager.fileManager uploadArtworks:@[artwork, artwork2] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
+[self.sdlManager.fileManager uploadArtworks:@[artwork1, artwork2] progressHandler:^BOOL(NSString * _Nonnull artworkName, float uploadPercentage, NSError * _Nullable error) {
     // A single artwork has finished uploading. Use this to check for individual errors, to use an artwork as soon as its uploaded, or to check the progress of the upload
     // The upload percentage is calculated as the total file size of all attempted artwork uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
     // Return YES to continue sending artworks. Return NO to cancel any artworks that have not yet been sent.
@@ -100,10 +101,10 @@ SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:<#UIImage#> name:@"<#Name to
 
 #### Swift
 ```swift
-let artwork = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
+let artwork1 = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
 let artwork2 = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
 
-sdlManager.fileManager.upload(artworks: [artwork, artwork2], progressHandler: { (artworkName, uploadPercentage, error) -> Bool in
+sdlManager.fileManager.upload(artworks: [artwork1, artwork2], progressHandler: { (artworkName, uploadPercentage, error) -> Bool in
     // A single artwork has finished uploading. Use this to check for individual errors, to use an artwork as soon as its uploaded, or to check the progress of the upload
     // The upload percentage is calculated as the total file size of all attempted artwork uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
     // Return true to continue sending artworks. Return false to cancel any artworks that have not yet been sent.
@@ -119,7 +120,7 @@ sdlManager.fileManager.upload(artworks: [artwork, artwork2], progressHandler: { 
 
 #### Objective-C
 ```objc
-if(artwork.isPersistent) {
+if (artwork.isPersistent) {
     <#File was initialized as persistent#>
 }
 ```

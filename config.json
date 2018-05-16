@@ -52,11 +52,11 @@
                 },
                 {
                     "name": "Alerts"
+                }, 
+                {
+                    "name": "Uploading Files and Graphics"
                 }
             ]
-        },
-        {
-            "name": "Uploading Files and Graphics"
         },
         {
             "name": "Adding the Lock Screen"
