@@ -3,7 +3,7 @@ You should be aware of these four things when using images in your SDL app:
 
 1. You may be connected to a head unit that does not have the ability to display images.
 1. You must upload images from your mobile device to the head unit before using them in a template.
-1. Persistant images are stored on a head unit between sessions. Ephemeral images are destroyed when a sessions ends.
+1. Persistant images are stored on a head unit between sessions. Ephemeral images are destroyed when a session ends (i.e. when the user turns off their vehicle).
 1. Images can not be uploaded when the app's `hmiLevel` is `NONE`. For more information about permissions, please review [Getting Started/Understanding Permissions](Getting Started/Understanding Permissions).
 
 To learn how to use images once they are uploaded, please see [Displaying Information/Text, Images, and Buttons](Displaying Information/Text Images and Buttons).
@@ -162,7 +162,7 @@ NSUInteger bytesAvailable = self.sdlManager.fileManager.bytesAvailable;
 let bytesAvailable = sdlManager.fileManager.bytesAvailable
 ```
 
-### Check if a File has Already Been Uploaded
+### Check if a File Has Already Been Uploaded
 You can check out if an image has already been uploaded to the head unit via the `SDLFileManager`'s `remoteFileNames` property.
 
 #### Objective-C
