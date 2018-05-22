@@ -6,18 +6,18 @@ This currently is only supported for Embedded Navigation. This does not work wit
 !!!
 
 !!! note
-SendLocation is an RPC that is usually restricted by OEMs. As a result, the OEM you are connecting to may limit app functionality if not approved for usage.
+`SendLocation` is an RPC that is usually restricted by OEMs. As a result, the OEM you are connecting to may limit app functionality if not approved for usage.
 !!!
 
 ### Determining the Result of SendLocation
-SendLocation has 3 possible results that you should expect:
+`SendLocation` has 3 possible results that you should expect:
 
 1. SUCCESS - SendLocation was successfully sent.
 2. INVALID_DATA - The request you sent contains invalid data and was rejected.
 3. DISALLOWED - Your app does not have permission to use SendLocation.
 
 ### Detecting if SendLocation is Available
-To check if SendLocation is supported, you may look at `SDLManager`'s `systemCapabilityManager` property after the ready handler is called. Or, you may use `SDLManager`'s `permissionManager` property to ask for the permission status of `SendLocation`.
+To check if `SendLocation` is supported, you may look at `SDLManager`'s `systemCapabilityManager` property after the ready handler is called. Or, you may use `SDLManager`'s `permissionManager` property to ask for the permission status of `SendLocation`.
 
 #### Objective-C
 ```objc
@@ -54,7 +54,7 @@ sdlManager.start { (success, error) in
 ```
 
 ### Using Send Location
-To use SendLocation, you must at least include the Longitude and Latitude of the location.
+To use `SendLocation`, you must at least include the Longitude and Latitude of the location.
 
 #### Objective-C
 ```objc

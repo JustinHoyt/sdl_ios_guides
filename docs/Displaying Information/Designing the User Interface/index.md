@@ -5,7 +5,7 @@ Since each car manufacturer has different user interface style guidelines, the n
 You may access these properties on the `SDLManager.systemCapabilityManager` instance as of SDL iOS library 6.0. More advanced capabilities, such as the `SDLRemoteControlCapability` must be updated through the `systemCapabilityManager`.
 
 ### System Capability Manager Properties
-Prior to iOS library version 6.0, many of these properties are available on the `SDLRegisterAppInterfaceResponse` object. You must manually pull that object using the `SDLManager.registerResponse` property.
+The `SystemCapabilityManager` is a new feature available as of version 6.0. If using previous versions of the library,  you can find most of the `SystemCapabilityManager` properties in the `SDLRegisterAppInterfaceResponse` object. You will have to manually extract the desired capability from the `SDLManager.registerResponse` property. 
 
 | Parameters  |  Description | Notes |
 | ------------- | ------------- |------------- |

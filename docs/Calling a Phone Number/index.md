@@ -5,14 +5,14 @@ Dialing a Phone Number allows you to send a phone number to dial on the user's p
 DialNumber is an RPC that is usually restricted by OEMs. As a result, the OEM you are connecting to may limit app functionality if not approved for usage.
 !!!
 
-### Determining the Result of DialNumber
-DialNumber has 3 possible results that you should expect:
+### Checking the Result of DialNumber
+`DialNumber` has 3 possible results that you should expect:
 
 1. SUCCESS - DialNumber was successfully sent, and a phone call was initiated by the user.
 2. REJECTED - DialNumber was sent, and a phone call was cancelled by the user. Also, this could mean that there is no phone connected via Bluetooth.
 3. DISALLOWED - Your app does not have permission to use DialNumber.
 
-### Detecting is DialNumber is Available
+### Detecting if DialNumber is Available
 `DialNumber` is a newer RPC, so there is a possibility that not all head units will support it. To see if `DialNumber` is supported, you may look at `SDLManager`'s `systemCapabilityManager.hmiCapabilities.phoneCall` property after the ready handler is called. 
 
 !!! note
