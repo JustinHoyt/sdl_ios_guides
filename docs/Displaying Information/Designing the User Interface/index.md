@@ -38,7 +38,7 @@ The `RegisterAppInterface` response contains information about the display type,
 | systemSoftwareVersion | The software version of the system that implements the SmartDeviceLink core | String |
 
 ### Templates
-Each car manufacturer supports a set of templates for the user interface. These templates determine the position and size of the text, images, and buttons on the screen. A list of supported templates is sent in `RegisterAppInterfaceResponse.templatesAvailable`.
+Each car manufacturer supports a set of templates for the user interface. These templates determine the position and size of the text, images, and buttons on the screen. A list of supported templates is sent in `SDLManager.systemCapabilityManager.displayCapabilities.templatesAvailable`.
 
 To change a template at any time, send a `SDLSetDisplayLayout` RPC to the SDL Core. If you want to ensure that the new template is used, wait for a response from the SDL Core before sending any more user interface RPCs.
 
@@ -63,7 +63,7 @@ sdlManager.send(request: display) { (request, response, error) in
 ```
 
 ### Available Templates
-There are fifteen standard templates to choose from, however some head units may only support a subset of these templates. Please check the `RegisterAppInterface` response for the supported templates. The following examples show how templates will appear on the generic head unit.
+There are fifteen standard templates to choose from, however some head units may only support a subset of these templates. Please check `SystemCapabilityManager` for the supported templates. The following examples show how templates will appear on the [Generic HMI](https://github.com/smartdevicelink/generic_hmi) and [Ford's SYNC 3 HMI](https://developer.ford.com). 
 
 #### 1. Media - with and without progress bar
 ##### Generic HMI
