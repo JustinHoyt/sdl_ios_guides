@@ -1,22 +1,22 @@
 ## Video Streaming
-To stream video from a SDL app use the `SDLStreamingMediaManager` class. A reference to this class is available from the `SDLManager`. You can choose to create your own video streaming manager, or you can use the CarWindow API to easily stream video to the head unit. 
+To stream video from a SDL app use the `SDLStreamingMediaManager` class. A reference to this class is available from the `SDLManager`. You can choose to create your own video streaming manager, or you can use the `CarWindow` API to easily stream video to the head unit. 
 
 !!! NOTE
 Due to an iOS limitation, video can not be streamed when the app on the device is backgrounded or when the device is sleeping/locked.
 !!!
 
 ### CarWindow
-CarWindow is a system to automatically video stream a view controller screen to the head unit. When you set the view controller, CarWindow will resize the view controller's frame to match the head unit's screen dimensions. Then, when the video service setup has completed, CarWindow will capture the screen and and send it to the head unit.
+`CarWindow` is a system to automatically video stream a view controller screen to the head unit. When you set the view controller, `CarWindow` will resize the view controller's frame to match the head unit's screen dimensions. Then, when the video service setup has completed, it will capture the screen and and send it to the head unit.
 
 To start, you will have to set a `rootViewController`, which can easily be set using one of the convenience initializers:
 * `autostreamingInsecureConfigurationWithInitialViewController:`  
 * `autostreamingSecureConfigurationWithSecurityManagers:initialViewController:`
 
-There are several customizations you can make to CarWindow to optimize it for your needs:
+There are several customizations you can make to `CarWindow` to optimize it for your video streaming needs:
 
-1. Choose how CarWindow captures and renders the screen using the `carWindowRenderingType` enum. 
-1. By default, when using `SDLCarWindow`, the `SDLTouchManager` will sync it's touch updates to the framerate. To disable this feature, set `SDLTouchManager.enableSyncedPanning` to `NO`.
-1. CarWindow hard-dictates the framerate of the app. To change the framerate and other parameters, update `SDLStreamingMediaConfiguration.customVideoEncoderSettings`.
+1. Choose how `CarWindow` captures and renders the screen using the `carWindowRenderingType` enum. 
+1. By default, when using `CarWindow`, the `SDLTouchManager` will sync it's touch updates to the framerate. To disable this feature, set `SDLTouchManager.enableSyncedPanning` to `NO`.
+1. `CarWindow` hard-dictates the framerate of the app. To change the framerate and other parameters, update `SDLStreamingMediaConfiguration.customVideoEncoderSettings`.
 
     Below are the video encoder defaults:
 
