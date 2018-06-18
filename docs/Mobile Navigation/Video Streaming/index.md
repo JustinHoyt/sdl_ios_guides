@@ -43,7 +43,7 @@ If setting the `rootViewController` when the app returns to the foreground, the 
 !!!
 
 ### Create a Custom Video Streaming Manager
-If you decide to create a custom video streaming manager you must maintain the lifecycle of the video stream because there are several situations when video can not stream. Whether or not video can stream depends on the app's HMI state on the head unit and the app's application state on the device. Due to an iOS limitation, video cannot be streamed when the app on the device is no longer in the foreground. 
+If you decide to create a custom video streaming manager, you must maintain the lifecycle of the video stream as there are limitations to when video can stream. The app's HMI state on the head unit and the app's application state on the device determines whether video can stream. Due to an iOS limitation, video cannot be streamed when the app on the device is no longer in the foreground and/or the device is locked/sleeping. 
 
 The lifecycle of the video stream is maintained by the SDL library. The `SDLManager.streamingMediaManager` can be accessed once the `start` method of `SDLManager` is called. The `SDLStreamingMediaManager` automatically takes care of determining screen size and encoding to the correct video format.
 
@@ -80,4 +80,4 @@ if !streamManager.sendVideoData(imageBuffer) {
 
 #### Best Practices
 * A constant stream of map frames is not necessary to maintain an image on the screen. Because of this, we advise that a batch of frames are only sent on map movement or location movement. This will keep the application's memory consumption lower.
-* For an ideal user experience, we recommend sending 30 frames per second.
+* For the best user experience, we recommend sending at least 15 frames per second.
