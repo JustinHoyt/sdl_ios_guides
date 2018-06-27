@@ -9,7 +9,7 @@ You should be aware of these four things when using images in your SDL app:
 To learn how to use images once they are uploaded, please see [Displaying Information/Text, Images, and Buttons](Displaying Information/Text Images and Buttons).
 
 ### Checking if Graphics are Supported
-Before uploading images to a head unit you should first check if the head unit supports graphics. If not, you should avoid uploading unneccessary image data. To check if graphics are supported look at the `SDLManager`'s `registerResponse` property once the `SDLManager` has started successfully.
+Before uploading images to a head unit you should first check if the head unit supports graphics. If not, you should avoid uploading unneccessary image data. To check if graphics are supported look at the `SDLManager`'s `systemCapabilityManager` property once the `SDLManager` has started successfully.
 
 #### Objective-C
 ```objc
@@ -20,7 +20,7 @@ __weak typeof (self) weakSelf = self;
         return;
     } 
 
-    SDLDisplayCapabilities *displayCapabilities = weakSelf.sdlManager.registerResponse.displayCapabilities;
+    SDLDisplayCapabilities *displayCapabilities = weakSelf.sdlManager.systemCapabilityManager.displayCapabilities;
     BOOL areGraphicsSupported = NO;
     if (displayCapabilities != nil) {
         areGraphicsSupported = displayCapabilities.graphicSupported.boolValue;
@@ -37,7 +37,7 @@ sdlManager.start { [weak self] (success, error) in
     }
     
     var areGraphicsSupported = false
-    if let displayCapabilities = self?.sdlManager.registerResponse?.displayCapabilities {
+    if let displayCapabilities = self?.sdlManager.systemCapabilityManager.displayCapabilities {
         areGraphicsSupported = displayCapabilities.graphicSupported.boolValue
     }
 }
@@ -223,10 +223,10 @@ sdlManager.fileManager.delete(fileNames: ["<#Save As Name#>", "<#Save as Name 2#
 
 ## Image Specifics
 ### Image File Type
-Images may be formatted as PNG, JPEG, or BMP. Check the `RegisterAppInterfaceResponse.displayCapability` properties to find out what image formats the head unit supports.
+Images may be formatted as PNG, JPEG, or BMP. Check the `systemCapabilityManager.displayCapability` properties to find out what image formats the head unit supports.
 
 ### Image Sizes
-If an image is uploaded that is larger than the supported size, that image will be scaled down to accomodate. All image sizes are available from the `SDLManager`'s `registerResponse` property once in the completion handler for `startWithReadyHandler`.
+If an image is uploaded that is larger than the supported size, that image will be scaled down to accomodate. All image sizes are available from the `SDLManager`'s `systemCapabilityManager` property once in the completion handler for `startWithReadyHandler`.
 
 #### Image Specifications
 | ImageName | Used in RPC | Details | Height | Width | Type |
