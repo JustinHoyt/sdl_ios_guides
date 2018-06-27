@@ -1,52 +1,62 @@
 ## Video Streaming
-In order to stream video from a SDL app, we focus on the `SDLStreamingMediaManager` class. A reference to this class is available from `SDLManager`.
-
-### Video Stream Lifecycle
-Currently, the lifecycle of the video stream must be maintained by the developer. Below is a set of guidelines for when a device should stream frames, and when it should not. The main players in whether or not we should be streaming are HMI State, and your app's state. Due to an iOS limitation, we must stop streaming when the device moves to the background state. 
-
-The lifecycle of the video stream is maintained by the SDL library. The `SDLManager.streamingMediaManager` will exist by the time the `start` method of `SDLManager` calls back. `SDLStreamingMediaManager` will automatically take care of determining screen size and encoding to the correct video format.
+To stream video from a SDL app use the `SDLStreamingMediaManager` class. A reference to this class is available from the `SDLManager`. You can choose to create your own video streaming manager, or you can use the `CarWindow` API to easily stream video to the head unit. 
 
 !!! NOTE
-It is not recommended to alter the default video format and resolution behavior but that option is available to you using `SDLStreamingMediaConfiguration.dataSource`.
+Due to an iOS limitation, video can not be streamed when the app on the device is backgrounded or when the device is sleeping/locked.
 !!!
 
 ### CarWindow
-CarWindow is a system for automatically video streaming a view controller's frame to the head unit. It will automatically set the view controller passed to the correct frame and start sending the data when the video service has completed setup. There are a few important `SDLStreamingMediaConfiguration` parameters. To start, you will have to set a `rootViewController`, and there are initializers to help in doing so. You can also choose how CarWindow captures and renders the screen using the `carWindowRenderingType` enum. You can use the initializers `+ (instancetype)autostreamingInsecureConfigurationWithInitialViewController:(UIViewController *)initialViewController;` and `+ (instancetype)autostreamingSecureConfigurationWithSecurityManagers:(NSArray<Class<SDLSecurityType>> *)securityManagers initialViewController:(UIViewController *)initialViewController;`.
+`CarWindow` is a system to automatically video stream a view controller screen to the head unit. When you set the view controller, `CarWindow` will resize the view controller's frame to match the head unit's screen dimensions. Then, when the video service setup has completed, it will capture the screen and and send it to the head unit.
 
-By default, when using `SDLCarWindow`, the `SDLTouchManager` will sync it's touch updates to the framerate. To disable this, set `SDLTouchManager.enableSyncedPanning` to `NO`.
+To start, you will have to set a `rootViewController`, which can easily be set using one of the convenience initializers:
+* `autostreamingInsecureConfigurationWithInitialViewController:`  
+* `autostreamingSecureConfigurationWithSecurityManagers:initialViewController:`
 
-Note that CarWindow will hard-dictate the framerate of the app. To change it and other parameters, update `SDLStreamingMediaConfiguration.customVideoEncoderSettings`.
+There are several customizations you can make to `CarWindow` to optimize it for your video streaming needs:
 
-These are the current defaults:
-```objc
-@{
-    (__bridge NSString *)kVTCompressionPropertyKey_ProfileLevel: (__bridge NSString *)kVTProfileLevel_H264_Baseline_AutoLevel,
-    (__bridge NSString *)kVTCompressionPropertyKey_RealTime: @YES,
-    (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate: @15,
-    (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate: @600000
-};
-```
+1. Choose how `CarWindow` captures and renders the screen using the `carWindowRenderingType` enum. 
+1. By default, when using `CarWindow`, the `SDLTouchManager` will sync it's touch updates to the framerate. To disable this feature, set `SDLTouchManager.enableSyncedPanning` to `NO`.
+1. `CarWindow` hard-dictates the framerate of the app. To change the framerate and other parameters, update `SDLStreamingMediaConfiguration.customVideoEncoderSettings`.
 
-#### Replacing the view controller
+    Below are the video encoder defaults:
+
+        @{
+            (__bridge NSString *)kVTCompressionPropertyKey_ProfileLevel: (__bridge NSString *)kVTProfileLevel_H264_Baseline_AutoLevel,
+            (__bridge NSString *)kVTCompressionPropertyKey_RealTime: @YES,
+            (__bridge NSString *)kVTCompressionPropertyKey_ExpectedFrameRate: @15,
+            (__bridge NSString *)kVTCompressionPropertyKey_AverageBitRate: @600000
+        };
+
+
+#### Showing a New View Controller
 Simply update `self.sdlManager.streamManager.rootViewController` to the new view controller. This will also update the haptic parser.
 
-#### App UI vs. Off-Screen UI
-It is generally recommended to pass a non-on-device-screen view controller to display via CarWindow, that is, to instantiate a new view controller and pass it. This will then appear on-screen in the car, while remaining off-screen on the device. It is also possible to display your on-device-screen UI to the car screen by passing `UIApplication.sharedApplication.keyWindow.rootViewController`. However, if you use the app UI, the app's UI will have to resize to accomidate the head unit's screen size.
+#### Mirroring the Device Screen vs. Off-Screen UI
+It is recommended that you set the `rootViewController` to a not-on-device-screen view controller, i.e. you should instantiate a new `UIViewController` class and use it to set the `rootViewController`. This view controller will appear on-screen in the car, while remaining off-screen on the device. It is also possible, but not recommended, to display your on-device-screen UI to the car screen by setting the `rootViewController` to `UIApplication.sharedApplication.keyWindow.rootViewController`. However, if you mirror your device's screen, your app's UI will resize to match the head unit's screen size, thus making most of the app's UI off-screen.
 
 !!! NOTE
-If the `rootViewController` is app UI and is set from the `UIViewController` class, it should only be set after `viewDidAppear:animated` is called. Setting the `rootViewController` in `viewDidLoad` or `viewWillAppear:animated` can cause weird behavior when setting the new frame.
+If mirroring your device's screen, the `rootViewController` should only be set after `viewDidAppear:animated` is called. Setting the `rootViewController` in `viewDidLoad` or `viewWillAppear:animated` can cause weird behavior when setting the new frame.
 !!!
 
 !!! NOTE
 If setting the `rootViewController` when the app returns to the foreground, the app should register for the `UIApplicationDidBecomeActive` notification and not the `UIApplicationWillEnterForeground` notification. Setting the frame after a notification from the latter can also cause weird behavior when setting the new frame.
 !!!
 
-### Manually Sending Data to the Stream
-To check whether or not you are ready to start sending data to the video stream, watch for the `SDLVideoStreamDidStartNotification` and `SDLVideoStreamDidStopNotification` notifications. When you receive the start notification, start sending data; stop when you receive the stop notification. There are parallel notifications for audio streaming.
+### Create a Custom Video Streaming Manager
+If you decide to create a custom video streaming manager, you must maintain the lifecycle of the video stream as there are limitations to when video can stream. The app's HMI state on the head unit and the app's application state on the device determines whether video can stream. Due to an iOS limitation, video cannot be streamed when the app on the device is no longer in the foreground and/or the device is locked/sleeping. 
 
-Sending video data to the head unit must be provided to `SDLStreamingMediaManager` as a `CVImageBufferRef` (Apple documentation [here](https://developer.apple.com/library/mac/documentation/QuartzCore/Reference/CVImageBufferRef/)). Once the video stream has started, you will not see video appear until a few frames have been received. To send a frame, refer to the snippet below:
+The lifecycle of the video stream is maintained by the SDL library. The `SDLManager.streamingMediaManager` can be accessed once the `start` method of `SDLManager` is called. The `SDLStreamingMediaManager` automatically takes care of determining screen size and encoding to the correct video format.
 
-#### Objective-C
+!!! NOTE
+It is not recommended to alter the default video format and resolution behavior as it can result in distorted video or the video not showing up at all on the head unit. However, that option is available to you by implementing `SDLStreamingMediaConfiguration.dataSource`.
+!!!
+
+#### Sending Video Data
+To check whether or not you can start sending data to the video stream, watch for the `SDLVideoStreamDidStartNotification`, `SDLVideoStreamDidStopNotification`, and `SDLVideoStreamSuspendedNotification` notifications. When you receive the start notification, start sending video data; stop when you receive the suspended or stop notifications. You will receive a video stream suspended notification when the app on the device is backgrounded. There are parallel start and stop notifications for audio streaming.
+
+Video data must be provided to the `SDLStreamingMediaManager` as a `CVImageBufferRef` (Apple documentation [here](https://developer.apple.com/library/mac/documentation/QuartzCore/Reference/CVImageBufferRef/)). Once the video stream has started, you will not see video appear until Core has received a few frames. Refer to the code sample below for an example of how to send a video frame:
+
+###### Objective-C
 ```objective-c
 CVPixelBufferRef imageBuffer = <#Acquire Image Buffer#>;
 
@@ -55,7 +65,7 @@ if ([self.sdlManager.streamManager sendVideoData:imageBuffer] == NO) {
 }
 ```
 
-#### Swift
+###### Swift
 ```swift
 let imageBuffer = <#Acquire Image Buffer#>
 
@@ -68,6 +78,6 @@ if !streamManager.sendVideoData(imageBuffer) {
 }
 ```
 
-### Best Practices
+#### Best Practices
 * A constant stream of map frames is not necessary to maintain an image on the screen. Because of this, we advise that a batch of frames are only sent on map movement or location movement. This will keep the application's memory consumption lower.
-* For an ideal user experience, we recommend sending 30 frames per second.
+* For the best user experience, we recommend sending at least 15 frames per second.
