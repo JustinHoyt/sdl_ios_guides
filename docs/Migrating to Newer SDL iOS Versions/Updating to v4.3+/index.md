@@ -297,19 +297,16 @@ to:
 - (void)startProxy {
     NSLog(@"startProxy");
     
+    __weak typeof(self) weakself = self;
     [self.manager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
         if (!success) {
             NSLog(@"Error trying to start SDLManager: %@", error);
             return;
         }
         
-        // Check for graphics capability
-        SDLRegisterAppInterfaceResponse *registerResponse = self.manager.registerResponse;
-        
-        if (registerResponse.displayCapabilities) {
-            if (registerResponse.displayCapabilities.graphicSupported) {
-                self.graphicsSupported = [registerResponse.displayCapabilities.graphicSupported boolValue];
-            }
+        NSNumber<SDLBool> graphicSupported = weakself.systemCapabilityManager.displayCapabilities.graphicSupported
+        if (graphicSupported != nil) {
+            weakself.graphicsSupported = graphicSupported;
         }
     }];
 }
