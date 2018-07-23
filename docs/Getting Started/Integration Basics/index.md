@@ -214,7 +214,7 @@ lifecycleConfiguration.shortAppName = "<#Shortened App Name#>"
 ```
 
 ### 3. App Icon
-This is a custom icon for your application. Please refer to [Uploading Graphics](Uploading Graphics) for icon sizes.
+This is a custom icon for your application. Please refer to [Uploading Graphics](Displaying Information/Uploading Graphics) for icon sizes.
 
 ##### Objective-C
 ```objc
