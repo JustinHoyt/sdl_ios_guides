@@ -214,7 +214,7 @@ lifecycleConfiguration.shortAppName = "<#Shortened App Name#>"
 ```
 
 ### 3. App Icon
-This is a custom icon for your application. Please refer to [Uploading Files and Graphics](Uploading Files and Graphics) for icon sizes.
+This is a custom icon for your application. Please refer to [Uploading Graphics](Displaying Information/Uploading Graphics) for icon sizes.
 
 ##### Objective-C
 ```objc
@@ -497,7 +497,7 @@ extension ProxyManager: SDLManagerDelegate {
 The *ProxyManager* class should conform to the `SDLManagerDelegate` protocol. This means that the *ProxyManager* class must implement the following required methods:
 
 1. `managerDidDisconnect` This function is called when the proxy disconnects from the SDL Core. Do any cleanup you need to do in this function.
-1. `hmiLevel:didChangeToLevel:` This function is called when the HMI level changes for the app. The HMI level can be `FULL`, `LIMITED`, `BACKGROUND`, or `NONE`. It is important to note that most RPCs sent while the HMI is in `BACKGROUND` or `NONE` mode will be ignored by the SDL Core. For more information, please refer to [Understanding Permissions](Getting Started/Understanding Permissions).
+2. `hmiLevel:didChangeToLevel:` This function is called when the HMI level changes for the app. The HMI level can be `FULL`, `LIMITED`, `BACKGROUND`, or `NONE`. It is important to note that most RPCs sent while the HMI is in `BACKGROUND` or `NONE` mode will be ignored by the SDL Core. For more information, please refer to [Understanding Permissions](Getting Started/Understanding Permissions).
 
 In addition, there are three optional methods:
 

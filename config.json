@@ -54,7 +54,10 @@
                     "name": "Alerts"
                 }, 
                 {
-                    "name": "Uploading Files and Graphics"
+                    "name": "Uploading Files"
+                },
+                {
+                    "name": "Uploading Graphics"
                 }
             ]
         },
