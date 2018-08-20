@@ -1,6 +1,9 @@
 ## Touch Input
-
 Navigation applications have support for touch events, including both single and multitouch events. This includes interactions such as panning and pinch. A developer may use the included `SDLTouchManager` class, or yourself by listening to the `SDLDidReceiveTouchEventNotification` notification.
+
+!!! NOTE
+You must have a valid and approved appid in order to recieve touch events.
+!!!
 
 ### 1. Using `SDLTouchManager`
 
