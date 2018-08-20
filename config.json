@@ -39,32 +39,35 @@
             "name": "Displaying Information",
             "navigation": [
                 {
-                    "name": "Designing the User Interface"
+                    "name": "Alerts"
                 },
                 {
                     "name": "Creating the User Interface"
                 },
                 {
-                    "name": "Text Images and Buttons"
-                },
-                {
-                	"name": "Subscribe Buttons"
+                    "name": "Designing the User Interface"
                 },
                 {
                     "name": "Main Menu"
                 },
                 {
+                    "name": "Media Clock"
+                },
+                {
                     "name": "Popup menus and Keyboards"
                 },
                 {
-                    "name": "Alerts"
-                }, 
+                	"name": "Subscribe Buttons"
+                },
+                {
+                    "name": "Text Images and Buttons"
+                },
                 {
                     "name": "Uploading Files"
                 },
                 {
                     "name": "Uploading Graphics"
-                }
+                },
             ]
         },
         {
