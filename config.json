@@ -29,6 +29,9 @@
               },
               {
                   "name": "Batch Sending RPCs"
+              },
+              {
+                  "name": "Example Apps"
               }
             ]
         },
@@ -68,7 +71,7 @@
             "name": "Adding the Lock Screen"
         },
         {
-            "name": "Getting Vehicle Data"
+            "name": "Vehicle Data"
         },
         {
             "name": "Getting In-Car Microphone Audio"
