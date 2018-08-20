@@ -48,7 +48,10 @@
                 	"name": "Subscribe Buttons"
                 },
                 {
-                    "name": "Menus"
+                    "name": "Main Menu"
+                },
+                {
+                    "name": "Popup menus and Keyboards"
                 },
                 {
                     "name": "Alerts"
