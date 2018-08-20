@@ -12,11 +12,15 @@ To start, you will have to set a `rootViewController`, which can easily be set u
 * `autostreamingInsecureConfigurationWithInitialViewController:`  
 * `autostreamingSecureConfigurationWithSecurityManagers:initialViewController:`
 
+!!! NOTE
+The View Controller you set to the `rootViewController` must be a subclass of `SDLCarWindowViewController` or have only one `supportedInterfaceOrientation`. The `SDLCarWindowViewController` prevents the `rootViewController` from rotating. This is necessary because rotation between landscape and portrait modes can cause the app to crash while the `CarWindow` API is capturing an image.
+!!!
+
 There are several customizations you can make to `CarWindow` to optimize it for your video streaming needs:
 
 1. Choose how `CarWindow` captures and renders the screen using the `carWindowRenderingType` enum. 
-1. By default, when using `CarWindow`, the `SDLTouchManager` will sync it's touch updates to the framerate. To disable this feature, set `SDLTouchManager.enableSyncedPanning` to `NO`.
-1. `CarWindow` hard-dictates the framerate of the app. To change the framerate and other parameters, update `SDLStreamingMediaConfiguration.customVideoEncoderSettings`.
+2. By default, when using `CarWindow`, the `SDLTouchManager` will sync it's touch updates to the framerate. To disable this feature, set `SDLTouchManager.enableSyncedPanning` to `NO`.
+3. `CarWindow` hard-dictates the framerate of the app. To change the framerate and other parameters, update `SDLStreamingMediaConfiguration.customVideoEncoderSettings`.
 
     Below are the video encoder defaults:
 
