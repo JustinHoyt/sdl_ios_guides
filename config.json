@@ -9,30 +9,33 @@
         {
             "name": "Getting Started",
             "navigation": [
-              {
-                  "name": "Installation"
-              },
-              {
-                  "name": "SDK Configuration"
-              },
-              {
-                  "name": "Integration Basics"
-              },
-              {
-                  "name": "Connecting to an Infotainment System"
-              },
-              {
-                  "name": "Adapting to the Head Unit Language"
-              },
-              {
-              	 "name": "Understanding Permissions"
-              },
-              {
-                  "name": "Batch Sending RPCs"
-              },
-              {
-                  "name": "Example Apps"
-              }
+                {
+                    "name": "Installation"
+                },
+                {
+                    "name": "SDK Configuration"
+                },
+                {
+                    "name": "Integration Basics"
+                },
+                {
+                    "name": "Connecting to an Infotainment System"
+                },
+                {
+                    "name": "Adding the Lock Screen"
+                },
+                {
+                    "name": "Adapting to the Head Unit Language"
+                },
+                {
+                    "name": "Understanding Permissions"
+                },
+                {
+                    "name": "Batch Sending RPCs"
+                },
+                {
+                    "name": "Example Apps"
+                }
             ]
         },
         {
@@ -45,7 +48,7 @@
                     "name": "Creating the User Interface"
                 },
                 {
-                    "name": "Designing the User Interface"
+                    "name": "Interface Capabilities"
                 },
                 {
                     "name": "Main Menu"
@@ -74,22 +77,25 @@
             ]
         },
         {
-            "name": "Adding the Lock Screen"
+            "name": "Other SDL Features",
+            "navigation": [
+                {
+                    "name": "Retrieving Vehicle Data"
+                },
+                {
+                    "name": "Calling a Phone Number"
+                },
+                {
+                    "name": "Setting the Built-in Nav System Destination"
+                },
+                {
+                    "name": "Getting In-Car Microphone Audio"
+                }
+            ]
         },
+        
         {
-            "name": "Vehicle Data"
-        },
-        {
-            "name": "Getting In-Car Microphone Audio"
-        },
-        {
-            "name": "Setting the Navigation Destination"
-        },
-        {
-            "name": "Calling a Phone Number"
-        },
-        {
-            "name": "Mobile Navigation",
+            "name": "Video Streaming for Navigation Apps",
             "navigation" : [
               {
                   "name": "Introduction"
@@ -121,10 +127,10 @@
                   "name": "Configuring SDL Logging"
                 },
                 {
-                  "name": "Relay"
+                  "name": "Relay App"
                 },
                 {
-                  "name": "RPC Builder"
+                  "name": "RPC Builder App"
                 }
             ]
         },
