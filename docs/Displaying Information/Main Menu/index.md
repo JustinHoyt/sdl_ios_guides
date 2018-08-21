@@ -8,7 +8,7 @@ Every template has a default menu button. The position of this button varies bet
 ![Menu Appearance](assets/generic_MenuAppearance.png)
 
 ##### Ford HMI
-![Menu Appearance](assets/ford_MenuAppearance.png)  
+![Menu Appearance](assets/ford_MenuAppearance.png)
 
 ### Menu Structure
 ![Menu Structure](assets/MenuStructure.png)
@@ -35,7 +35,7 @@ self.sdlManager.screenManager.menu = @[cell];
 #### Swift
 ```swift
 // Create the menu cell
-let cell = SDLMenuCell(title: <#T##String#>, icon: <#T##SDLArtwork?#>, voiceCommands: <#T##[String]?#>) { (triggerSource: SDLTriggerSource) in
+let cell = SDLMenuCell(title: <#String#>, icon: <#SDLArtwork?#>, voiceCommands: <#[String]?#>) { (triggerSource: SDLTriggerSource) in
     // Menu item was selected, check the `triggerSource` to know if the user used touch or voice to activate it
     <#Handle the Cell's Selection#>
 }
@@ -44,7 +44,7 @@ self.sdlManager.screenManager.menu = [cell]
 ```
 
 #### Add a Submenu
-Adding a submenu is as simple as adding subcells to an `SDLMenuCell`. This can currently only be done with one layer of subcells, and does not allow the usage of artworks or handlers.
+Adding a submenu is as simple as adding subcells to an `SDLMenuCell`. This can currently only be done with one layer of subcells, and does not allow handlers.
 
 ##### Using RPCs
 To create a submenu using RPCs, you must use a `SDLAddSubMenu` RPC with a unique id. When a response is received from the SDL Core, check if the submenu was added successfully. If it was, send an `SDLAddCommand` RPC for each item in the submenu.
@@ -58,7 +58,7 @@ SDLMenuCell *cell = [[SDLMenuCell alloc] initWithTitle:<#Menu Item Text#> icon:<
 }];
 
 // Create and set the submenu cell
-SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:<#Menu Item Text#> subCells:@[cell]];
+SDLMenuCell *submenuCell = [[SDLMenuCell alloc] initWithTitle:<#Menu Item Text#> icon:<#SDLArtwork#> subCells:@[cell]];
 self.sdlManager.screenManager.menu = @[submenuCell];
 ```
 
@@ -70,7 +70,7 @@ let cell = SDLMenuCell(title: <#T##String#>, icon: <#T##SDLArtwork?#>, voiceComm
     <#code#>
 }
 
-let submenuCell = SDLMenuCell(title: <#T##String#>, subCells:<#T##[SDLMenuCell]#>)
+let submenuCell = SDLMenuCell(title: <#T##String#>, icon: <#SDLArtwork#>, subCells:<#T##[SDLMenuCell]#>)
 self.sdlManager.screenManager.menu = @[submenuCell]
 ```
 

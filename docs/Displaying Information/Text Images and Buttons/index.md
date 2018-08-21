@@ -110,3 +110,6 @@ SDLArtwork *artwork = [SDLArtwork artworkWithImage:image asImageFormat:SDLArtwor
 let image = UIImage(named: <#T##String#>)?.withRenderingMode(.alwaysTemplate)
 let artwork = SDLArtwork(image: image, persistent: true, as: .PNG)
 ```
+
+### Using RPCs
+If you don't want to use the screen manager, you can use raw RPC requests using the `Show` RPC.
