@@ -42,37 +42,25 @@
             "name": "Displaying Information",
             "navigation": [
                 {
-                    "name": "Alerts"
-                },
-                {
-                    "name": "Creating the User Interface"
-                },
-                {
                     "name": "Interface Capabilities"
-                },
-                {
-                    "name": "Main Menu"
-                },
-                {
-                    "name": "Media Clock"
-                },
-                {
-                    "name": "Popup Menus and Keyboards"
-                },
-                {
-                    "name": "Playing Audio Indications"
-                },
-                {
-                	"name": "Subscribe Buttons"
                 },
                 {
                     "name": "Text Images and Buttons"
                 },
                 {
-                    "name": "Uploading Files"
+                	"name": "Subscribing to System Buttons"
                 },
                 {
-                    "name": "Uploading Graphics"
+                    "name": "Main Menu"
+                },
+                {
+                    "name": "Popup Menus and Keyboards"
+                },
+                {
+                    "name": "Alerts"
+                },
+                {
+                    "name": "Media Clock"
                 }
             ]
         },
@@ -90,6 +78,15 @@
                 },
                 {
                     "name": "Getting In-Car Microphone Audio"
+                },
+                {
+                    "name": "Uploading Files"
+                },
+                {
+                    "name": "Uploading Graphics"
+                },
+                {
+                    "name": "Playing Audio Indications"
                 }
             ]
         },
