@@ -255,12 +255,43 @@ lifecycleConfiguration.appType = SDLAppHMITypeMedia;
 lifecycleConfiguration.appType = .media
 ```
 
-### 5. Lock Screen
+### 5. Template Coloring
+You can alter the appearance of your app on a head unit in a consistent way using template coloring APIs.
+
+!!! NOTE
+This will only work when connected to head units running SDL Core v5.0 or later.
+!!!
+
+#### Objective-C
+```objc
+SDLRGBColor *green = [[SDLRGBColor alloc] initWithRed:126 green:188 blue:121];
+SDLRGBColor *white = [[SDLRGBColor alloc] initWithRed:249 green:251 blue:254];
+SDLRGBColor *darkGrey = [[SDLRGBColor alloc] initWithRed:57 green:78 blue:96];
+SDLRGBColor *grey = [[SDLRGBColor alloc] initWithRed:186 green:198 blue:210];
+lifecycleConfiguration.dayColorScheme = [[SDLTemplateColorScheme alloc] initWithPrimaryRGBColor:green secondaryRGBColor:grey backgroundRGBColor:white];
+lifecycleConfiguration.nightColorScheme = [[SDLTemplateColorScheme alloc] initWithPrimaryRGBColor:green secondaryRGBColor:grey backgroundRGBColor:darkGrey];
+```
+
+#### Swift
+```swift
+let green = SDLRGBColor(red: 126, green: 188, blue: 121)
+let white = SDLRGBColor(red: 249, green: 251, blue: 254)
+let grey = SDLRGBColor(red: 186, green: 198, blue: 210)
+let darkGrey = SDLRGBColor(red: 57, green: 78, blue: 96)
+lifecycleConfiguration.dayColorScheme = SDLTemplateColorScheme(primaryRGBColor: green, secondaryRGBColor: grey, backgroundRGBColor: white)
+lifecycleConfiguration.nightColorScheme = SDLTemplateColorScheme(primaryRGBColor: green, secondaryRGBColor: grey, backgroundRGBColor: darkGrey)
+```
+
+!!! NOTE
+You may only change the template coloring in the `lifecycleConfiguration` and in `SetDisplayLayout` RPC requests. You may only change the template coloring once per template. i.e. You cannot change to the same template you are already on using `SetDisplayLayout` and expect the coloring to change.
+!!!
+
+### 6. Lock Screen
 A lock screen is used to prevent the user from interacting with the app on the smartphone while they are driving. When the vehicle starts moving, the lock screen is activated. Similarly, when the vehicle stops moving, the lock screen is removed. You must implement a lock screen in your app for safety reasons. Any application without a lock screen will not get approval for release to the public.
 
 The SDL SDK can take care of the lock screen implementation for you, automatically using your app logo and the connected vehicle logo. If you do not want to use the default lock screen, you can implement your own custom lock screen.
 
-For more information, please refer to the [Adding the Lock Screen](Adding the Lock Screen) section, for this guide we will be using `SDLLockScreenConfiguration`'s basic `enabledConfiguration`.
+For more information, please refer to the [Adding the Lock Screen](Getting Started/Adding the Lock Screen) section, for this guide we will be using `SDLLockScreenConfiguration`'s basic `enabledConfiguration`.
 
 ##### Objective-C
 ```objc
@@ -272,7 +303,7 @@ For more information, please refer to the [Adding the Lock Screen](Adding the Lo
 SDLLockScreenConfiguration.enabled()
 ```
 
-### 6. Logging
+### 7. Logging
 A logging configuration is used to define where and how often SDL will log. It will also allow you to set your own logging modules and filters.
 
 ##### Objective-C
@@ -285,7 +316,7 @@ A logging configuration is used to define where and how often SDL will log. It w
 SDLLogConfiguration.default()
 ```
 
-### 7. Set the Configuration
+### 8. Set the Configuration
 The `SDLConfiguration` class is used to set the lifecycle, lock screen, logging, and optionally (dependent on if you are a Navigation or Projection app) streaming media configurations for the app. Use the lifecycle configuration settings above to instantiate a `SDLConfiguration` instance.
 
 ##### Objective-C
@@ -298,7 +329,7 @@ SDLConfiguration* configuration = [SDLConfiguration configurationWithLifecycle:l
 let configuration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: .enabled(), logging: .default(), fileManager: .default())
 ```
 
-### 8. Create a SDLManager
+### 9. Create a SDLManager
 Now you can use the `SDLConfiguration` instance to instantiate the `SDLManager`.
 
 ##### Objective-C
@@ -311,7 +342,7 @@ self.sdlManager = [[SDLManager alloc] initWithConfiguration:configuration delega
 sdlManager = SDLManager(configuration: configuration, delegate: self)
 ```
 
-### 9. Start the SDLManager
+### 10. Start the SDLManager
 The manager should be started as soon as possible in your application's lifecycle. We suggest doing this in the `didFinishLaunchingWithOptions()` method in your *AppDelegate* class. Once the manager has been initialized, it will immediately start watching for a connection with the remote system. The manager will passively search for a connection with a SDL Core during the entire lifespan of the app. If the manager detects a connection with a SDL Core, the `startWithReadyHandler` will be called.
 
 ##### Objective-C
