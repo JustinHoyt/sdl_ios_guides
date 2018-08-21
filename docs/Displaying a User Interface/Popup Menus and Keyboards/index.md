@@ -53,8 +53,12 @@ sdlManager.screenManager.preloadChoices(<#T##choices: [SDLChoiceCell]##[SDLChoic
 #### Presenting a Menu
 Whether or not you preloaded cells, you may present a menu. If you did not preload cells, calling a `present` API will cause them to be preloaded and then presented once they are available. Therefore, this call may take longer than if the cells were preloaded earlier in the app's lifecycle. On later presentations using the same cells, it will reuse those cells (unless you deleted them of course), so later presentations will be faster.
 
+##### Menu - Icon
+##### Ford HMI
 ![Icon Only Interaction Layout](assets/PerformInteractionIconOnly.png)
 
+##### Menu - List
+##### Ford HMI
 ![List Only Interaction Layout](assets/PerformInteractionListOnly.png)
 
 !!! NOTE
@@ -124,6 +128,14 @@ It may seem that the answer is to always use `.both`. However, remember that you
 | Manual only       | Interactions occur only through the display |
 | VR only           | Interactions occur only through text-to-speech and voice recognition |
 | Both              | Interactions can occur both manually or through VR |
+
+##### Menu - Manual Only
+##### Ford HMI
+![Menu - Manual Only - Ford HMI](assets/PerformInteractionManualOnly.png)
+
+##### Menu - Voice Only
+##### Ford HMI
+![Menu - Voice Only - Ford HMI](assets/PerformInteractionVROnly.png)
 
 ##### Objective-C
 ```objc
