@@ -87,7 +87,7 @@ SDLChoiceSet *choiceSet = [[SDLChoiceSet alloc] initWithTitle:<#(nonnull NSStrin
 let choiceSet = SDLChoiceSet(title: <#T##String#>, delegate: <#T##SDLChoiceSetDelegate#>, layout: <#T##SDLChoiceSetLayout#>, timeout: <#T##TimeInterval#>, initialPromptString: <#T##String?#>, timeoutPromptString: <#T##String?#>, helpPromptString: <#T##String?#>, vrHelpList: <#T##[SDLVRHelpItem]?#>, choices: <#T##[SDLChoiceCell]#>)
 ```
 
-#### Implementing SDLChoiceSetDelegate
+#### Implementing the Choice Set Delegate
 In order to present a menu, you must implement `SDLChoiceSetDelegate` in order to receive the user's input. When a choice is selected, you will be passed the `cell` that was selected, the manner in which it was selected (voice or text), and the index of the cell in the `SDLChoiceSet` that was passed.
 
 ##### Objective-C
@@ -192,7 +192,7 @@ Keyboards are unavailable for use in many countries when the driver is distracte
 sdlManager.screenManager.presentKeyboard(withInitialText: <#T##String#>, delegate: <#T##SDLKeyboardDelegate#>)
 ```
 
-### SDLKeyboardDelegate
+### Implementing the Keyboard Delegate
 Using the `SDLKeyboardDelegate` involves two required methods (for handling the user's input and the keyboard's unexpected abort), as well as several optional methods for additional functionality.
 
 ##### Objective-C
