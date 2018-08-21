@@ -3,7 +3,7 @@ SDL supports modal menus and keyboards. These are requests for input from the us
 
 There are several advantages and disadvantages to this kind of menu compared to the main menu. The main menu should remain more static and should not be updated often and only in predictable ways. The main menu is the best way to perform navigation for your app. By contrast, a popup menu is better for a selection of options for your app, and allows for a keyboard to be available for search or other user input.
 
-### Presenting a Popup Menu
+## Presenting a Popup Menu
 You may think of presenting a popup menu as presenting a modal `UITableViewController` to request input from the user. You may chain together menus to drill down, however, it is recommended to do so judiciously, as requesting too much input from the driver while he is driving will be distracting and may result in your app being rejected by OEMs.
 
 | Layout Mode                | Formatting Description |
@@ -14,7 +14,7 @@ You may think of presenting a popup menu as presenting a modal `UITableViewContr
 | Present Searchable as List | A vertical list of text with a search field in the HMI |
 | Present Keyboard           | A keyboard shows up immediately in the HMI |
 
-#### Creating Cells
+### Creating Cells
 An `SDLChoiceCell` is similar to a `UITableViewCell` without the ability to arrange your own UI. We provide several properties on the `SDLChoiceCell` to set your data, but the layout itself is determined by the company making the head unit system.
 
 !!! IMPORTANT
@@ -33,7 +33,7 @@ let cell = SDLChoiceCell(text: <#T##String#>)
 let cell = SDLChoiceCell(text: <#T##String#>, secondaryText: <#T##String?#>, tertiaryText: <#T##String?#>, voiceCommands: <#T##[String]?#>, artwork: <#T##SDLArtwork?#>, secondaryArtwork: <#T##SDLArtwork?#>)
 ```
 
-#### Preloading Cells
+### Preloading Cells
 If you know what some or all cells should contain before they are used, you can "preload" these cells in order to speed up their presentation at a later time. The cells you preload may be used individually or a group.
 
 ##### Objective-C
@@ -50,7 +50,7 @@ sdlManager.screenManager.preloadChoices(<#T##choices: [SDLChoiceCell]##[SDLChoic
 }
 ```
 
-#### Presenting a Menu
+### Presenting a Menu
 Whether or not you preloaded cells, you may present a menu. If you did not preload cells, calling a `present` API will cause them to be preloaded and then presented once they are available. Therefore, this call may take longer than if the cells were preloaded earlier in the app's lifecycle. On later presentations using the same cells, it will reuse those cells (unless you deleted them of course), so later presentations will be faster.
 
 ##### Menu - Icon
@@ -65,7 +65,7 @@ Whether or not you preloaded cells, you may present a menu. If you did not prelo
 When you preload a cell, you **do not** need to maintain a reference to it. If you reuse a cell with the same properties that has already been preloaded (or previously presented), the cell will automatically be reused.
 !!!
 
-##### Creating a Choice Set
+#### Creating a Choice Set
 In order to present a menu, you must bundle together a bunch of `SDLChoiceCell`s into an `SDLChoiceSet`.
 
 !!! IMPORTANT
@@ -87,7 +87,7 @@ SDLChoiceSet *choiceSet = [[SDLChoiceSet alloc] initWithTitle:<#(nonnull NSStrin
 let choiceSet = SDLChoiceSet(title: <#T##String#>, delegate: <#T##SDLChoiceSetDelegate#>, layout: <#T##SDLChoiceSetLayout#>, timeout: <#T##TimeInterval#>, initialPromptString: <#T##String?#>, timeoutPromptString: <#T##String?#>, helpPromptString: <#T##String?#>, vrHelpList: <#T##[SDLVRHelpItem]?#>, choices: <#T##[SDLChoiceCell]#>)
 ```
 
-##### Implementing SDLChoiceSetDelegate
+#### Implementing SDLChoiceSetDelegate
 In order to present a menu, you must implement `SDLChoiceSetDelegate` in order to receive the user's input. When a choice is selected, you will be passed the `cell` that was selected, the manner in which it was selected (voice or text), and the index of the cell in the `SDLChoiceSet` that was passed.
 
 ##### Objective-C
@@ -116,7 +116,7 @@ extension <#Class Name#>: SDLChoiceSetDelegate {
 }
 ```
 
-##### Presenting the Menu with a Mode
+#### Presenting the Menu with a Mode
 Finally, you will present the menu. When you do so, you must choose a `mode` to present it in. If you have no `vrCommands` on the `SDLChoiceCell` you should choose `SDLInteractionModeManualOnly`. If `vrCommands` are available, you may choose `SDLInteractionModeVoiceRecognitionOnly` or `SDLInteractionModeBoth`.
 
 You may want to choose this based on the trigger source leading to the menu being presented. For example, if the menu was presented via the user touching the screen, you may want to use a `mode` of `.manualOnly` or `.both`, but if the menu was presented via the user speaking a voice command, you may want to use a `mode` of `.voiceRecognitionOnly` or `.both`.
@@ -147,7 +147,7 @@ It may seem that the answer is to always use `.both`. However, remember that you
 manager.screenManager.present(<#T##choiceSet: SDLChoiceSet##SDLChoiceSet#>, mode: <#T##SDLInteractionMode#>)
 ```
 
-#### Presenting a Searchable Menu
+### Presenting a Searchable Menu
 In addition to presenting a standard menu, you can also present a "searchable" menu, that is, a menu with a keyboard input box at the top. For more information on implementing the keyboard portion of this menu, see *Presenting a Keyboard* below.
 
 ![List with Search Interaction Layout](assets/PerformInteractionListwithSearch.png)
@@ -162,7 +162,7 @@ In addition to presenting a standard menu, you can also present a "searchable" m
 sdlManager.screenManager.presentSearchableChoiceSet(<#T##choiceSet: SDLChoiceSet##SDLChoiceSet#>, mode: <#T##SDLInteractionMode#>, with: <#T##SDLKeyboardDelegate#>)
 ```
 
-#### Deleting Cells
+### Deleting Cells
 You can discover cells that have been preloaded on `screenManager.preloadedCells`. You may then pass an array of cells to delete from the remote system. Many times this is not necessary, but if you have deleted artwork used by cells, for example, you should delete the cells as well.
 
 ##### Objective-C
@@ -175,7 +175,7 @@ You can discover cells that have been preloaded on `screenManager.preloadedCells
 sdlManager.screenManager.deleteChoices(<#T##choices: [SDLChoiceCell]##[SDLChoiceCell]#>)
 ```
 
-### Presenting a Keyboard
+## Presenting a Keyboard
 Presenting a keyboard or a searchable menu requires you to additionally implement the `SDLKeyboardDelegate`. Note that the `initialText` in the keyboard case often acts as "placeholder text" *not* as true initial text.
 
 !!! NOTE
@@ -192,7 +192,8 @@ Keyboards are unavailable for use in many countries when the driver is distracte
 sdlManager.screenManager.presentKeyboard(withInitialText: <#T##String#>, delegate: <#T##SDLKeyboardDelegate#>)
 ```
 
-#### SDLKeyboardDelegate
+### SDLKeyboardDelegate
+Using the `SDLKeyboardDelegate` involves two required methods (for handling the user's input and the keyboard's unexpected abort), as well as several optional methods for additional functionality.
 
 ##### Objective-C
 ```objc
@@ -276,5 +277,5 @@ extension <#Class Name#>: SDLKeyboardDelegate {
 }
 ```
 
-### Using RPCs
+## Using RPCs
 If you don't want to use the `SDLScreenManager`, you can do this manually using the `SDLChoice`, `SDLCreateInteractionChoiceSet`, and `SDLPerformInteraction` RPC requests. You will need to create `SDLChoice`s, bundle them into `SDLCreateInteractionChoiceSet`s, and then present those choice sets via `SDLPerformInteraction`. As this is no longer a recommended course of action, we will leave it to you to figure out how to manually do it.
