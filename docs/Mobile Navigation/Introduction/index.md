@@ -21,7 +21,7 @@ lifecycleConfig.appType = SDLAppHMITypeNavigation;
 
 SDLStreamingMediaConfiguration *streamingConfig = [SDLStreamingMediaConfiguration secureConfigurationWithSecurityManagers:@[OEMSecurityManager.class]];
 
-SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:nil logging:nil streamingMedia:streamingConfig];
+SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] streamingMedia:streamingConfig fileManager:[SDLFileManagerConfiguration defaultConfiguration]];
 ```
 
 #### Swift
@@ -30,7 +30,7 @@ let lifecycleConfig = SDLLifecycleConfiguration(appName: "<#App Name#>", appId: 
 lifecycleConfig.appType = .navigation
 
 let streamingConfig = SDLStreamingMediaConfiguration(securityManagers: [OEMSecurityManager.self])
-let config = SDLConfiguration(lifecycle: lifecycleConfig, lockScreen: nil, logging: nil, streamingMedia: streamingConfig)
+let config = SDLConfiguration(lifecycle: lifecycleConfig, lockScreen: .enabled(), logging: .default(), streamingMedia: streamingConfig, fileManager: .default())
 ```
 
 !!! IMPORTANT

@@ -290,12 +290,12 @@ The `SDLConfiguration` class is used to set the lifecycle, lock screen, logging,
 
 ##### Objective-C
 ```objc
-SDLConfiguration* configuration = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration]];
+SDLConfiguration* configuration = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration]];
 ```
 
 ##### Swift
 ```swift
-let configuration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: .enabled(), logging: .default())
+let configuration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: .enabled(), logging: .default(), fileManager: .default())
 ```
 
 ### 8. Create a SDLManager
@@ -405,7 +405,7 @@ static NSString* const AppId = @"<#App Id#>";
     lifecycleConfiguration.shortAppName = @"<#Shortened App Name#>";
     lifecycleConfiguration.appType = [SDLAppHMIType MEDIA];
     
-    SDLConfiguration* configuration = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration]];
+    SDLConfiguration* configuration = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] fileManager:[SDLFileManager defaultConfiguration]];
 
     self.sdlManager = [[SDLManager alloc] initWithConfiguration:configuration delegate:self];
     
@@ -466,7 +466,7 @@ class ProxyManager: NSObject {
         lifecycleConfiguration.shortAppName = "<#Shortened App Name#>"
         lifecycleConfiguration.appType = .media
         
-        let configuration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: .enabled(), logging: .default())
+        let configuration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: .enabled(), logging: .default(), fileManager: .default())
         
         sdlManager = SDLManager(configuration: configuration, delegate: self)                
     }
