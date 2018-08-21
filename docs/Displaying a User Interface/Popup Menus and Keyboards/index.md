@@ -1,4 +1,4 @@
-## Popup Menus and Keyboards - Requesting User Interaction
+# Popup Menus and Keyboards - Requesting User Interaction
 SDL supports modal menus and keyboards. These are requests for input from the user based on a list of options you present to the user – that they can respond to via touch or voice – or via their own keyboard input.
 
 There are several advantages and disadvantages to this kind of menu compared to the main menu. The main menu should remain more static and should not be updated often and only in predictable ways. The main menu is the best way to perform navigation for your app. By contrast, a popup menu is better for a selection of options for your app, and allows for a keyboard to be available for search or other user input.
