@@ -9,7 +9,7 @@ The `SystemCapabilityManager` is a new feature available as of version 6.0. If u
 
 | Parameters  |  Description | Notes |
 | ------------- | ------------- |------------- |
-| displayCapabilities | Information about the Sync display. This includes information about available templates, whether or not graphics are supported, and a list of all text fields and the max number of characters allowed in each text field. | Check SDLRPCMessage.h for more information |
+| displayCapabilities | Information about the Sync display. This includes information about available templates, whether or not graphics are supported, and a list of all text fields and the max number of characters allowed in each text field. | Check SDLDisplayCapabilities.h for more information |
 | buttonCapabilities | A list of available buttons and whether the buttons support long, short and up-down presses. | Check SDLButtonCapabilities.h for more information |
 | softButtonCapabilities | A list of available soft buttons and whether the button support images. Also information about whether the button supports long, short and up-down presses. | Check SDLSoftButtonCapabilities.h for more information |
 | presetBankCapabilities | If returned, the platform supports custom on-screen presets. | Check SDLPresetBankCapabilities.h for more information |
