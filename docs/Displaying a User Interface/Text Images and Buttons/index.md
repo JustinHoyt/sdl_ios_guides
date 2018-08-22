@@ -1,5 +1,6 @@
 # Text, Images, and Buttons
-## Screen Manager
+
+## Template Fields
 The `SDLScreenManager` is a manager for easily creating and sending text, images and soft buttons for your SDL app. To update the UI, simply give the manager the new UI data and sandwich the update between the manager's  `beginUpdates` and ` endUpdatesWithCompletionHandler:` methods.
 
 | SDLScreenManager Parameter Name | Description |

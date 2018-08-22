@@ -1,25 +1,18 @@
-## Calling a Phone Number
+# Calling a Phone Number
 Dialing a Phone Number allows you to send a phone number to dial on the user's phone. Regardless of platform (Android or iOS), you must be sure that a device is connected via Bluetooth (even if using iOS/USB) for this RPC to work. If it is not connected, you will receive a REJECTED `resultCode`.
 
 !!! note
 DialNumber is an RPC that is usually restricted by OEMs. As a result, the OEM you are connecting to may limit app functionality if not approved for usage.
 !!!
 
-### Checking the Result of DialNumber
-`DialNumber` has 3 possible results that you should expect:
-
-1. SUCCESS - DialNumber was successfully sent, and a phone call was initiated by the user.
-2. REJECTED - DialNumber was sent, and a phone call was cancelled by the user. Also, this could mean that there is no phone connected via Bluetooth.
-3. DISALLOWED - Your app does not have permission to use DialNumber.
-
-### Detecting if DialNumber is Available
+## Detecting if DialNumber is Available
 `DialNumber` is a newer RPC, so there is a possibility that not all head units will support it. To see if `DialNumber` is supported, you may look at `SDLManager`'s `systemCapabilityManager.hmiCapabilities.phoneCall` property after the ready handler is called. 
 
 !!! note
 If you need to know how to create and setup `SDLManager`, please see [Getting Started > Integration Basics](Getting Started/Integration Basics).
 !!!
 
-#### Objective-C
+##### Objective-C
 ```objc
 BOOL isPhoneCallSupported = NO;
 
@@ -36,7 +29,7 @@ BOOL isPhoneCallSupported = NO;
 }];
 ```
 
-#### Swift
+##### Swift
 ```swift
 var isPhoneCallSupported = false
 
@@ -52,12 +45,12 @@ sdlManager.start { (success, error) in
 }
 ```
 
-### How to Use
+### Sending a DialNumber Request
 !!! note
 For DialNumber, all characters are stripped except for `0`-`9`, `*`, `#`, `,`, `;`, and `+`
 !!!
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLDialNumber *dialNumber = [[SDLDialNumber alloc] init];
 dialNumber.number = @"1238675309";
@@ -85,7 +78,7 @@ dialNumber.number = @"1238675309";
 }];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let dialNumber = SDLDialNumber()
 dialNumber.number = "1238675309"
@@ -112,3 +105,10 @@ sdlManager.send(request: dialNumber) { (request, response, error) in
     // Successfully sent!
 }
 ```
+
+### DialNumber Result
+`DialNumber` has 3 possible results that you should expect:
+
+1. SUCCESS - DialNumber was successfully sent, and a phone call was initiated by the user.
+2. REJECTED - DialNumber was sent, and a phone call was cancelled by the user. Also, this could mean that there is no phone connected via Bluetooth.
+3. DISALLOWED - Your app does not have permission to use DialNumber.

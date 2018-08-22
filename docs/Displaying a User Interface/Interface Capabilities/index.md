@@ -1,10 +1,10 @@
-## Designing a User Interface
-### Designing for Different Head Units
+# Interface Capabilities
+## Designing for Different Head Units
 Since each car manufacturer has different user interface style guidelines, the number of lines of text, soft and hard buttons, and images supported will vary between different types of head units. When the app first connects to the SDL Core, a `RegisterAppInterface` RPC will be sent by the SDL Core containing the `displayCapability`, `buttonCapabilites`, etc., properties. You can use this information to determine how to lay out the user interface. 
 
 You may access these properties on the `SDLManager.systemCapabilityManager` instance as of SDL iOS library 6.0. More advanced capabilities, such as the `SDLRemoteControlCapability` must be updated through the `systemCapabilityManager`.
 
-### System Capability Manager Properties
+## System Capability Manager Properties
 The `SystemCapabilityManager` is a new feature available as of version 6.0. If using previous versions of the library,  you can find most of the `SystemCapabilityManager` properties in the `SDLRegisterAppInterfaceResponse` object. You will have to manually extract the desired capability from the `SDLManager.registerResponse` property. 
 
 | Parameters  |  Description | Notes |
@@ -37,12 +37,12 @@ The `RegisterAppInterface` response contains information about the display type,
 | sdlVersion | The SmartDeviceLink version | String |
 | systemSoftwareVersion | The software version of the system that implements the SmartDeviceLink core | String |
 
-### Templates
+## Templates
 Each car manufacturer supports a set of templates for the user interface. These templates determine the position and size of the text, images, and buttons on the screen. A list of supported templates is sent in `SDLManager.systemCapabilityManager.displayCapabilities.templatesAvailable`.
 
 To change a template at any time, send a `SDLSetDisplayLayout` RPC to the SDL Core. If you want to ensure that the new template is used, wait for a response from the SDL Core before sending any more user interface RPCs.
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLayout:SDLPredefinedLayoutGraphicWithText];
 [self.sdlManager sendRequest:display withResponseHandler:^(SDLRPCRequest *request, SDLRPCResponse *response, NSError *error) {
@@ -52,7 +52,7 @@ SDLSetDisplayLayout* display = [[SDLSetDisplayLayout alloc] initWithPredefinedLa
 }];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let display = SDLSetDisplayLayout(predefinedLayout: .graphicWithText)
 sdlManager.send(request: display) { (request, response, error) in
@@ -62,10 +62,10 @@ sdlManager.send(request: display) { (request, response, error) in
 }
 ```
 
-### Available Templates
+## Available Templates
 There are fifteen standard templates to choose from, however some head units may only support a subset of these templates. Please check `SystemCapabilityManager` for the supported templates. The following examples show how templates will appear on the [Generic HMI](https://github.com/smartdevicelink/generic_hmi) and [Ford's SYNC 3 HMI](https://developer.ford.com). 
 
-#### 1. Media - with and without progress bar
+### 1. Media - with and without progress bar
 ##### Generic HMI
 ![Media](assets/generic_Media.png)
 
@@ -74,7 +74,7 @@ There are fifteen standard templates to choose from, however some head units may
 
 ![Media - without progress bar](assets/ford_MediaWithoutProgressBar.png)
 
-#### 2. Non-Media - with and without soft buttons
+### 2. Non-Media - with and without soft buttons
 ##### Generic HMI
 ![Non-Media](assets/generic_NonMedia.png)
 
@@ -83,58 +83,58 @@ There are fifteen standard templates to choose from, however some head units may
 
 ![Non-Media - without soft buttons](assets/ford_NonMediaWithoutSoftButtons.png)
 
-#### 3. Graphic with Text
+### 3. Graphic with Text
 ##### Ford HMI
 ![Graphic with Text](assets/ford_GraphicWithText.png)
 
-#### 4. Text with Graphic
+### 4. Text with Graphic
 ##### Ford HMI
 ![Text with Graphic](assets/ford_TextWithGraphic.png)
 
-#### 5. Tiles Only
+### 5. Tiles Only
 ##### Ford HMI
 ![Tiles Only](assets/ford_TilesOnly.png)
 
-#### 6. Graphic with Tiles
+### 6. Graphic with Tiles
 ##### Ford HMI
 ![Graphic with Tiles](assets/ford_GraphicWithTiles.png)
 
-#### 7. Tiles with Graphic
+### 7. Tiles with Graphic
 ##### Ford HMI
 ![Tiles with Graphic](assets/ford_TilesWithGraphic.png)
 
-#### 8. Graphic with Text and Softbuttons
+### 8. Graphic with Text and Softbuttons
 ##### Ford HMI
 ![Graphic with Text and Softbuttons](assets/ford_GraphicWithTextAndSoftButtons.png)
 
-#### 9. Text and Softbuttons with Graphic
+### 9. Text and Softbuttons with Graphic
 ##### Ford HMI
 ![Text and Softbuttons with Graphic](assets/ford_TextAndSoftButtonsWithGraphic.png)
 
-#### 10. Graphic with Textbuttons
+### 10. Graphic with Textbuttons
 ##### Ford HMI
 ![Graphic with Textbuttons](assets/ford_GraphicWithTextButtons.png)
 
-#### 11. Double Graphic and Softbuttons
+### 11. Double Graphic and Softbuttons
 ##### Ford HMI
 ![Double Graphic and Softbuttons](assets/ford_DoubleGraphicSoftButtons.png)
 
-#### 12. Textbuttons with Graphic
+### 12. Textbuttons with Graphic
 ##### Ford HMI
 ![Textbuttons with Graphic](assets/ford_TextButtonsWithGraphic.png)
 
-#### 13. Textbuttons Only
+### 13. Textbuttons Only
 ##### Ford HMI
 ![Textbuttons Only](assets/ford_TextButtonsOnly.png)
 
-#### 14. Large Graphic with Softbuttons
+### 14. Large Graphic with Softbuttons
 ##### Generic HMI
 ![Large Graphic with Softbuttons](assets/generic_LargeGraphicWithSoftButtons.png)
 
 ##### Ford HMI
 ![Large Graphic with Softbuttons](assets/ford_LargeGraphicWithSoftButtons.png)
 
-#### 15. Large Graphic Only
+### 15. Large Graphic Only
 ##### Generic HMI
 ![Large Graphic Only](assets/generic_LargeGraphicOnly.png)
 

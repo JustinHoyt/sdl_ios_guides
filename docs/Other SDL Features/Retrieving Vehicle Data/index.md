@@ -1,11 +1,10 @@
-## Get Vehicle Data
-
+# Retrieving Vehicle Data
 Use the SDLGetVehicleData RPC call to get vehicle data. The HMI level must be FULL, LIMITED, or BACKGROUND in order to get data.
 
 Each vehicle manufacturer decides which data it will expose. Please check the `SDLRPCResponse` RPC to find out which data you will have access to in your head unit.
 
 !!! note
-You may only ask for vehicle data that is available to your appName & appId combination. These will be specified by each OEM separately.
+You may only ask for vehicle data that is available to your appName & appId combination. These will be specified by each OEM separately. See [Understanding Permissions](Getting Started/Understanding Permissions) for more details.
 !!!
 
 | Vehicle Data | Parameter Name  |  Description |
@@ -36,10 +35,10 @@ You may only ask for vehicle data that is available to your appName & appId comb
 | Cluster mode status | clusterModeStatus | Whether or not the power mode is active. The power mode qualification status: power mode undefined, power mode evaluation in progress, not defined, power mode ok. The car mode status: normal, factory, transport, or crash. The power mode status: key out, key recently out, key approved, post accessory, accessory, post ignition, ignition on, running, crank |
 | My key | myKey | Information about whether or not the emergency 911 override has been activated |
 
-### Single Time Vehicle Data Retrieval
+## One-Time Vehicle Data Retrieval
 Using `SDLGetVehicleData`, we can ask for vehicle data a single time, if needed. 
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLGetVehicleData *getVehicleData = [[SDLGetVehicleData alloc] init];
 getVehicleData.prndl = @YES;
@@ -66,7 +65,7 @@ getVehicleData.prndl = @YES;
 }];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let getVehicleData = SDLGetVehicleData()
 getVehicleData.prndl = true
@@ -93,24 +92,24 @@ sdlManager.send(getVehicleData) { (request, response, error) in
 }
 ```
 
-### Subscribing to Vehicle Data
+## Subscribing to Vehicle Data
 Subscribing to vehicle data allows you to get notified whenever we have new data available. This data should not be relied upon being received in a consistent manner. New vehicle data is available roughly every second.
 
 **First**, Register to observe the `SDLDidReceiveVehicleDataNotification` notification: 
 
-#### Objective-C
+##### Objective-C
 ```objc
 [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vehicleDataAvailable:) name:SDLDidReceiveVehicleDataNotification object:nil];
 ```
 
-#### Swift
+##### Swift
 ```swift
 NotificationCenter.default.addObserver(self, selector: #selector(vehicleDataAvailable(_:)), name: .SDLDidReceiveVehicleData, object: nil)
 ```
 
 Then send the Subscribe Vehicle Data Request:
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLSubscribeVehicleData *subscribeVehicleData = [[SDLSubscribeVehicleData alloc] init];
 subscribeVehicleData.prndl = @YES;
@@ -146,7 +145,7 @@ subscribeVehicleData.prndl = @YES;
 }];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let subscribeVehicleData = SDLSubscribeVehicleData()
 subscribeVehicleData.prndl = true
@@ -183,7 +182,7 @@ sdlManager.send(request: subscribeVehicleData) { (request, response, error) in
 
 Finally, react to the notification when Vehicle Data is received:
 
-#### Objective-C
+##### Objective-C
 ``` objc
 - (void)vehicleDataAvailable:(SDLRPCNotificationNotification *)notification {
     if (![notification.notification isKindOfClass:SDLOnVehicleData.class]) {
@@ -196,7 +195,7 @@ Finally, react to the notification when Vehicle Data is received:
 }
 ```
 
-#### Swift
+##### Swift
 ```swift
 func vehicleDataAvailable(_ notification: SDLRPCNotificationNotification) {
     guard let onVehicleData = notification.notification as? SDLOnVehicleData else {
@@ -207,10 +206,10 @@ func vehicleDataAvailable(_ notification: SDLRPCNotificationNotification) {
 }
 ```
 
-### Unsubscribing from Vehicle Data
+## Unsubscribing from Vehicle Data
 Sometimes you may not always need all of the vehicle data you are listening to. We suggest that you only are subscribing when the vehicle data is needed. To stop listening to specific vehicle data items, utilize `SDLUnsubscribeVehicleData`.
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLUnsubscribeVehicleData *unsubscribeVehicleData = [[SDLUnsubscribeVehicleData alloc] init];
 unsubscribeVehicleData.prndl = @YES;
@@ -244,7 +243,7 @@ unsubscribeVehicleData.prndl = @YES;
 }];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let unsubscribeVehicleData = SDLUnsubscribeVehicleData()
 unsubscribeVehicleData.prndl = true

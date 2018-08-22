@@ -1,8 +1,8 @@
-## Touch Input
+# Touch Input
 Navigation applications have support for touch events, including both single and multitouch events. This includes interactions such as panning and pinch. A developer may use the included `SDLTouchManager` class, or yourself by listening to the `SDLDidReceiveTouchEventNotification` notification.
 
 !!! NOTE
-You must have a valid and approved appid in order to recieve touch events.
+You must have a valid and approved `appId` in order to recieve touch events.
 !!!
 
 ### 1. Using `SDLTouchManager`
@@ -15,7 +15,7 @@ The view passed from the following callbacks are dependent on using the built-in
 
 The following callbacks are provided:
 
-#### Objective-C
+##### Objective-C
 ```objc
 - (void)touchManager:(SDLTouchManager *)manager didReceiveSingleTapForView:(nullable UIView *)view atPoint:(CGPoint)point;
 - (void)touchManager:(SDLTouchManager *)manager didReceiveDoubleTapForView:(nullable UIView *)view atPoint:(CGPoint)point;
@@ -30,7 +30,7 @@ The following callbacks are provided:
 - (void)touchManager:(SDLTouchManager *)manager pinchCanceledAtCenterPoint:(CGPoint)point;
 ```
 
-#### Swift
+##### Swift
 ```swift
     optional public func touchManager(_ manager: SDLTouchManager, didReceiveSingleTapFor view: UIView?, at point: CGPoint)
     optional public func touchManager(_ manager: SDLTouchManager, didReceiveDoubleTapFor view: UIView?, at point: CGPoint)
@@ -54,7 +54,6 @@ Points that are provided via these callbacks are in the head unit's coordinate s
 If apps want to have access to the raw touch data, the `SDLDidReceiveTouchEventNotification` notification can be evaluated. This callback will be fired for every touch of the user and contains the following data:
 
 #### Type
-
 BEGIN
 : Sent for the first touch event.
 
@@ -68,7 +67,6 @@ CANCEL
 : Sent when the touch is canceled (for example, if a dialog appeared over the touchable screen while the touch was in progress).
 
 #### Event
-
 touchEventId
 : Unique ID of the touch. Increases for multiple touches (0, 1, 2, ...).
 
@@ -79,8 +77,7 @@ coord
 : X and Y coordinates in the head unit coordinate system. (0, 0) is the top left.
 
 #### Example
-
-#### Objective-C
+##### Objective-C
 ```objc
 [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(touchEventAvailable:) name:SDLDidReceiveTouchEventNotification object:nil];
 
@@ -93,10 +90,9 @@ coord
     // Grab something like type
     SDLTouchType* type = touchEvent.type;
 }
-
 ```
 
-#### Swift
+##### Swift
 ```swift
 // To Register
 NotificationCenter.default.addObserver(self, selector: #selector(touchEventAvailable(_:)), name: .SDLDidReceiveTouchEvent, object: nil)

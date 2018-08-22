@@ -1,10 +1,10 @@
-## Installation
+# Installation
 In order to build your app on a SmartDeviceLink (SDL) Core, the SDL software development kit (SDK) must be installed in your app. The following steps will guide you through adding the SDL SDK to your workspace and configuring the environment.
 
-### Install SDL SDK
+## Install SDL SDK
 There are three different ways to install the SDL SDK in your project: CocoaPods, Carthage, or manually.
 
-#### CocoaPods Installation
+### CocoaPods Installation
 
 1. Xcode should be closed for the following steps.
 1. Open the terminal app on your Mac.
@@ -33,8 +33,8 @@ There are three different ways to install the SDL SDK in your project: CocoaPods
         open <#Your Project Name#>.xcworkspace
 
 
-#### Carthage Installation
+### Carthage Installation
 SDL iOS supports Carthage! Install using Carthage by following [this guide](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
 
-#### Manual Installation
+### Manual Installation
 Tagged to our releases is a dynamic framework file that can be drag-and-dropped into the application. **Please Note: You cannot submit your app to the app store with the framework as is. You MUST strip the simulator part of the framework first. Use a script such as Carthage's to accomplish this.**

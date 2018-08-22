@@ -1,22 +1,22 @@
-## Uploading Graphics
+# Uploading Graphics
 
 !!! NOTE
-If you are looking to upload images for use in template graphics, soft buttons, or the menu, you can use the [ScreenManager](Displaying Information/Creating the User Interface). Other situations, such as `PerformInteraction`s, VR help lists, and turn by turn directions, are not currently covered by the `ScreenManager`. `PerformInteraction`s will be covered in v6.1.
+If you are looking to upload images for use in template graphics, soft buttons, or the menu, you can use the [ScreenManager](Displaying Information/Creating the User Interface). Other situations, such as VR help lists and turn by turn directions, are not currently covered by the `ScreenManager`.
 !!!
 
 You should be aware of these four things when using images in your SDL app:
 
 1. You may be connected to a head unit that does not have the ability to display images.
-1. You must upload images from your mobile device to the head unit before using them in a template.
-1. Persistant images are stored on a head unit between sessions. Ephemeral images are destroyed when a session ends (i.e. when the user turns off their vehicle).
-1. Images can not be uploaded when the app's `hmiLevel` is `NONE`. For more information about permissions, please review [Getting Started/Understanding Permissions](Getting Started/Understanding Permissions).
+2. You must upload images from your mobile device to the head unit before using them in a template.
+3. Persistant images are stored on a head unit between sessions. Ephemeral images are destroyed when a session ends (i.e. when the user turns off their vehicle).
+4. Images can not be uploaded when the app's `hmiLevel` is `NONE`. For more information about permissions, please review [Getting Started/Understanding Permissions](Getting Started/Understanding Permissions).
 
 To learn how to use images once they are uploaded, please see [Displaying Information/Text, Images, and Buttons](Displaying Information/Text Images and Buttons).
 
-### Checking if Graphics are Supported
+## Checking if Graphics are Supported
 Before uploading images to a head unit you should first check if the head unit supports graphics. If not, you should avoid uploading unneccessary image data. To check if graphics are supported look at the `SDLManager`'s `registerResponse` property once the `SDLManager` has started successfully.
 
-#### Objective-C
+##### Objective-C
 ```objc
 __weak typeof (self) weakSelf = self;
 [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
@@ -33,7 +33,7 @@ __weak typeof (self) weakSelf = self;
 }];
 ```
 
-#### Swift
+##### Swift
 ```swift
 sdlManager.start { [weak self] (success, error) in
     if !success {
@@ -48,10 +48,10 @@ sdlManager.start { [weak self] (success, error) in
 }
 ```
 
-### Uploading an Image Using SDLFileManager
+## Uploading an Image Using SDLFileManager
 The `SDLFileManager` uploads files and keeps track of all the uploaded files names during a session. To send data with the `SDLFileManager`, you need to create either a `SDLFile` or `SDLArtwork` object. `SDLFile` objects are created with a local `NSURL` or `NSData`; `SDLArtwork` a `UIImage`.
 
-#### Objective-C
+##### Objective-C
 ```objc
 UIImage* image = [UIImage imageNamed:@"<#Image Name#>"];
 if (!image) {
@@ -69,7 +69,7 @@ SDLArtwork* artwork = [SDLArtwork artworkWithImage:image asImageFormat:<#SDLArtw
 }];
 ```
 
-#### Swift
+##### Swift
 ```swift
 guard let image = UIImage(named: "<#Image Name#>") else {
 	<#Error Reading from Assets#>
@@ -95,7 +95,6 @@ Images may be formatted as PNG, JPEG, or BMP. Check the `RegisterAppInterfaceRes
 ### Image Sizes
 If an image is uploaded that is larger than the supported size, that image will be scaled down to accomodate. All image sizes are available from the `SDLManager`'s `registerResponse` property once in the completion handler for `startWithReadyHandler`.
 
-#### Image Specifications
 | ImageName | Used in RPC | Details | Height | Width | Type |
 |:--------------|:----------------|:--------|:---------|:-------|:-------|
 softButtonImage		 | Show 					  | Will be shown on softbuttons on the base screen														  | 70px         | 70px   | png, jpg, bmp

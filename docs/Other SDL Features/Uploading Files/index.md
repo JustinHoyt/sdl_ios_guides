@@ -1,10 +1,10 @@
-## Uploading Files
+# Uploading Files
 In almost all cases, graphics are uploaded using the `ScreenManager`. You can find out about setting images in templates, soft buttons, and menus in [Displaying Information/Text, Images, and Buttons](Displaying Information/Text Images and Buttons). Other situations, such as `PerformInteraction`s, VR help lists, and turn by turn directions, are not currently covered by the `ScreenManager`. `PerformInteraction`s will be covered by the `ScreenManager` in v6.1. To upload an image, see [Displaying Information/Uploading Graphics](Displaying Information/Text Images and Buttons).
 
-### Uploading an mp3 Using SDLFileManager
+## Uploading an mp3 Using SDLFileManager
 The `SDLFileManager` uploads files and keeps track of all the uploaded files names during a session. To send data with the `SDLFileManager`, you need to create either a `SDLFile` or `SDLArtwork` object. `SDLFile` objects are created with a local `NSURL` or `NSData`; `SDLArtwork` uses a `UIImage`.
 
-#### Objective-C
+##### Objective-C
 ```objc
 NSData *mp3Data = <#Get the File Data#>;
 SDLFile *file = [SDLFile fileWithData:mp3Data name:<#File name to be referenced later#> fileExtension:<#File Extension#>];
@@ -15,7 +15,7 @@ SDLFile *file = [SDLFile fileWithData:mp3Data name:<#File name to be referenced 
 }];]
 ```
 
-#### Swift
+##### Swift
 ```swift
 let mp3Data = <#Get MP3 Data#>
 let file = SDLFile(data: mp3Data, name: <#File name#> fileExtension: <#File Extension#>)
@@ -26,10 +26,10 @@ sdlManager.fileManager.upload(file: file) { (success, bytesAvailable, error) in
 }
 ```
 
-### Batch File Uploads
+## Batch File Uploads
 If you want to upload a group of files, you can use the `SDLFileManager`'s batch upload methods. Once all of the uploads have completed you will be notified if any of the uploads failed. If desired, you can also track the progress of each file in the group.
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLFile *file1 = [SDLFile fileWithData:<#Data#> name:<#File name to be referenced later#> fileExtension:<#File Extension#>];
 SDLFile *file2 = [SDLFile fileWithData:<#Data#> name:<#File name to be referenced later#> fileExtension:<#File Extension#>];
@@ -45,7 +45,7 @@ SDLFile *file2 = [SDLFile fileWithData:<#Data#> name:<#File name to be reference
 }];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let file1 = SDLFile(data: <#File Data#>, name: <#File name#> fileExtension: <#File Extension#>)
 let file2 = SDLFile(data: <#File Data#>, name: <#File name#> fileExtension: <#File Extension#>)
@@ -61,17 +61,17 @@ sdlManager.fileManager.upload(files: [file1, file2], progressHandler: { (fileNam
 }
 ```
 
-### File Persistance
+## File Persistance
 `SDLFile` and its subclass `SDLArtwork` support uploading persistant files, i.e. files that are not deleted when the car turns off. Persistance should be used for files that will be used every time the user opens the app. If the file is only displayed for short time the file should not be persistant because it will take up unnecessary space on the head unit. You can check the persistence via:
 
-#### Objective-C
+##### Objective-C
 ```objc
 if (file.isPersistent) {
     <#File was initialized as persistent#>
 }
 ```
 
-#### Swift
+##### Swift
 ```swift
 if file.isPersistent {
     <#File was initialized as persistent#>
@@ -82,41 +82,41 @@ if file.isPersistent {
 Be aware that persistance will not work if space on the head unit is limited. `SDLFileManager` will always handle uploading images if they are non-existent.
 !!!
 
-### Overwrite Stored Files
+## Overwriting Stored Files
 If a file being uploaded has the same name as an already uploaded file, the new file will be ignored. To override this setting, set the `SDLFile`’s `overwrite` property to true.
 
-#### Objective-C
+##### Objective-C
 ```objc
 file.overwrite = YES;
 ```
 
-#### Swift
+##### Swift
 ```swift
 file.overwrite = true
 ```
 
-### Check the Amount of File Storage
+## Checking the Amount of File Storage
 To find the amount of file storage left for your app on the head unit, use the `SDLFileManager`’s `bytesAvailable` property.
 
-#### Objective-C
+##### Objective-C
 ```objc
 NSUInteger bytesAvailable = self.sdlManager.fileManager.bytesAvailable;
 ```
 
-#### Swift
+##### Swift
 ```swift
 let bytesAvailable = sdlManager.fileManager.bytesAvailable
 ```
 
-### Check if a File Has Already Been Uploaded
+## Checking if a File Has Already Been Uploaded
 You can check out if an image has already been uploaded to the head unit via the `SDLFileManager`'s `remoteFileNames` property.
 
-#### Objective-C
+##### Objective-C
 ```objc
 BOOL isFileOnHeadUnit = [self.sdlManager.fileManager.remoteFileNames containsObject:@"<#Name#>"];
 ```
 
-#### Swift
+##### Swift
 ```swift
 if let fileIsOnHeadUnit = sdlManager.fileManager.remoteFileNames.contains("<#Name Uploaded As#>") {
     if fileIsOnHeadUnit {
@@ -127,10 +127,10 @@ if let fileIsOnHeadUnit = sdlManager.fileManager.remoteFileNames.contains("<#Nam
 }
 ```
 
-### Delete Stored Files
+## Deleting Stored Files
 Use the file manager’s delete request to delete a file associated with a file name.
 
-#### Objective-C
+##### Objective-C
 ```objc
 [self.sdlManager.fileManager deleteRemoteFileWithName:@"<#Save As Name#>" completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError *error) {
     if (success) {
@@ -139,7 +139,7 @@ Use the file manager’s delete request to delete a file associated with a file 
 }];
 ```
 
-#### Swift
+##### Swift
 ```swift
 sdlManager.fileManager.delete(fileName: "<#Save As Name#>") { (success, bytesAvailable, error) in
     if success {
@@ -149,7 +149,8 @@ sdlManager.fileManager.delete(fileName: "<#Save As Name#>") { (success, bytesAva
 }
 ```
 
-### Batch Delete Files
+## Batch Deleting Files
+##### Objective-C
 ```objc
 [self.sdlManager.fileManager deleteRemoteFileWithNames:@[@"<#Save As Name#>", @"<#Save As Name 2#>"] completionHandler:^(NSError *error) {
     if (error == nil) {
@@ -158,7 +159,7 @@ sdlManager.fileManager.delete(fileName: "<#Save As Name#>") { (success, bytesAva
 }];
 ```
 
-#### Swift
+##### Swift
 ```swift
 sdlManager.fileManager.delete(fileNames: ["<#Save As Name#>", "<#Save as Name 2#>"]) { (error) in
     if (error == nil) {

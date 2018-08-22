@@ -1,22 +1,21 @@
-## Configuring SDL Logging
+# Configuring SDL Logging
 SDL iOS v5.0 includes a powerful new built-in logging framework designed to make debugging easier. It provides many of the features common to other 3rd party logging frameworks for iOS and can be used by your own app as well. We recommend that your app's integration with SDL provide logging using this framework rather than any other 3rd party framework your app may be using or `NSLog`. This will consolidate all SDL related logs in a common format and to common destinations.
 
-### Configuring SDL Logging
 SDL will configure its logging into a production-friendly configuration by default. If you wish to use a debug or a custom configuration, then you will have to specify this yourself. `SDLConfiguration` allows you to pass a `SDLLogConfiguration` with custom values. A few of these values will be covered in this section, the others are in their own sections below.
 
 When setting up your `SDLConfiguration` you can pass a different log configuration:
 
-###### Objective-C
+##### Objective-C
 ```objc
 SDLConfiguration* configuration = [SDLConfiguration configurationWithLifecycle:lifecycleConfiguration lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration debugConfiguration] fileManager:[SDLFileManagerConfiguration defaultConfiguration]];
 ```
 
-###### Swift
+##### Swift
 ```swift
 let configuration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: .enabled(), logging: .debug(), fileManager: .default())
 ```
 
-#### Format Type
+### Format Type
 Currently, SDL provides three output formats for logs (for example into the console or file log), these are "Simple", "Default", and "Detailed".
 
 **Simple:**
@@ -34,10 +33,10 @@ Currently, SDL provides three output formats for logs (for example into the cons
 09:52:07:324 🔹 DEBUG com.apple.main-thread:(SDL)Protocol:[SDLV2ProtocolHeader parse:]:74 – Me three!
 ```
 
-#### Log Synchronicity
+### Log Synchronicity
 The configuration provides two properties, `asynchronous` and `errorsAsynchronous`. By default `asynchronous` is true and `errorsAsynchronous` is false. This means that any logs that are not logged at the error log level will be logged asynchronously on a separate serial queue, while those on the error log level will be logged synchronously on the separate queue (but the thread that logged it will be blocked until that log completes).
 
-#### Log level
+### Log level
 The `globalLogLevel` defines which logs will be logged to the target outputs. For example, if you set the log level to `debug`, all error, warning, and debug level logs will be logged, but verbose level logs will not be logged.
 
 | SDLLogLevel | Visible Logs | 
@@ -67,12 +66,12 @@ The File target, `SDLLogTargetFile`,  allows you to log messages to a rolling se
 #### Custom Log Targets
 The protocol all log targets conform to, `SDLLogTarget`, is public. If you wish to make a custom log target in order to, for example, log to a server, it should be fairly easy to do so. If it can be used by other developers and is not specific to your app, then submit it back to the SmartDeviceLink iOS library project! If you want to add targets *in addition* to the default target that will output to the console:
 
-###### Objective-C
+##### Objective-C
 ```objc
 logConfig.targets = [logConfig.targets setByAddingObjectsFromArray:@[[SDLLogTargetFile logger]]];
 ```
 
-###### Swift
+##### Swift
 ```swift
 let _ = logConfig.targets.insert(SDLLogTargetFile())
 ```
@@ -80,12 +79,12 @@ let _ = logConfig.targets.insert(SDLLogTargetFile())
 ### Modules
 A module is a set of files packaged together. Create modules using the `SDLLogFileModule` class and add it to the configuration. Modules are used when outputting a log message. The log message may specify a module instead of a specific file name for clarity's sake. The SDL library will automatically add the modules corresponding to its own files after you submit your configuration. For your specific use case, you may wish to provide a module corresponding to your whole app's integration and simply name it with your app's name, or, you could split it up further if desired. To add modules to the configuration:
 
-###### Objective-C
+##### Objective-C
 ```objc
 logConfig.modules = [logConfig.modules setByAddingObjectsFromArray:@[[SDLLogFileModule moduleWithName:@"Test" files:[NSSet setWithArray:@[@"File1", @"File2"]]]]];
 ```
 
-###### Swift
+##### Swift
 ```swift
 logConfig.modules.insert(SDLLogFileModule(name: "Test", files: ["File1, File2"]))
 ```
@@ -93,20 +92,20 @@ logConfig.modules.insert(SDLLogFileModule(name: "Test", files: ["File1, File2"])
 ### Filters
 Filters are a compile-time concept of filtering in or out specific log messages based on a variety of possible factors. Call `SDLLogFilter` to easily set up one of the default filters or to create your own using a custom `SDLLogFilterBlock`. You can filter to only allow certain files or modules to log, only allow logs with a certain string contained in the message, or use regular expressions.
 
-###### Objective-C
+##### Objective-C
 ```objc
 SDLLogFilter *filter = [SDLLogFilter filterByDisallowingString:@"Test" caseSensitive:NO];
 ```
 
-###### Swift
+##### Swift
 ```swift
 let filter = SDLLogFilter(disallowingString: "Test", caseSensitive: false)
 ```
 
-### Logging with the SDL Logger
+## Logging with the SDL Logger
 In addition to viewing the library logs, you also have the ability to log with the SDL logger. All messages logged through the SDL logger, including your own, will use your `SDLLogConfiguration` settings.
 
-#### Objective-C Projects
+### Objective-C Projects
 First, import the the `SDLLogMacros` header.
 
 ```
@@ -122,10 +121,10 @@ SDLLogW(@"This is a warning log");
 SDLLogE(@"This is an error log");
 ```
 
-#### Swift Projects
+### Swift Projects
 To add custom SDL logs to your Swift project you must first install a submodule called **SmartDeviceLink/Swift**.
 
-##### CocoaPods
+#### CocoaPods
 If the SDL iOS library was installed using [CocoaPods](https://cocoapods.org), simply add the submodule to the **Podfile** and then install by running `pod install` in the root directory of the project.
 
 ```swift
@@ -135,7 +134,7 @@ target '<#Your Project Name#>' do
 end
 ```
 
-##### Logging in Swift
+#### Logging in Swift
 After the submodule has been installed, you can use the `SDLLog` functions in your project.
 
 ```swift

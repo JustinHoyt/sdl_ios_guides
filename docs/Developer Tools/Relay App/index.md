@@ -1,6 +1,6 @@
-SDL Relay
+# SDL Relay
 
-# ![logo](assets/AppIcon.png)
+![logo](assets/AppIcon.png)
 
 !!! NOTE
 A better method than using the iOS Relay app is to use Xcode 9 / iOS 11 wireless debugging. This allows you to use the IAP connection instead of the TCP connection and can be more reliable. The Relay app is still useful if your phone is not on iOS 11.
@@ -9,7 +9,7 @@ A better method than using the iOS Relay app is to use Xcode 9 / iOS 11 wireless
 The SmartDeviceLink (SDL) iOS Relay app is a debugging tool for developers building iOS applications that communicate with a vehicle head unit requiring a USB cable. Testing is done over a TCP/IP connection. During testing developers can easily see logs of in-going/out-going remote procedure calls (RPCs) in Xcode's debug console, thus making debugging easier and faster.
 
 !!! IMPORTANT
-Make sure that both the SDL iOS Relay app and the app being tested are connected to the **same** wifi network.
+If you are using a head unit or TDK, and are using the [Relay app](Developer Tools/Relay) for debugging, the IP address and port number should be set to the same IP address and port number as the app. This information appears in the Relay app once the server is turned on in the app. Also be sure that the device is on the same network as your app.
 !!!
 
 ## Necessary Tools
@@ -76,11 +76,11 @@ This example shows you how to connect a custom app with the Relay app.
 The Relay app should always be connected to the SDL Core before starting your app, otherwise setup will not work. 
 !!!
 
-## Need Help?
+### Need Help?
 If you need general assistance, or have other questions, you can [sign up](http://sdlslack.herokuapp.com) for the [SDL Slack](https://smartdevicelink.slack.com/) and chat with other developers and the maintainers of the project.
 
-## Found a Bug?
+### Found a Bug?
 If you see a bug, feel free to [post an issue](https://github.com/smartdevicelink/relay_app_ios/issues/new).
 
-## Want to Help?
+### Want to Help?
 If you want to help add more features, please [file a pull request](https://github.com/smartdevicelink/relay_app_ios/compare).

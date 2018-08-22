@@ -1,10 +1,9 @@
-## Updating from 4.2 and below to 4.3+
-
+# Updating from 4.2 and below to 4.3+
 This guide is used to show the update process for a developer using a version before 4.3, using the `SDLProxy` to using the new `SDLManager` class available in 4.3 and newer. Although this is not a breaking change, v4.3+ makes significant deprecations and additions that will simplify your code. For our examples through this guide, we are going to be using the version 1.0.0 of the Hello SDL project.
 
 You can download this version [here](https://d83tozu1c8tt6.cloudfront.net/media/resources/hello_sdl_ios-1.0.0.zip). 
 
-### Updating the Podfile
+## Updating the Podfile
 For this guide, we will be using the most recent version of SDL at this time: 4.5.5. To change the currently used version, you can open up the `Podfile` located in the root of the `hello_sdl_ios-1.0.0` directory. 
 
 Change the following line
@@ -30,14 +29,14 @@ Currently, `SDLProxy` is still supported in versions but is deprecated, however 
 !!!
 
 
-### Response and Event Handlers
+## Response and Event Handlers
 A big change with migration to versions of SDL 4.3 and later is the change from a delegate-based to a notification-based and/or completion-handler based infrastructure. All delegate callbacks relating to Responses and Notifications within `SDLProxyListener.h` will now be available as iOS notifications, with their names listed in `SDLNotificationConstants.h`.
 
 We have also added the ability to have completion handlers for when a request's response comes back. This allows you to simply set a response handler when sending a request and be notified in the block when the response returns or fails. Additional handlers are available on certain RPCs that are associated with SDL notifications, such as `SubscribeButton`, when that button is pressed, you will receive a call on the handler.
 
 Because of this, any delegate function will become non-functional when migrating to `SDLManager` from `SDLProxy`, but changing these to use the new handlers is simple and will be described in the section **SDLProxy to SDLManager**.
 
-### Deprecating SDLRPCRequestFactory
+## Deprecating SDLRPCRequestFactory
 If you are using the `SDLRPCRequestFactory` class, you will need to update the initializers of all RPCs to use this. This will be the following migrations:
 
 ```objc 
@@ -71,7 +70,7 @@ to
 We are not updating all of the functions that utilize `SDLRPCRequestFactory`, because we are going to be deleting those functions later on in the guide.
 !!!
 
-### SDLProxy to SDLManager                               
+## SDLProxy to SDLManager                               
 In versions following 4.3, the `SDLProxy` is no longer your main point of interaction with SDL. Instead, `SDLManager` was introduced to allow for apps to more easily integrate with SDL, and to not worry about things such as registering their app, uploading images, and showing a lock screen.
 
 Our first step of removing the usage of `SDLProxy` is to add in an `SDLManager` instance variable. `SDLManager` is started with a `SDLConfiguration`, which contains settings relating to the application.
@@ -93,7 +92,7 @@ Our first step of removing the usage of `SDLProxy` is to add in an `SDLManager` 
 @end
 ```
 
-#### SDLProxyListener to SDLManagerDelegate
+### SDLProxyListener to SDLManagerDelegate
 `SDLManagerDelegate` is a small protocol that gives back only 2 callbacks, as compared to `SDLProxyListener`'s 67 callbacks. As mentioned before, all of these callbacks from `SDLProxyListener` are now sent out as `NSNotification`s, and the names for these are located in `SDLNotificationConstants.h`. From these delegate changes, we can modify the following functions to use the new `SDLManagerDelegate` callbacks
 
 `onProxyClosed` to `managerDidDisconnect`:
@@ -199,7 +198,7 @@ We can also remove the functions relating to lifecycle management and app icons,
 
 And can also remove the `remoteImages` property from the list of instance variables.
 
-#### Correlation Ids
+### Correlation Ids
 We no longer require developers to keep track of correlation ids, as `SDLManager` does this for you. Because of this, you can remove `correlationID` and `appIconId` from the list of instance variables. 
 
 Because of this, we can remove the `hsdl_getNextCorrelationId` method as well.
@@ -208,7 +207,7 @@ Because of this, we can remove the `hsdl_getNextCorrelationId` method as well.
 If you set the correlation id, it will be overwritten by `SDLManager`.
 !!!
 
-#### Creating the Manager
+### Creating the Manager
 In `HSDLProxyManager`'s `init` function, we will build these components, and begin removing components that are no longer needed, as `SDLManager` handles it.
 
 ```objc
@@ -252,7 +251,7 @@ We must also update the `RemotePort` constant from a type of `NSString *` to `UI
 
 Because we the way we configure the app's properties via `SDLLifecycleConfiguration` now, we do not need to actually send an `SDLRegisterAppInterface` request. Because of this, we can remove the `onProxyOpened` method and it's contents.
 
-#### Lock Screen
+### Built-In Lock Screen
 Versions of SDL moving forward contain a lock screen manager to allow for easily customizing and using a lock screen. For more information, please check out the [Adding the Lock Screen](Adding the Lock Screen) section.
 
 With the lockscreen handles for us now, we can remove the following from `HSDLProxyManager`:
@@ -274,7 +273,7 @@ We also can eliminate the `LockScreenViewController` files, and remove the follo
 
 We also can open Main.storyboard, and remove the `LockScreenViewController`.
 
-#### Starting the Manager, and Register App Interface
+### Starting the Manager and Register App Interface
 In previous implementations, a developer would need to react to the `onRegisterAppInterfaceResponse:` to get information regarding their application and the currently connected Core. Now, however, we can simply access these properties after the `SDLManager` has been started.
 
 First, we must start the manager. Change the `startProxy` function from:
@@ -314,7 +313,7 @@ to:
 
 We can now remove `onRegisterAppInterfaceResponse:`.
 
-#### Stopping the Manager
+### Stopping the Manager
 Stopping the manager is simply changing from
 
 ```objc
@@ -334,7 +333,7 @@ to
 }
 ```
 
-#### Adding Notification Handlers
+### Adding Notification Handlers
 Registering for a notification is similar to registering for `NSNotification`s. The list of these subscribable notifications is in `SDLNotificationConstants.h`. For this project, we are observing the `onDriverDistraction:` notification and logging a string. We will modify this to instead listen for a notification and the log the same string.
 
 Remove this function
@@ -369,7 +368,7 @@ And add in the notification observer
 
 We will also remove all of the remaining delegate functions from `SDLProxyListener`, except for `onAddCommandResponse:`.
 
-#### Handling command notifications
+### Handling command notifications
 
 `SDLAddCommand` utilizes the new handler mechanism for responding to when a user interacts with the command you have added. When using the initializer, you can see we set the new `handler` property to use the same code we originally wrote in `onOnCommand:`.
 
@@ -401,7 +400,6 @@ We will also remove all of the remaining delegate functions from `SDLProxyListen
         [self.proxy sendRPC:speak];
     }
 }
-
 ```
 
 to
@@ -432,7 +430,7 @@ to
 ```
 
 
-#### Sending Requests via `SDLManager`
+### Sending Requests via `SDLManager`
 As mentioned in **Response and Event Handlers**, `SDLManager` provides the ability to easily react to responses for RPCs we send out. `SDLManager` has two functions for sending RPCs:
 - `sendRequest:withResponseHandler:`
 - `sendRequest:`
@@ -522,7 +520,7 @@ to
 ```
 
 
-#### Uploading Files via `SDLManager`'s `SDLFileManager`
+## Uploading Files via `SDLManager`'s `SDLFileManager`
 `SDLPutFile` is the original means of uploading a file. In 4.3+, we have abstracted this out, and instead provide the functionality via two new classes: `SDLFile` and `SDLArtwork`. For more information on these, check out the [Uploading Files and Graphics](Uploading Files and Graphics) section.
 
 We can change `hsdl_uploadImage:withCorrelationID:` from

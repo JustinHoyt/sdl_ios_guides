@@ -1,4 +1,4 @@
-## Media Clock
+# Media Clock
 The media clock is used by media apps to present the current timing information of a playing media item – such as a song, podcast, or audiobook. It is controlled via the `SetMediaClockTimer` RPC.
 
 !!! NOTE
@@ -14,14 +14,14 @@ In order to count up using the timer, the "bottom end" of the time will be 0:00,
 The end time *must* be larger than the start time, or the request will be rejected
 !!!
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLSetMediaClockTimer *mediaClock = [[SDLSetMediaClockTimer alloc] initWithUpdateMode:SDLUpdateModeCountUp];mediaClock.startTime = [[SDLStartTime alloc] initWithHours:0 minutes:0 seconds:0];
 mediaClock.endTime = [[SDLStartTime alloc] initWithHours:0 minutes:4 seconds:13];
 [self.sdlManager sendRequest:mediaClock];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let mediaClock = SDLSetMediaClockTimer(updateMode: .countUp)
 mediaClock.startTime = SDLStartTime(hours: 0, minutes: 0, seconds: 0)
@@ -31,7 +31,7 @@ sdlManager.send(mediaClock)
 
 The following code will create a timer starting at `0:00`, ending at `4:13` and already at `2:20` of progress.
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLSetMediaClockTimer *mediaClock = [[SDLSetMediaClockTimer alloc] initWithUpdateMode:SDLUpdateModeCountUp];
 mediaClock.startTime = [[SDLStartTime alloc] initWithHours:0 minutes:2 seconds:20];
@@ -39,7 +39,7 @@ mediaClock.endTime = [[SDLStartTime alloc] initWithHours:0 minutes:4 seconds:13]
 [self.sdlManager sendRequest:mediaClock];
 ```
 
-#### Swift
+##### Swift
 ```swift
 ```swift
 let mediaClock = SDLSetMediaClockTimer(updateMode: .countUp)
@@ -55,7 +55,7 @@ Counting down is the opposite of counting up (I know, right?). The timer bar mov
 The end time *must* be larger than the start time, or the request will be rejected
 !!!
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLSetMediaClockTimer *mediaClock = [[SDLSetMediaClockTimer alloc] initWithUpdateMode:SDLUpdateModeCountDown];
 mediaClock.startTime = [[SDLStartTime alloc] initWithHours:0 minutes:10 seconds:0];
@@ -63,7 +63,7 @@ mediaClock.endTime = [[SDLStartTime alloc] initWithHours:0 minutes:0 seconds:0];
 [self.sdlManager sendRequest:mediaClock];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let mediaClock = SDLSetMediaClockTimer(updateMode: .countDown)
 mediaClock.startTime = SDLStartTime(hours: 0, minutes: 10, seconds: 0)
@@ -74,7 +74,7 @@ sdlManager.send(mediaClock)
 ### Pausing & Resuming
 When pausing the timer, it will stop the timer as soon as the request is received and processed. When a resume request is sent, the timer begins again at the paused time as soon as the request is processed. You can update the start and end times using a pause command to change the timer while remaining paused.
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLSetMediaClockTimer *mediaClock = [[SDLSetMediaClockTimer alloc] initWithUpdateMode:SDLUpdateModePause];
 [self.sdlManager sendRequest:mediaClock];
@@ -85,7 +85,7 @@ SDLSetMediaClockTimer *mediaClock = [[SDLSetMediaClockTimer alloc] initWithUpdat
 [self.sdlManager sendRequest:mediaClock];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let mediaClock = SDLSetMediaClockTimer(updateMode: .pause)
 sdlManager.send(mediaClock)
@@ -99,13 +99,13 @@ sdlManager.send(mediaClock)
 ### Clearing the Timer
 Clearing the timer removes it from the screen.
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLSetMediaClockTimer *mediaClock = [[SDLSetMediaClockTimer alloc] initWithUpdateMode:SDLUpdateModeClear];
 [self.sdlManager sendRequest:mediaClock];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let mediaClock = SDLSetMediaClockTimer(updateMode: .clear)
 sdlManager.send(mediaClock)
@@ -118,14 +118,14 @@ For example, a radio app will probably want two button states: play and stop. A 
 
 The code below will pause the media clock and set the audio indicator to show a play symbol.
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLSetMediaClockTimer *mediaClock = [[SDLSetMediaClockTimer alloc] initWithUpdateMode:SDLUpdateModePause];
 mediaClock.audioStreamingIndicator = SDLAudioStreamingIndicatorPlay;
 [self.sdlManager sendRequest:mediaClock];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let mediaClock = SDLSetMediaClockTimer(updateMode: .pause)
 mediaClock.audioStreamingIndicator = .play

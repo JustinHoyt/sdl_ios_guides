@@ -17,7 +17,6 @@ pod install
 Once the SDL iOS library has been installed, the RPC Builder app can be deployed on an iOS device.
 
 ## RPC Builder Interface
-
 ### Settings Page
 ![RPC Builder App first screen](./assets/Settings.png)
 
@@ -35,7 +34,6 @@ Once *Send* is pressed, the app will only proceed once it has successfully conne
 !!!
 
 ### Main RPCs Table
-
 ![RPC Builder App complete list of RPCs](./assets/RPCs.png)
 
 The main RPC table is created at runtime by the app from a spec XML file. If there is additional information provided about the RPC call, an information button will appear next to the RPC name in the table. Click on the information button to learn more about the RPC call.
@@ -125,11 +123,11 @@ Tapping once on a RPC call in the console will reveal the JSON associated with t
 ### A Special Note About Putfile
 A `putFile` is the RPC responsible for sending binary data from our mobile libraries to the SDL Core. The RPC Builder app provides support for adding any type of file: either from the camera roll (for images) or iTunes shared storage for any other kind of files. Similar to adding custom RPC spec files, any file located within the `BulkData` directory will be present in local storage and be usable for upload.
 
-## Need Help?
+### Need Help?
 If you need general assistance, or have other questions, you can [sign up](http://sdlslack.herokuapp.com/) for the [SDL Slack](https://smartdevicelink.slack.com/) and chat with other developers and the maintainers of the project.
 
-## Found a Bug?
+### Found a Bug?
 If you see a bug, feel free to [post an issue](https://github.com/smartdevicelink/rpc_builder_app_ios/issues/new).
 
-## Want to Help?
+### Want to Help?
 If you want to help add more features, please [file a pull request](https://github.com/smartdevicelink/rpc_builder_app_ios/compare).

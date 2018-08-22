@@ -1,8 +1,8 @@
-## Integration Basics
-### How SDL Works
+# Integration Basics
+## How SDL Works
 SmartDeviceLink works by sending remote procedure calls (RPCs) back and forth between a smartphone application and the SDL Core. These RPCs allow you to build the user interface, detect button presses, play audio, and get vehicle data, among other things. You will use the SDL library to build your app on the SDL Core.
 
-### Set Up a Proxy Manager Class
+## Set Up a Proxy Manager Class
 You will need a class that manages the RPCs sent back and forth between your app and SDL Core. Since there should be only one active connection to the SDL Core, you may wish to implement this proxy class using the singleton pattern.
 
 ##### Objective-C
@@ -96,7 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-### Import the SDL Library
+## Import the SDL Library
 At the top of the *ProxyManager* class, import the SDL for iOS library.
 
 ##### Objective-C
@@ -109,7 +109,7 @@ At the top of the *ProxyManager* class, import the SDL for iOS library.
 import SmartDeviceLink
 ```
 
-### Create the SDL Manager
+## Create the SDL Manager
 The `SDLManager` is the main class of SmartDeviceLink. It will handle setting up the initial connection with the head unit. It will also help you upload images and send RPCs.
 
 ##### Objective-C
@@ -173,31 +173,27 @@ In order to instantiate the `SDLManager` class, you must first configure an `SDL
 There are two different ways to connect your app to a SDL Core: with a TCP (Wi-Fi) network connection or with an iAP (USB / Bluetooth) network connection. Use TCP for debugging and use iAP for production level apps.
 
 ##### iAP
-###### Objective-C
+##### Objective-C
 ```objc
 SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"<#App Name#>" appId:@"<#App Id#>"];
 ```
-###### Swift
+##### Swift
 ```swift
 let lifecycleConfiguration = SDLLifecycleConfiguration(appName:"<#App Name#>", appId: "<#App Id#>")
 ```
 
 ##### TCP
-###### Objective-C
+##### Objective-C
 ```objc
 SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration debugConfigurationWithAppName:@"<#App Name#>" appId:@"<#App Id#>" ipAddress:@"<#IP Address#>" port:<#Port#>];
 ```
-###### Swift
+##### Swift
 ```swift
 let lifecycleConfiguration = SDLLifecycleConfiguration(appName: "<#App Name#>", appId: "<#App Id#>", ipAddress: "<#IP Address#>", port: <#Port#>))
 ```  
 
 !!! NOTE
 If you are using an emulator, the IP address is your computer or virtual machine’s IP address, and the port number is usually **12345**. If these values are not correct, or emulator is not running, your app with not run, as TCP connections occur on the main thread.
-!!!
-
-!!! IMPORTANT
-If you are using a head unit or TDK, and are using the [Relay app](Developer Tools/Relay) for debugging, the IP address and port number should be set to the same IP address and port number as the app. This information appears in the Relay app once the server is turned on in the app. Also be sure that the device is on the same network as your app.
 !!!
 
 ### 2. Short App Name (optional)
@@ -235,14 +231,14 @@ if let appImage = UIImage(named: "<#AppIcon Name#>") {
 
 !!! NOTE
 We recommend using SDLArtwork when building an image.
-Persistent files are used when the image ought to remain on the remote system between ignition cycles. This is commonly used for menu artwork and app icons.
+Persistent files are used when the image ought to remain on the remote system between ignition cycles. This is commonly used for menu artwork, soft button artwork and app icons. Non-persistent artwork is usually used for objects like music album artwork.
 !!!
 
 ### 4. App Type (optional)
 The app type is used by car manufacturers to decide how to categorize your app. Each car manufacturer has a different categorization system. For example, if you set your app type as media, your app will also show up in the audio tab as well as the apps tab of Ford’s SYNC3 head unit. The app type options are: default, communication, media (i.e. music/podcasts/radio), messaging, navigation, projection, information, and social.
 
 !!! NOTE
-Navigation and projection apps usually require special permissions and use video streaming to project a UI.
+Navigation and OEM projection apps require special permissions and use video streaming to project a UI.
 !!!
 
 ##### Objective-C
@@ -262,7 +258,7 @@ You can alter the appearance of your app on a head unit in a consistent way usin
 This will only work when connected to head units running SDL Core v5.0 or later.
 !!!
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLRGBColor *green = [[SDLRGBColor alloc] initWithRed:126 green:188 blue:121];
 SDLRGBColor *white = [[SDLRGBColor alloc] initWithRed:249 green:251 blue:254];
@@ -272,7 +268,7 @@ lifecycleConfiguration.dayColorScheme = [[SDLTemplateColorScheme alloc] initWith
 lifecycleConfiguration.nightColorScheme = [[SDLTemplateColorScheme alloc] initWithPrimaryRGBColor:green secondaryRGBColor:grey backgroundRGBColor:darkGrey];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let green = SDLRGBColor(red: 126, green: 188, blue: 121)
 let white = SDLRGBColor(red: 249, green: 251, blue: 254)
@@ -524,7 +520,7 @@ extension ProxyManager: SDLManagerDelegate {
 }
 ```
 
-### Implement the SDL Manager Delegate
+## Implement the SDL Manager Delegate
 The *ProxyManager* class should conform to the `SDLManagerDelegate` protocol. This means that the *ProxyManager* class must implement the following required methods:
 
 1. `managerDidDisconnect` This function is called when the proxy disconnects from the SDL Core. Do any cleanup you need to do in this function.
@@ -536,5 +532,5 @@ In addition, there are three optional methods:
 1. `systemContext:didChangeToContext:` Called when the system context (i.e. a menu is open, an alert is visible,  a voice recognition session is in progress) of this application changes on the remote system. For more information, please refer to [Understanding Permissions](Getting Started/Understanding Permissions).
 1. `managerShouldUpdateLifecycleToLanguage:` Called when the head unit language does not match the `language` set in the `SDLLifecycleConfiguration` but does match a language included in `languagesSupported`. If desired, you can customize the `appName`, the `shortAppName`,  and `ttsName` for the head unit's current language. For more information about supporting more than one language in your app please refer to [Getting Started/Adapting to the Head Unit Language](Getting Started/Adapting to the Head Unit Language).
 
-### Where to Go From Here
+## Where to Go From Here
 You should now be able to connect to a head unit or emulator. From here, [learn about designing a user interface](Displaying Information/Designing a User Interface). For further details on connecting, see [Connecting to a SDL Core](Getting Started/Connecting to a SDL Core).
