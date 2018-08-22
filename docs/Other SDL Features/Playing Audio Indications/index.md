@@ -24,7 +24,7 @@ sdlManager.fileManager.upload(file: audioFile) { (success, bytesAvailable, error
 }
 ```
 
-For more information about uploading files, see [the relevant guide](Displaying Information/Uploading Files).
+For more information about uploading files, see [the relevant guide](Other SDL Features/Uploading Files).
 
 ## Using the Audio File in an Alert
 Now that the file is uploaded to the remote system, it can be used in various APIs, such as `Speak`, `Alert`, `AlertManeuver`, `PerformInteraction`. To use the audio file in an alert, you simply need to construct a `TTSChunk` referring to the file's name.

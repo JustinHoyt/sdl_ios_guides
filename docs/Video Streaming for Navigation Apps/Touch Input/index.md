@@ -5,7 +5,7 @@ Navigation applications have support for touch events, including both single and
 You must have a valid and approved `appId` in order to recieve touch events.
 !!!
 
-### 1. Using `SDLTouchManager`
+### Using SDLTouchManager
 
 `SDLTouchManager` has multiple callbacks that will ease the implementation of touch events. 
 
@@ -49,32 +49,24 @@ The following callbacks are provided:
 Points that are provided via these callbacks are in the head unit's coordinate space. This is likely to correspond to your own streaming coordinate space. You can retrieve the head unit dimensions from `SDLStreamingMediaManager.screenSize`.
 !!!
 
-### 2. Self Implementation of `onTouchEvent`
+### Implementing onTouchEvent Yourself
 
 If apps want to have access to the raw touch data, the `SDLDidReceiveTouchEventNotification` notification can be evaluated. This callback will be fired for every touch of the user and contains the following data:
 
-#### Type
-BEGIN
-: Sent for the first touch event.
+##### Type
+Touch Type   | What does this mean?
+-------------|------------------------------------------------------------
+BEGIN        | Sent for the first touch event of a touch.
+MOVE         | Sent if the touch moved.
+END          | Sent when the touch is lifted.
+CANCEL       | Sent when the touch is canceled (for example, if a dialog appeared over the touchable screen while the touch was in progress).
 
-MOVE
-: Sent if the touch moved.
-
-END
-: Sent when the touch is lifted.
-
-CANCEL
-: Sent when the touch is canceled (for example, if a dialog appeared over the touchable screen while the touch was in progress).
-
-#### Event
-touchEventId
-: Unique ID of the touch. Increases for multiple touches (0, 1, 2, ...).
-
-timeStamp
-: Timestamp of the head unit time. Can be used to compare time passed between touches.
-
-coord
-: X and Y coordinates in the head unit coordinate system. (0, 0) is the top left.
+##### Event
+Touch Event  | What does this mean?
+-------------|----------------------
+touchEventId | Unique ID of the touch. Increases for multiple touches (0, 1, 2, ...).
+timeStamp    | Timestamp of the head unit time. Can be used to compare time passed between touches.
+coord        | X and Y coordinates in the head unit coordinate system. (0, 0) is the top left.
 
 #### Example
 ##### Objective-C

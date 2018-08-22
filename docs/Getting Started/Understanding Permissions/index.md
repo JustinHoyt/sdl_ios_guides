@@ -78,7 +78,7 @@ BOOL isAllowed = [self.sdlManager.permissionManager isRPCAllowed:<#RPC name#>];
 let isAllowed = sdlManager.permissionManager.isRPCAllowed(<#RPC name#>)
 ```
 
-### Check Current Permissions of a Group of RPCs
+### Checking Current Permissions of a Group of RPCs
 ##### Objective-C
 ```objc
 SDLPermissionGroupStatus groupPermissionStatus = [self.sdlManager.permissionManager groupStatusOfRPCs:@[<#RPC name#>, <#RPC name#>]];

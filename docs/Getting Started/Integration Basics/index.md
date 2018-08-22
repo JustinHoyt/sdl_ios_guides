@@ -1,5 +1,5 @@
 # Integration Basics
-## How SDL Works
+### How SDL Works
 SmartDeviceLink works by sending remote procedure calls (RPCs) back and forth between a smartphone application and the SDL Core. These RPCs allow you to build the user interface, detect button presses, play audio, and get vehicle data, among other things. You will use the SDL library to build your app on the SDL Core.
 
 ## Set Up a Proxy Manager Class
@@ -96,7 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-## Import the SDL Library
+## Importing the SDL Library
 At the top of the *ProxyManager* class, import the SDL for iOS library.
 
 ##### Objective-C
@@ -109,7 +109,7 @@ At the top of the *ProxyManager* class, import the SDL for iOS library.
 import SmartDeviceLink
 ```
 
-## Create the SDL Manager
+## Creating the SDL Manager
 The `SDLManager` is the main class of SmartDeviceLink. It will handle setting up the initial connection with the head unit. It will also help you upload images and send RPCs.
 
 ##### Objective-C

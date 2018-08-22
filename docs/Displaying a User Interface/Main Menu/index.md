@@ -13,10 +13,7 @@ There can only be one level of submenu.
 ##### Ford HMI
 ![Menu Appearance](assets/ford_MenuAppearance.png)
 
-## Menu Structure
-![Menu Structure](assets/MenuStructure.png)
-
-### Add Menu Items
+### Adding Menu Items
 As of iOS library v6.0, the best way to create and update your menu is the use the Screen Manager API. The screen manager contains two menu related properties: `menu`, and `voiceCommands`. Setting an array of `SDLMenuCell`s into the `menu` property will automatically set and update your menu and submenus, while setting an array of `SDLVoiceCommand`s into the `voiceCommands` property allows you to use "hidden" menu items that only contain voice recognition data. The user can then use the IVI system's voice engine to activate this command even though it will not be displayed within the main menu.
 
 ##### Objective-C
@@ -41,7 +38,7 @@ let cell = SDLMenuCell(title: <#String#>, icon: <#SDLArtwork?#>, voiceCommands: 
 self.sdlManager.screenManager.menu = [cell]
 ```
 
-### Add a Submenu
+### Adding Submenus
 Adding a submenu is as simple as adding subcells to an `SDLMenuCell`. This can currently only be done with one layer of subcells, and does not allow handlers.
 
 ##### Objective-C
@@ -75,7 +72,7 @@ Artworks will be automatically handled when using the screen manager API. First,
 ### Deleting Menu Items
 When using the screen manager, this will be intelligently handled for you. If you want to show new menu items, simply set a new array of menu cells. If you want to have a blank menu, set an empty array. The screen manager will handle deleting and adding new commands and submenus for you. If you are doing this manually, you must use the `SDLDeleteCommand` and `SDLDeleteSubMenu` RPCs, passing the `cmdID`s you wish to delete.
 
-### Voice Commands
+## Voice Commands
 Updating voice commands is as easy as updating menu cells. You simply must set `SDLVoiceCommand` objects to the `voiceCommands` array on the screen manager.
 
 ##### Objective-C

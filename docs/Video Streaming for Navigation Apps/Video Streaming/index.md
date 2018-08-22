@@ -11,9 +11,7 @@ Transports are automatically handled for you. As of SDL v6.1, the iOS library wi
 ## CarWindow
 `CarWindow` is a system to automatically video stream a view controller screen to the head unit. When you set the view controller, `CarWindow` will resize the view controller's frame to match the head unit's screen dimensions. Then, when the video service setup has completed, it will capture the screen and and send it to the head unit.
 
-To start, you will have to set a `rootViewController`, which can easily be set using one of the convenience initializers:
-* `autostreamingInsecureConfigurationWithInitialViewController:`  
-* `autostreamingSecureConfigurationWithSecurityManagers:initialViewController:`
+To start, you will have to set a `rootViewController`, which can easily be set using one of the convenience initializers: `autostreamingInsecureConfigurationWithInitialViewController:` or `autostreamingSecureConfigurationWithSecurityManagers:initialViewController:`
 
 !!! NOTE
 The View Controller you set to the `rootViewController` must be a subclass of `SDLCarWindowViewController` or have only one `supportedInterfaceOrientation`. The `SDLCarWindowViewController` prevents the `rootViewController` from rotating. This is necessary because rotation between landscape and portrait modes can cause the app to crash while the `CarWindow` API is capturing an image.
@@ -36,21 +34,19 @@ There are several customizations you can make to `CarWindow` to optimize it for 
 
 
 ### Showing a New View Controller
-Simply update `self.sdlManager.streamManager.rootViewController` to the new view controller. This will also update the haptic parser.
+Simply update `self.sdlManager.streamManager.rootViewController` to the new view controller. This will also update the [haptic parser](Video Streaming for Navigation Apps/Supporting Haptic Input).
 
 ### Mirroring the Device Screen vs. Off-Screen UI
-It is recommended that you set the `rootViewController` to a not-on-device-screen view controller, i.e. you should instantiate a new `UIViewController` class and use it to set the `rootViewController`. This view controller will appear on-screen in the car, while remaining off-screen on the device. It is also possible, but not recommended, to display your on-device-screen UI to the car screen by setting the `rootViewController` to `UIApplication.sharedApplication.keyWindow.rootViewController`. However, if you mirror your device's screen, your app's UI will resize to match the head unit's screen size, thus making most of the app's UI off-screen.
+It is recommended that you set the `rootViewController` to an off-screen view controller, i.e. you should instantiate a new `UIViewController` class and use it to set the `rootViewController`. This view controller will appear on-screen in the car, while remaining off-screen on the device. It is also possible, but not recommended, to display your on-device-screen UI to the car screen by setting the `rootViewController` to `UIApplication.sharedApplication.keyWindow.rootViewController`. However, if you mirror your device's screen, your app's UI will resize to match the head unit's screen size, thus making most of the app's UI off-screen.
 
 !!! NOTE
 If mirroring your device's screen, the `rootViewController` should only be set after `viewDidAppear:animated` is called. Setting the `rootViewController` in `viewDidLoad` or `viewWillAppear:animated` can cause weird behavior when setting the new frame.
 !!!
 
-!!! NOTE
 If setting the `rootViewController` when the app returns to the foreground, the app should register for the `UIApplicationDidBecomeActive` notification and not the `UIApplicationWillEnterForeground` notification. Setting the frame after a notification from the latter can also cause weird behavior when setting the new frame.
-!!!
 
-## Create a Custom Video Streaming Manager
-If you decide to create a custom video streaming manager, you must maintain the lifecycle of the video stream as there are limitations to when video can stream. The app's HMI state on the head unit and the app's application state on the device determines whether video can stream. Due to an iOS limitation, video cannot be streamed when the app on the device is no longer in the foreground and/or the device is locked/sleeping. 
+## Sending Raw Video Data
+If you decide to send raw video data instead of relying on the `CarWindow` API to generate that video data from a view controller, you must maintain the lifecycle of the video stream as there are limitations to when video is allowed to stream. The app's HMI state on the head unit and the app's application state on the device determines whether video can stream. Due to an iOS limitation, video cannot be streamed when the app on the device is no longer in the foreground and/or the device is locked/sleeping. 
 
 The lifecycle of the video stream is maintained by the SDL library. The `SDLManager.streamingMediaManager` can be accessed once the `start` method of `SDLManager` is called. The `SDLStreamingMediaManager` automatically takes care of determining screen size and encoding to the correct video format.
 

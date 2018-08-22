@@ -62,7 +62,7 @@ sdlManager.send(request: turnByTurn) { [weak self] (request, response, error) in
 }
 ```
 
-> Remember when sending a SDLImage, that the image must first be uploaded to the head unit with the FileManager.
+Remember when sending a SDLImage, that the image must first be uploaded to the head unit with the FileManager.
 
 ## Clearing the Maneuver
 To clear a navigation direction from the screen, we send an `SDLShowConstantTBT` with the `maneuverComplete` property as `YES`. This specific RPC does not require an accompanying `SDLAlertManeuver`.

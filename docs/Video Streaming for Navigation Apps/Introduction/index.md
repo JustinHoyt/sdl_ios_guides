@@ -6,8 +6,7 @@ Mobile Navigation allows map partners to bring their applications into the car a
 * Navigation Apps can receive touch events from the video stream.
 
 ## Connecting an app
-
-The basic connection is similar for all apps. Please follow [Getting Started > Integration Basics](Getting Started/Integration Basics) for more information.
+The basic connection is similar for all apps. Please follow the [Integration Basics](Getting Started/Integration Basics) guide for more information.
 
 The first difference for a navigation app is the `appHMIType` of `SDLAppHMITypeNavigation` that has to be set in the `SDLLifecycleConfiguration`. Navigation apps are also non-media apps.
 
@@ -19,7 +18,6 @@ SDLLifecycleConfiguration* lifecycleConfig = [SDLLifecycleConfiguration defaultC
 lifecycleConfig.appType = SDLAppHMITypeNavigation;
 
 SDLStreamingMediaConfiguration *streamingConfig = [SDLStreamingMediaConfiguration secureConfigurationWithSecurityManagers:@[OEMSecurityManager.class]];
-
 SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycleConfig lockScreen:[SDLLockScreenConfiguration enabledConfiguration] logging:[SDLLogConfiguration defaultConfiguration] streamingMedia:streamingConfig fileManager:[SDLFileManagerConfiguration defaultConfiguration]];
 ```
 
@@ -36,5 +34,5 @@ let config = SDLConfiguration(lifecycle: lifecycleConfig, lockScreen: .enabled()
 When compiling, you must make sure to include all possible OEM security managers that you wish to support.
 !!!
 
-## Keyboard Input for Destinations
-To present a keyboard, you should use the `SDLScreenManager`'s keyboard presentation feature. For more information, see the [Popup Menus and Keyboards](Displaying a User Interface/Popup Menus and Keyboards) guide.
+## Keyboard Input
+To present a keyboard (such as for searching for navigation destinations), you should use the `SDLScreenManager`'s keyboard presentation feature. For more information, see the [Popup Menus and Keyboards](Displaying a User Interface/Popup Menus and Keyboards) guide.

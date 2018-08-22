@@ -5,10 +5,10 @@ A benefit to using the provided Lock Screen is that we also handle retrieving a 
 
 If you would not like to use any of the following code, you may use the `SDLLockScreenConfiguration` class function `disabledConfiguration`, and manage the entire lifecycle of the lock screen yourself. However, it is strongly recommended that you use the provided lock screen manager, even if you use your own view controller.
 
-To see where the `SDLLockScreenConfiguration` is used, refer to the [Getting Started > Integration Basics](Getting Started/Integration Basics).
+To see where the `SDLLockScreenConfiguration` is used, refer to the [Integration Basics](Getting Started/Integration Basics) guide.
 
 ## Using the Provided Lock Screen
-Using the default lock screen is simple. Using the lock screen this way will automatically load an automaker's logo, if supported, to show alongside your logo. If it is not, the default lock screen will show your logo alone.
+Using the default lock screen is simple. Using the lock screen this way will automatically load an automaker's logo, if available, to show alongside your logo. If it is not, the default lock screen will show your logo alone.
 
 ![Generic Lock Screen](/assets/GenericLockScreen.png)
 

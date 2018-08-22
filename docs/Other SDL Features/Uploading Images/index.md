@@ -9,9 +9,9 @@ You should be aware of these four things when using images in your SDL app:
 1. You may be connected to a head unit that does not have the ability to display images.
 2. You must upload images from your mobile device to the head unit before using them in a template.
 3. Persistant images are stored on a head unit between sessions. Ephemeral images are destroyed when a session ends (i.e. when the user turns off their vehicle).
-4. Images can not be uploaded when the app's `hmiLevel` is `NONE`. For more information about permissions, please review [Getting Started/Understanding Permissions](Getting Started/Understanding Permissions).
+4. Images can not be uploaded when the app's `hmiLevel` is `NONE`. For more information about permissions, please review [Understanding Permissions](Getting Started/Understanding Permissions).
 
-To learn how to use images once they are uploaded, please see [Displaying Information/Text, Images, and Buttons](Displaying Information/Text Images and Buttons).
+To learn how to use images once they are uploaded, please see [Text, Images, and Buttons](Displaying Information/Text Images and Buttons).
 
 ## Checking if Graphics are Supported
 Before uploading images to a head unit you should first check if the head unit supports graphics. If not, you should avoid uploading unneccessary image data. To check if graphics are supported look at the `SDLManager`'s `registerResponse` property once the `SDLManager` has started successfully.
@@ -86,7 +86,7 @@ sdlManager.fileManager.upload(artwork: artwork) { (success, artworkName, bytesAv
 ```
 
 ### Batch File Uploads, Persistence, etc.
-Similar to other files, artworks can be persistent, batched, overwrite, etc. See [Displaying Information/Uploading Graphics](Displaying Information/Uploading Graphics)
+Similar to other files, artworks can be persistent, batched, overwrite, etc. See [Uploading Files](Other SDL Features/Uploading Files)
 
 ## Image Specifics
 ### Image File Type

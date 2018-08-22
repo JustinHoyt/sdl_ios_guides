@@ -7,7 +7,7 @@ Ensure your app is a media type app and you are on the media template before usi
 
 The media timer works like a timer. You set the start and end time and you set the timer to start ticking automatically either up or down.
 
-### Counting Up
+## Counting Up
 In order to count up using the timer, the "bottom end" of the time will be 0:00, you can set the progress "start time", and the "top end". For example, if you are starting a song at `0:00` and it will end at `4:13`, you will end with a timer starting at `0:00`, ending at `0:00` with zero progress. This timer will automatically increment every second.
 
 !!! NOTE
@@ -48,7 +48,7 @@ mediaClock.endTime = SDLStartTime(hours: 0, minutes: 4, seconds: 13)
 sdlManager.send(mediaClock)
 ```
 
-### Counting Down
+## Counting Down
 Counting down is the opposite of counting up (I know, right?). The timer bar moves from right to left and the timer will count down. For example, if you're counting down from `10:00` to `0:00`, the timer will auto-update every second.
 
 !!! NOTE
@@ -71,7 +71,7 @@ mediaClock.endTime = SDLStartTime(hours: 0, minutes: 0, seconds: 0)
 sdlManager.send(mediaClock)
 ```
 
-### Pausing & Resuming
+## Pausing & Resuming
 When pausing the timer, it will stop the timer as soon as the request is received and processed. When a resume request is sent, the timer begins again at the paused time as soon as the request is processed. You can update the start and end times using a pause command to change the timer while remaining paused.
 
 ##### Objective-C
@@ -96,7 +96,7 @@ let mediaClock = SDLSetMediaClockTimer(updateMode: .resume)
 sdlManager.send(mediaClock)
 ```
 
-### Clearing the Timer
+## Clearing the Timer
 Clearing the timer removes it from the screen.
 
 ##### Objective-C

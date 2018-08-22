@@ -37,4 +37,8 @@ There are three different ways to install the SDL SDK in your project: CocoaPods
 SDL iOS supports Carthage! Install using Carthage by following [this guide](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
 
 ### Manual Installation
-Tagged to our releases is a dynamic framework file that can be drag-and-dropped into the application. **Please Note: You cannot submit your app to the app store with the framework as is. You MUST strip the simulator part of the framework first. Use a script such as Carthage's to accomplish this.**
+Tagged to our releases is a dynamic framework file that can be drag-and-dropped into the application. 
+
+!!! NOTE
+You cannot submit your app to the app store with the framework as is. You MUST strip the simulator part of the framework first. Use a script such as Carthage's to accomplish this.
+!!!

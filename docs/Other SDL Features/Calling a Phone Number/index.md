@@ -45,7 +45,7 @@ sdlManager.start { (success, error) in
 }
 ```
 
-### Sending a DialNumber Request
+## Sending a DialNumber Request
 !!! note
 For DialNumber, all characters are stripped except for `0`-`9`, `*`, `#`, `,`, `;`, and `+`
 !!!

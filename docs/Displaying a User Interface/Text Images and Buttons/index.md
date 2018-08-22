@@ -62,7 +62,7 @@ sdlManager.screenManager.endUpdates { (error) in
 ## Soft Button Objects
 To create a soft button using the `SDLScreenManager`, you only need to create a custom name for the button and provide the text for the button's label and/or an image for the button's icon. If your button cycles between different states (e.g. a button used to set the repeat state of a song playlist can have three states: repeat-off, repeat-one, and repeat-all) you can upload all the states on initialization. 
 
-### Updating The Soft Button State
+### Updating the Soft Button State
 When the soft button state needs to be updated, simply tell the `SDLSoftButtonObject` to transition to the next state. If your button states do not cycle in a predictable order, you can also tell the soft button the state to transition to by passing the `stateName` of the new soft button state.
 
 ##### Objective-C

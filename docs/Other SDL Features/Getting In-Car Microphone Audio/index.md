@@ -1,22 +1,22 @@
 # In-Car Microphone Audio
-Capturing in-car audio allows developers to interact with users via raw audio data provided to them from the car's microphones. In order to gather the raw audio from the vehicle, we must leverage the [`SDLPerformAudioPassThru`](https://smartdevicelink.com/en/docs/iOS/master/Classes/SDLPerformAudioPassThru/) RPC.
+Capturing in-car audio allows developers to interact with users by requesting raw audio data provided to them from the car's microphones. In order to gather the raw audio from the vehicle, we must leverage the [`SDLPerformAudioPassThru`](https://smartdevicelink.com/en/docs/iOS/master/Classes/SDLPerformAudioPassThru/) RPC.
 
 !!! NOTE
 PerformAudioPassThru does not support automatic speech cancellation detection, so if this feature is desired, it is up to the developer to implement. The user may press an OK or Cancel button, the dialog may timeout, or you may close the dialog with `SDLEndAudioPassThru`.
 !!!
 
+In order to know the currently supported audio capture capabilities of the connected head unit, please refer to the `SDLSystemCapabilityManager.audioPassThruCapabilities` [documentation](https://smartdevicelink.com/en/docs/iOS/master/Classes/SDLRegisterAppInterfaceResponse/).
+
 !!! NOTE
-SDL requires the OEM to implement a popup when the microphone is active for privacy reasons. Therefore, an open mic is not supported.
+SDL does not support an open microphone. However, SDL is working on wake-word support in the future. You may implement a voice command and start an audio pass thru session when that voice command occurs.
 !!!
 
-In order to know the currently supported audio capture capabilities of the connected head unit, please refer to the `SDLSystemCapabilityManager.audioPassThruCapabilities` [documentation](https://smartdevicelink.com/en/docs/iOS/master/Classes/SDLRegisterAppInterfaceResponse/).
+## Starting Audio Capture
+To initiate audio capture, we must construct a `SDLPerformAudioPassThru` request. The properties we will set in this object's constructor relate to how we wish to gather the audio data from the vehicle we are connected to.
 
 !!! NOTE
 Currently, SDL only supports Sampling Rates of 16 khz and Bit Rates of 16 bit.
 !!!
-
-## Starting Audio Capture
-To initiate audio capture, we must construct an `SDLPerformAudioPassThru` object. The properties we will set in this object's constructor relate to how we wish to gather the audio data from the vehicle we are connected to.
 
 ##### Objective-C
 ```objc
