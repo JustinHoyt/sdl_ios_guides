@@ -1,5 +1,5 @@
-## Text, Images, and Buttons
-### Screen Manager
+# Text, Images, and Buttons
+## Screen Manager
 The `SDLScreenManager` is a manager for easily creating and sending text, images and soft buttons for your SDL app. To update the UI, simply give the manager the new UI data and sandwich the update between the manager's  `beginUpdates` and ` endUpdatesWithCompletionHandler:` methods.
 
 | SDLScreenManager Parameter Name | Description |
@@ -18,7 +18,7 @@ The `SDLScreenManager` is a manager for easily creating and sending text, images
 | textField3Type | The type of data provided in `textField3` |
 | textField4Type | The type of data provided in `textField4` |
 
-#### Objective-C
+##### Objective-C
 ```objc
 [self.sdlManager.screenManager beginUpdates];
 
@@ -40,7 +40,7 @@ self.sdlManager.screenManager.softButtonObjects = @[softButton];
 }];
 ```
 
-#### Swift
+##### Swift
 ```swift
 sdlManager.screenManager.beginUpdates()
 
@@ -58,13 +58,13 @@ sdlManager.screenManager.endUpdates { (error) in
 }
 ```
 
-### Soft Button Objects
+## Soft Button Objects
 To create a soft button using the `SDLScreenManager`, you only need to create a custom name for the button and provide the text for the button's label and/or an image for the button's icon. If your button cycles between different states (e.g. a button used to set the repeat state of a song playlist can have three states: repeat-off, repeat-one, and repeat-all) you can upload all the states on initialization. 
 
-#### Updating The Soft Button State
+### Updating The Soft Button State
 When the soft button state needs to be updated, simply tell the `SDLSoftButtonObject` to transition to the next state. If your button states do not cycle in a predictable order, you can also tell the soft button the state to transition to by passing the `stateName` of the new soft button state.
 
-#### Objective-C
+##### Objective-C
 ```objc
 SDLSoftButtonState *softButtonState1 = [[SDLSoftButtonState alloc] initWithStateName:@"<#Soft Button State Name#>" text:@"<#Button Label Text#>" artwork:<#SDLArtwork#>];
 SDLSoftButtonState *softButtonState2 = [[SDLSoftButtonState alloc] initWithStateName:@"<#Soft Button State Name#>" text:@"<#Button Label Text#>" artwork:<#SDLArtwork#>];
@@ -79,7 +79,7 @@ SDLSoftButtonObject *retrievedSoftButtonObject = [self.sdlManager.screenManager 
 [retrievedSoftButtonObject transitionToNextState];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let softButtonState1 = SDLSoftButtonState(stateName: "<#Soft Button State Name#>", text: "<#Button Label Text#>", artwork: <#SDLArtwork#>)
 let softButtonState2 = SDLSoftButtonState(stateName: "<#Soft Button State Name#>", text: "<#Button Label Text#>", artwork: <#SDLArtwork#>)
@@ -93,23 +93,42 @@ sdlManager.screenManager.softButtonObjects = [softButtonObject]
 let retrievedSoftButtonObject = sdlManager.screenManager.softButtonObjectNamed("<#Soft Button Object Name#>")
 retrievedSoftButtonObject?.transitionToNextState()
 ```
-#### Deleting Soft Buttons
+### Deleting Soft Buttons
 To delete soft buttons, simply pass the `SDLScreenManager` an empty array of soft buttons.
 
-### Template Images
+## Template Images
 As of SDL iOS library v6.1, when connected to a remote system running SDL Core 5.0+, you may be able to use template images. A template image works [very much like it does on iOS](https://developer.apple.com/documentation/uikit/uiimage/1624153-imagewithrenderingmode) and in fact, it uses the same API as iOS. Any `SDLArtwork` created with a `UIImage` that has a `renderingMode` of `alwaysTemplate` will be templated via SDL as well.
 
-#### Objective-C
+##### Objective-C
 ```objc
 UIImage *image = [[UIImage imageNamed:<#String#>] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 SDLArtwork *artwork = [SDLArtwork artworkWithImage:image asImageFormat:SDLArtworkImageFormatPNG];
 ```
 
-#### Swift
+##### Swift
 ```swift
 let image = UIImage(named: <#T##String#>)?.withRenderingMode(.alwaysTemplate)
 let artwork = SDLArtwork(image: image, persistent: true, as: .PNG)
 ```
 
-### Using RPCs
+## Static Icons
+Static icons are pre-existing images on the remote system that you may reference and use in your own application. Static icons will be supported by the screen manager in a future update. Until then, you must send them using RPC request APIs `Image` and `Show`.
+
+##### Objective-C
+```objc
+SDLImage *image = [[SDLImage alloc] initWithStaticIconName:<#(nonnull SDLStaticIconName)#>];
+SDLShow *show = [[SDLShow alloc] init];
+show.graphic = image;
+[self.sdlManager sendRequest:show];
+```
+
+##### Swift
+```swift
+let image = SDLImage(staticIconName: <#SDLStaticIconName#>)
+let show = SDLShow()
+show.graphic = image
+sdlManager.send(show)
+```
+
+## Using RPCs
 If you don't want to use the screen manager, you can use raw RPC requests using the `Show` RPC.
