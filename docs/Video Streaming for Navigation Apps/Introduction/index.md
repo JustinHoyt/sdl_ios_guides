@@ -14,7 +14,7 @@ The second difference is that a `SDLStreamingMediaConfiguration` must be created
 
 ##### Objective-C
 ```objc
-SDLLifecycleConfiguration* lifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"<#App Name#>" appId:@"<#App Id#>"];
+SDLLifecycleConfiguration* lifecycleConfig = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"<#App Name#>" fullAppId:@"<#App Id#>"];
 lifecycleConfig.appType = SDLAppHMITypeNavigation;
 
 SDLStreamingMediaConfiguration *streamingConfig = [SDLStreamingMediaConfiguration secureConfigurationWithSecurityManagers:@[OEMSecurityManager.class]];
@@ -23,7 +23,7 @@ SDLConfiguration *config = [SDLConfiguration configurationWithLifecycle:lifecycl
 
 ##### Swift
 ```swift
-let lifecycleConfig = SDLLifecycleConfiguration(appName: "<#App Name#>", appId: "<#App Id#>")
+let lifecycleConfig = SDLLifecycleConfiguration(appName: "<#App Name#>", fullAppId: "<#App Id#>")
 lifecycleConfig.appType = .navigation
 
 let streamingConfig = SDLStreamingMediaConfiguration(securityManagers: [OEMSecurityManager.self])

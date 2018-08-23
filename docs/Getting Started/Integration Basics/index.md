@@ -175,21 +175,21 @@ There are two different ways to connect your app to a SDL Core: with a TCP (Wi-F
 ##### iAP
 ##### Objective-C
 ```objc
-SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"<#App Name#>" appId:@"<#App Id#>"];
+SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:@"<#App Name#>" fullAppId:@"<#App Id#>"];
 ```
 ##### Swift
 ```swift
-let lifecycleConfiguration = SDLLifecycleConfiguration(appName:"<#App Name#>", appId: "<#App Id#>")
+let lifecycleConfiguration = SDLLifecycleConfiguration(appName:"<#App Name#>", fullAppId: "<#App Id#>")
 ```
 
 ##### TCP
 ##### Objective-C
 ```objc
-SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration debugConfigurationWithAppName:@"<#App Name#>" appId:@"<#App Id#>" ipAddress:@"<#IP Address#>" port:<#Port#>];
+SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration debugConfigurationWithAppName:@"<#App Name#>" fullAppId:@"<#App Id#>" ipAddress:@"<#IP Address#>" port:<#Port#>];
 ```
 ##### Swift
 ```swift
-let lifecycleConfiguration = SDLLifecycleConfiguration(appName: "<#App Name#>", appId: "<#App Id#>", ipAddress: "<#IP Address#>", port: <#Port#>))
+let lifecycleConfiguration = SDLLifecycleConfiguration(appName: "<#App Name#>", fullAppId: "<#App Id#>", ipAddress: "<#IP Address#>", port: <#Port#>))
 ```  
 
 !!! NOTE
@@ -418,10 +418,10 @@ static NSString* const AppId = @"<#App Id#>";
     }
     
     // Used for USB Connection
-    SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:AppName appId:AppId];
+    SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration defaultConfigurationWithAppName:AppName fullAppId:AppId];
 
     // Used for TCP/IP Connection
-//    SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration debugConfigurationWithAppName:AppName appId:AppId  ipAddress:@"<#IP Address#>" port:<#Port#>];
+//    SDLLifecycleConfiguration* lifecycleConfiguration = [SDLLifecycleConfiguration debugConfigurationWithAppName:AppName fullAppId:AppId  ipAddress:@"<#IP Address#>" port:<#Port#>];
     
     UIImage* appImage = [UIImage imageNamed:@"<#AppIcon Name#>"];
     if (appImage) {
@@ -479,10 +479,10 @@ class ProxyManager: NSObject {
         super.init()
 
         // Used for USB Connection
-        let lifecycleConfiguration = SDLLifecycleConfiguration(appName: appName, appId: appId)
+        let lifecycleConfiguration = SDLLifecycleConfiguration(appName: appName, fullAppId: appId)
         
         // Used for TCP/IP Connection
-        // let lifecycleConfiguration = SDLLifecycleConfiguration(appName: appName, appId: appId, ipAddress: "<#IP Address#>", port: <#Port#>)
+        // let lifecycleConfiguration = SDLLifecycleConfiguration(appName: appName, fullAppId: appId, ipAddress: "<#IP Address#>", port: <#Port#>)
         
         // App icon image
         if let appImage = UIImage(named: "<#AppIcon Name#>") {
