@@ -1,5 +1,5 @@
 # Supporting Haptic Input
-SDL now supports "haptic" input: input from something other than a touch screen. This could include trackpads, click-wheels, etc. These kinds of inputs work by knowing which areas on the screen are touchable and focusing / highlighting on those areas when the user moves the trackpad or click wheel. When the user selects a rect, the center of that area will be "touched".
+SDL now supports "haptic" input: input from something other than a touch screen. This could include trackpads, click-wheels, etc. These kinds of inputs work by knowing which areas on the screen are touchable and focusing / highlighting on those areas when the user moves the trackpad or click wheel. When the user selects within a rectangle, the center of that area will be "touched".
 
 !!! NOTE
 Currently, there are no RPCs for knowing which rect is highlighted, so your UI will have to remain static, without scrolling.

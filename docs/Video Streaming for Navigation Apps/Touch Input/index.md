@@ -6,11 +6,10 @@ You must have a valid and approved `appId` in order to recieve touch events.
 !!!
 
 ### Using SDLTouchManager
-
 `SDLTouchManager` has multiple callbacks that will ease the implementation of touch events. 
 
 !!! IMPORTANT
-The view passed from the following callbacks are dependent on using the built-in focusable item manager to send haptic rects. See [supporting haptic input](Mobile Navigation/Supporting Haptic Input) "Automatic Focusable Rects" for more information.
+The view passed from the following callbacks are dependent on using the built-in focusable item manager to send haptic rects. See [supporting haptic input](Video Streaming for Navigation Apps/Supporting Haptic Input) "Automatic Focusable Rects" for more information.
 !!!
 
 The following callbacks are provided:

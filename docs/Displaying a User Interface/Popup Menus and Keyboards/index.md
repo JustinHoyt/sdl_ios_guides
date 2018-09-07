@@ -130,11 +130,11 @@ It may seem that the answer is to always use `.both`. However, remember that you
 | Both              | Interactions can occur both manually or through VR |
 
 ##### Menu - Manual Only
-##### Ford HMI
+###### Ford HMI
 ![Menu - Manual Only - Ford HMI](assets/PerformInteractionManualOnly.png)
 
 ##### Menu - Voice Only
-##### Ford HMI
+###### Ford HMI
 ![Menu - Voice Only - Ford HMI](assets/PerformInteractionVROnly.png)
 
 ##### Objective-C
@@ -150,7 +150,7 @@ manager.screenManager.present(<#T##choiceSet: SDLChoiceSet##SDLChoiceSet#>, mode
 ### Presenting a Searchable Menu
 In addition to presenting a standard menu, you can also present a "searchable" menu, that is, a menu with a keyboard input box at the top. For more information on implementing the keyboard portion of this menu, see *Presenting a Keyboard* below.
 
-##### Ford HMI
+###### Ford HMI
 ![List with Search Interaction Layout](assets/PerformInteractionListwithSearch.png)
 
 ##### Objective-C

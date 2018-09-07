@@ -1,7 +1,7 @@
-# Uploading Graphics
+# Uploading Images
 
 !!! NOTE
-If you are looking to upload images for use in template graphics, soft buttons, or the menu, you can use the [ScreenManager](Displaying Information/Creating the User Interface). Other situations, such as VR help lists and turn by turn directions, are not currently covered by the `ScreenManager`.
+If you are looking to upload images for use in template graphics, soft buttons, or the menu, you can use the [ScreenManager](Displaying a User Interface/Text Images and Buttons). Other situations, such as VR help lists and turn by turn directions, are not currently covered by the `ScreenManager`.
 !!!
 
 You should be aware of these four things when using images in your SDL app:
