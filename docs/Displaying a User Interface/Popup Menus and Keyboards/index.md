@@ -73,6 +73,7 @@ If the `SDLChoiceSet` is malformed or contains and invalid set of `SDLChoiceCell
 !!!
 
 Some notes on various parameters (full documentation is available as API documentation on this website):
+
 - Title: This is the title of the menu when presented
 - Delegate: You must implement this delegate to receive callbacks based on the user's interaction with the menu
 - Layout: You may present your menu as a set of tiles (like a `UICollectionView`) or a list (like a `UITableView`). If you are using tiles, it's recommended to use artworks on each item.
