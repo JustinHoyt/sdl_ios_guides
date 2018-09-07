@@ -32,7 +32,7 @@ let audioPassThru = SDLPerformAudioPassThru(initialPrompt: "<#A speech prompt wh
 sdlManager.send(audioPassThru) 
 ```
 
-##### Ford HMI
+###### Ford HMI
 ![Ford Audio Pass Thru](assets/Ford_AudioPassThruPrompt.png)
 
 ### Gathering Audio Data
