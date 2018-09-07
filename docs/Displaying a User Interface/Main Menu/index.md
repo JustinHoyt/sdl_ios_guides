@@ -1,11 +1,7 @@
 # Main Menu
-You have two different options when creating menus. One is to simply add items to the default menu available in every template. The other is to create a custom menu that pops up when needed.
+You have two different options when creating menus. One is to simply add items to the default menu available in every template. The other is to create a custom menu that pops up when needed. You can find more information about these popups in the [Popup Menus and Keyboards](Displaying a User Interface)[Popup Menus and Keyboards] section.
 
 Every template has a main menu button. The position of this button varies between templates, and can not be removed from the template. The default menu is initially empty except for an "Exit {App Name}" button. Items can be added to the menu at the root level or to a submenu.
-
-!!! NOTE
-There can only be one level of submenu.
-!!!
 
 ##### Generic HMI
 ![Menu Appearance](assets/generic_MenuAppearance.png)
@@ -39,7 +35,11 @@ self.sdlManager.screenManager.menu = [cell]
 ```
 
 ### Adding Submenus
-Adding a submenu is as simple as adding subcells to an `SDLMenuCell`. This can currently only be done with one layer of subcells, and does not allow handlers.
+Adding a submenu is as simple as adding subcells to an `SDLMenuCell`. This can currently only be done with one layer of subcells, and automatically displays the submenu when selected.
+
+!!! NOTE
+There can only be one level of submenu.
+!!!
 
 ##### Objective-C
 ```objc

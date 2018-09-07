@@ -2,7 +2,7 @@
 The media clock is used by media apps to present the current timing information of a playing media item – such as a song, podcast, or audiobook. It is controlled via the `SetMediaClockTimer` RPC.
 
 !!! NOTE
-Ensure your app is a media type app and you are on the media template before using this feature.
+Ensure your app is a media type app and you are using the media template before implementing this feature.
 !!!
 
 The media timer works like a timer. You set the start and end time and you set the timer to start ticking automatically either up or down.

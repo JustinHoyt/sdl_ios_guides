@@ -42,7 +42,10 @@
             "name": "Displaying a User Interface",
             "navigation": [
                 {
-                    "name": "Interface Capabilities"
+                    "name": "Adaptive Interface Capabilities"
+                },
+                {
+                    "name": "Main Screen Templates"
                 },
                 {
                     "name": "Text Images and Buttons"
