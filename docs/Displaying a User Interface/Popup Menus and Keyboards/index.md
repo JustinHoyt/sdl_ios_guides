@@ -53,12 +53,12 @@ sdlManager.screenManager.preloadChoices(<#T##choices: [SDLChoiceCell]##[SDLChoic
 ### Presenting a Menu
 Whether or not you preloaded cells, you may present a menu. If you did not preload cells, calling a `present` API will cause them to be preloaded and then presented once they are available. Therefore, this call may take longer than if the cells were preloaded earlier in the app's lifecycle. On later presentations using the same cells, it will reuse those cells (unless you deleted them of course), so later presentations will be faster.
 
-#### Menu - Icon
-##### Ford HMI
+##### Menu - Icon
+###### Ford HMI
 ![Icon Only Interaction Layout](assets/PerformInteractionIconOnly.png)
 
-#### Menu - List
-##### Ford HMI
+##### Menu - List
+###### Ford HMI
 ![List Only Interaction Layout](assets/PerformInteractionListOnly.png)
 
 !!! NOTE
