@@ -4,7 +4,7 @@ Voice commands are global commands available anywhere on the head unit to users 
 You have the ability to create voice command shortcuts to your [Main Menu](Displaying a User Interface/Main Menu) cells, and it is recommended that you do so. If you have additional functions that you wish to make available as voice commands that are not available as menu cells, you can create pure global voice commands.
 
 !!! NOTE
-We recommend automating actions common such as your [Soft Buttons](Displaying a User Interface/Text Images and Buttons) as global voice commands as well.
+We recommend creating global voice commands for common actions such as the actions performed by your [Soft Buttons](Displaying a User Interface/Text Images and Buttons).
 !!!
 
 You simply must create and set `SDLVoiceCommand` objects to the `voiceCommands` array on the screen manager.
