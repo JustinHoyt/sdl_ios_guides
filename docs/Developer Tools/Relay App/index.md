@@ -9,7 +9,7 @@ A better method than using the iOS Relay app is to use Xcode 9 / iOS 11 wireless
 The SmartDeviceLink (SDL) iOS Relay app is a debugging tool for developers building iOS applications that communicate with a vehicle head unit requiring a USB cable. Testing is done over a TCP/IP connection. During testing developers can easily see logs of in-going/out-going remote procedure calls (RPCs) in Xcode's debug console, thus making debugging easier and faster.
 
 !!! IMPORTANT
-If you are using a head unit or TDK, and are using the [Relay app](Developer Tools/Relay) for debugging, the IP address and port number should be set to the same IP address and port number as the app. This information appears in the Relay app once the server is turned on in the app. Also be sure that the device is on the same network as your app.
+If you are using a head unit or TDK, and are using the Relay app for debugging, the IP address and port number should be set to the same IP address and port number as the app. This information appears in the Relay app once the server is turned on in the app. Also be sure that the device is on the same network as your app.
 !!!
 
 ## Necessary Tools

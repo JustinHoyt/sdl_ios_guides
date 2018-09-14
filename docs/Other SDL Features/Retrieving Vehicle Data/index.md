@@ -99,7 +99,7 @@ sdlManager.send(getVehicleData) { (request, response, error) in
 ## Subscribing to Vehicle Data
 Subscribing to vehicle data allows you to get notified whenever we have new data available. This data should not be relied upon being received in a consistent manner. New vehicle data is available roughly every second.
 
-**First**, Register to observe the `SDLDidReceiveVehicleDataNotification` notification: 
+**First**, register to observe the `SDLDidReceiveVehicleDataNotification` notification: 
 
 ##### Objective-C
 ```objc
@@ -262,7 +262,7 @@ sdlManager.send(request: unsubscribeVehicleData) { (request, response, error) in
             
         } else if response.resultCode == .ignored {
             if let prndlData = response.prndl {
-                if prndlData.resultCode == .dataAlreadySubscribed {
+                if prndlData.resultCode == .dataNotSubscribed {
                     // You have access to this data item, and you are already unsubscribed to this item so we are ignoring.
                 } else if prndlData.resultCode == .vehicleDataNotAvailable {
                     // You have access to this data item, but the vehicle you are connected to does not provide it.

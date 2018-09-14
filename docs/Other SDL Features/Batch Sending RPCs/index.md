@@ -31,7 +31,7 @@ sdlManager.send([artwork1, artwork2], progressHandler: { (request, response, err
 ## Sending Sequential Requests
 Requests sent sequentially are sent in a set order. The next request is only sent when a response has been received for the previously sent request.
 
-The code example below shows how to create a perform interaction choice set. When creating a perform interaction choice set, the `SDLPerformInteraction` RPC can only be sent after the `SDLCreateInteractionChoiceSet` RPC has been registered by Core, which is why the requests must be sent sequentially. For more information about perform interaction choice sets please go to [Displaying Information/Menus](Displaying Information/Menus).
+The code example below shows how to create a perform interaction choice set. When creating a perform interaction choice set, the `SDLPerformInteraction` RPC can only be sent after the `SDLCreateInteractionChoiceSet` RPC has been registered by Core, which is why the requests must be sent sequentially.
 
 ##### Objective-C
 ```objc

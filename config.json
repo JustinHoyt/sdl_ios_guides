@@ -31,9 +31,6 @@
                     "name": "Understanding Permissions"
                 },
                 {
-                    "name": "Batch Sending RPCs"
-                },
-                {
                     "name": "Example Apps"
                 }
             ]
@@ -70,6 +67,9 @@
         {
             "name": "Other SDL Features",
             "navigation": [
+                {
+                    "name": "Batch Sending RPCs"
+                },
                 {
                     "name": "Retrieving Vehicle Data"
                 },

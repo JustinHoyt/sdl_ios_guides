@@ -41,7 +41,6 @@ mediaClock.endTime = [[SDLStartTime alloc] initWithHours:0 minutes:4 seconds:13]
 
 ##### Swift
 ```swift
-```swift
 let mediaClock = SDLSetMediaClockTimer(updateMode: .countUp)
 mediaClock.startTime = SDLStartTime(hours: 0, minutes: 2, seconds: 20)
 mediaClock.endTime = SDLStartTime(hours: 0, minutes: 4, seconds: 13)

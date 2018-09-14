@@ -167,7 +167,7 @@ class ProxyManager: NSObject {
 ```
 
 ### 1. Create a Lifecycle Configuration   
-In order to instantiate the `SDLManager` class, you must first configure an `SDLConfiguration`. To start, we will look at the `SDLLifecycleConfiguration`. You will at minimum need a `SDLLifecycleConfiguration` instance with the application name and application id. During the development stage, a dummy app id is usually sufficient. For more information about obtaining an application id, please consult the [SDK Configuration](Getting Started/SDL Configuration) section of this guide. You must also decide which network configuration to use to connect the app to the SDL Core. Optional, but recommended, configuration properties include short app name, app icon, and app type.
+In order to instantiate the `SDLManager` class, you must first configure an `SDLConfiguration`. To start, we will look at the `SDLLifecycleConfiguration`. You will at minimum need a `SDLLifecycleConfiguration` instance with the application name and application id. During the development stage, a dummy app id is usually sufficient. For more information about obtaining an application id, please consult the [SDK Configuration](Getting Started/SDK Configuration) section of this guide. You must also decide which network configuration to use to connect the app to the SDL Core. Optional, but recommended, configuration properties include short app name, app icon, and app type.
 
 #### Network Connection Type
 There are two different ways to connect your app to a SDL Core: with a TCP (Wi-Fi) network connection or with an iAP (USB / Bluetooth) network connection. Use TCP for debugging and use iAP for production level apps.
@@ -193,7 +193,7 @@ let lifecycleConfiguration = SDLLifecycleConfiguration(appName: "<#App Name#>", 
 ```  
 
 !!! NOTE
-If you are using an emulator, the IP address is your computer or virtual machine’s IP address, and the port number is usually **12345**. If these values are not correct, or emulator is not running, your app with not run, as TCP connections occur on the main thread.
+If you are connecting your app to an emulator using a TCP connection, the IP address is your computer or virtual machine’s IP address, and the port number is usually 12345.
 !!!
 
 ### 2. Short App Name (optional)
@@ -210,7 +210,7 @@ lifecycleConfiguration.shortAppName = "<#Shortened App Name#>"
 ```
 
 ### 3. App Icon
-This is a custom icon for your application. Please refer to [Uploading Graphics](Displaying Information/Uploading Graphics) for icon sizes.
+This is a custom icon for your application. Please refer to [Adaptive Interface Capabilities](Displaying a User Interface/Adaptive Interface Capabilities) for icon sizes.
 
 ##### Objective-C
 ```objc
@@ -230,15 +230,14 @@ if let appImage = UIImage(named: "<#AppIcon Name#>") {
 ```
 
 !!! NOTE
-We recommend using SDLArtwork when building an image.
-Persistent files are used when the image ought to remain on the remote system between ignition cycles. This is commonly used for menu artwork, soft button artwork and app icons. Non-persistent artwork is usually used for objects like music album artwork.
+Persistent files are used when the image ought to remain on the remote system between ignition cycles. This is commonly used for menu artwork, soft button artwork and app icons. Non-persistent artwork is usually used for dynamic images like music album artwork.
 !!!
 
 ### 4. App Type (optional)
 The app type is used by car manufacturers to decide how to categorize your app. Each car manufacturer has a different categorization system. For example, if you set your app type as media, your app will also show up in the audio tab as well as the apps tab of Ford’s SYNC3 head unit. The app type options are: default, communication, media (i.e. music/podcasts/radio), messaging, navigation, projection, information, and social.
 
 !!! NOTE
-Navigation and OEM projection apps require special permissions and use video streaming to project a UI.
+Navigation and projection applications both use video and audio byte streaming. However, navigation apps require special permissions from OEMs, and projection apps are only for internal use by OEMs.
 !!!
 
 ##### Objective-C
@@ -300,7 +299,7 @@ SDLLockScreenConfiguration.enabled()
 ```
 
 ### 7. Logging
-A logging configuration is used to define where and how often SDL will log. It will also allow you to set your own logging modules and filters.
+A logging configuration is used to define where and how often SDL will log. It will also allow you to set your own logging modules and filters. For more information about setting up logging, see [the logging guide](Developer Tools/Configuring SDL Logging).
 
 ##### Objective-C
 ```objc
@@ -533,4 +532,4 @@ In addition, there are three optional methods:
 1. `managerShouldUpdateLifecycleToLanguage:` Called when the head unit language does not match the `language` set in the `SDLLifecycleConfiguration` but does match a language included in `languagesSupported`. If desired, you can customize the `appName`, the `shortAppName`,  and `ttsName` for the head unit's current language. For more information about supporting more than one language in your app please refer to [Getting Started/Adapting to the Head Unit Language](Getting Started/Adapting to the Head Unit Language).
 
 ## Where to Go From Here
-You should now be able to connect to a head unit or emulator. From here, [learn about designing a user interface](Displaying Information/Designing a User Interface). For further details on connecting, see [Connecting to a SDL Core](Getting Started/Connecting to a SDL Core).
+You should now be able to connect to a head unit or emulator. From here, [learn about designing your main interface](Displaying a User Interface/Main Screen Templates). For further details on connecting, see [Connecting to a SDL Core](Getting Started/Connecting to an Infotainment System).

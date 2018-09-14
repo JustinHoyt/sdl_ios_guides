@@ -1,5 +1,5 @@
 # Playing Audio Indications
-As of SDL v6.1, you are able to play an already uploaded audio file in any API you can use a `TTSChunk`. This can be used, for example, to play a distinctive audio chime or indication unique to your application, letting the user know that something has occurred. A sports app, for example, could use this to notify the user of a score update alongside an `Alert` request.
+As of SDL v6.1, you can pass an uploaded Audio File's name to `TTSChunk`, allowing any API that takes a `TTSChunk` to pass and play your audio file. This can be used, for example, to play a distinctive audio chime or indication unique to your application, letting the user know that something has occurred. A sports app, for example, could use this to notify the user of a score update alongside an `Alert` request.
 
 !!! NOTE
 Only SDL systems v.5.0+ support this feature.
