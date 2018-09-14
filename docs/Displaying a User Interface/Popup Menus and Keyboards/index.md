@@ -69,7 +69,7 @@ When you preload a cell, you **do not** need to maintain a reference to it. If y
 In order to present a menu, you must bundle together a bunch of `SDLChoiceCell`s into an `SDLChoiceSet`.
 
 !!! IMPORTANT
-If the `SDLChoiceSet` is malformed or contains and invalid set of `SDLChoiceCell`s, the initializer will return `nil`. This can happen, for example, if you pass both `SDLChoiceCell`s with VR commands and those without into the same `SDLChoiceSet`.
+If the `SDLChoiceSet` contains an invalid set of `SDLChoiceCell`s, the initializer will return `nil`. This can happen, for example, if you have duplicate title text or if some, but not all choices have voice commands.
 !!!
 
 Some notes on various parameters (full documentation is available as API documentation on this website):
