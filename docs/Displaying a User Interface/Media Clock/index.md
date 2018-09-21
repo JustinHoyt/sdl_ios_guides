@@ -7,6 +7,12 @@ Ensure your app is a media type app and you are using the media template before 
 
 The media timer works like a timer. You set the start and end time and you set the timer to start ticking automatically either up or down.
 
+###### Generic HMI
+![Media Clock Appearance](assets/generic_mediaclock.png)
+
+###### Ford HMI
+![Menu Appearance](assets/ford_mediaclock.png)
+
 ## Counting Up
 In order to count up using the timer, the "bottom end" of the time will be 0:00, you can set the progress "start time", and the "top end". For example, if you are starting a song at `0:00` and it will end at `4:13`, you will end with a timer starting at `0:00`, ending at `0:00` with zero progress. This timer will automatically increment every second.
 
