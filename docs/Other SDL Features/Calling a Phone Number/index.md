@@ -8,10 +8,6 @@ DialNumber is an RPC that is usually restricted by OEMs. As a result, the OEM yo
 ## Detecting if DialNumber is Available
 `DialNumber` is a newer RPC, so there is a possibility that not all head units will support it. To see if `DialNumber` is supported, you may look at `SDLManager`'s `systemCapabilityManager.hmiCapabilities.phoneCall` property after the ready handler is called. 
 
-!!! note
-If you need to know how to create and setup `SDLManager`, please see [Getting Started > Integration Basics](Getting Started/Integration Basics).
-!!!
-
 ##### Objective-C
 ```objc
 BOOL isPhoneCallSupported = NO;

@@ -12,6 +12,8 @@ Every template has a main menu button. The position of this button varies betwee
 ## Adding Menu Items
 As of iOS library v6.0, the best way to create and update your menu is the use the Screen Manager API. The screen manager contains two menu related properties: `menu`, and `voiceCommands`. Setting an array of `SDLMenuCell`s into the `menu` property will automatically set and update your menu and submenus, while setting an array of `SDLVoiceCommand`s into the `voiceCommands` property allows you to use "hidden" menu items that only contain voice recognition data. The user can then use the IVI system's voice engine to activate this command even though it will not be displayed within the main menu.
 
+To find out more information on how to create `voiceCommands` see the [related documentation](Displaying a User Interface/Global Voice Commands).
+
 ##### Objective-C
 ```objc
 // Create the menu cell

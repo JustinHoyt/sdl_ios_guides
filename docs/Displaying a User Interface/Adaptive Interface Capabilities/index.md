@@ -42,7 +42,7 @@ The `RegisterAppInterface` response contains information about the display type,
 Images may be formatted as PNG, JPEG, or BMP. Check the `RegisterAppInterfaceResponse.displayCapability` properties to find out what image formats the head unit supports.
 
 ### Image Sizes
-If an image is uploaded that is larger than the supported size, that image will be scaled down to accomodate. All image sizes are available from the `SDLManager`'s `registerResponse` property once in the completion handler for `startWithReadyHandler`.
+If an image is uploaded that is larger than the supported size, that image will be scaled down to accommodate. All image sizes are available from the `SDLManager`'s `registerResponse` property once in the completion handler for `startWithReadyHandler`.
 
 | ImageName | Used in RPC | Details | Height | Width | Type |
 |:--------------|:----------------|:--------|:---------|:-------|:-------|

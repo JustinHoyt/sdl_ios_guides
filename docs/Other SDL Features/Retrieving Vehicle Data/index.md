@@ -1,7 +1,7 @@
 # Retrieving Vehicle Data
 Use the `SDLGetVehicleData` RPC call to get vehicle data. The HMI level must be `FULL`, `LIMITED`, or `BACKGROUND` in order to get data.
 
-Each vehicle manufacturer decides which data it will expose and to whom they will expose it. Please check the `SDLRPCResponse` RPC to find out which data you will have access to in your head unit.
+Each vehicle manufacturer decides which data it will expose and to whom they will expose it. Please check the response to find out which data you will have access to in your head unit. Additionally, be aware the the driver / user may have the ability to disable vehicle data through the settings menu of their infotainment head unit.
 
 !!! note
 You may only ask for vehicle data that is available to your `appName` & `appId` combination. These will be specified by each OEM separately. See [Understanding Permissions](Getting Started/Understanding Permissions) for more details.
