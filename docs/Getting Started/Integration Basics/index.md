@@ -355,18 +355,18 @@ Create a new function in the *ProxyManager* class called `connect`.
 
 ##### Swift
 ```swift
-    func connect() {
-        // Start watching for a connection with a SDL Core
-        sdlManager.start { (success, error) in
-            if success {
-                // Your app has successfully connected with the SDL Core
-            }
+func connect() {
+    // Start watching for a connection with a SDL Core
+    sdlManager.start { (success, error) in
+        if success {
+            // Your app has successfully connected with the SDL Core
         }
     }
+}
 ```
 
 !!! NOTE  
-In production, your app will be watching for connections using iAP, which will not use any additional battery power than normal.  
+In production, your app will be watching for connections using iAP, which will not use any more battery power than normal.  
 !!!  
 
 If the connection is successful, you can start sending RPCs to the SDL Core. However, some RPCs can only be sent when the HMI is in the `FULL` or `LIMITED` state. If the SDL Core's HMI is not ready to accept these RPCs, your requests will be ignored. If you want to make sure that the SDL Core will not ignore your RPCs, use the `SDLManagerDelegate` methods in the next section.
