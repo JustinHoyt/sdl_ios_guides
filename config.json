@@ -9,75 +9,96 @@
         {
             "name": "Getting Started",
             "navigation": [
-              {
-                  "name": "Installation"
-              },
-              {
-                  "name": "SDK Configuration"
-              },
-              {
-                  "name": "Integration Basics"
-              },
-              {
-                  "name": "Connecting to an Infotainment System"
-              },
-              {
-                  "name": "Adapting to the Head Unit Language"
-              },
-              {
-              	 "name": "Understanding Permissions"
-              },
-              {
-                  "name": "Batch Sending RPCs"
-              }
+                {
+                    "name": "Installation"
+                },
+                {
+                    "name": "SDK Configuration"
+                },
+                {
+                    "name": "Integration Basics"
+                },
+                {
+                    "name": "Connecting to an Infotainment System"
+                },
+                {
+                    "name": "Adding the Lock Screen"
+                },
+                {
+                    "name": "Adapting to the Head Unit Language"
+                },
+                {
+                    "name": "Understanding Permissions"
+                },
+                {
+                    "name": "Example Apps"
+                }
             ]
         },
         {
-            "name": "Displaying Information",
+            "name": "Displaying a User Interface",
             "navigation": [
                 {
-                    "name": "Designing the User Interface"
+                    "name": "Adaptive Interface Capabilities"
                 },
                 {
-                    "name": "Creating the User Interface"
+                    "name": "Main Screen Templates"
                 },
                 {
                     "name": "Text Images and Buttons"
                 },
                 {
-                	"name": "Subscribe Buttons"
+                	"name": "Subscribing to System Buttons"
                 },
                 {
-                    "name": "Menus"
+                    "name": "Main Menu"
+                },
+                {
+                    "name": "Global Voice Commands"
+                },
+                {
+                    "name": "Popup Menus and Keyboards"
                 },
                 {
                     "name": "Alerts"
-                }, 
-                {
-                    "name": "Uploading Files"
                 },
                 {
-                    "name": "Uploading Graphics"
+                    "name": "Media Clock"
                 }
             ]
         },
         {
-            "name": "Adding the Lock Screen"
+            "name": "Other SDL Features",
+            "navigation": [
+                {
+                    "name": "Batch Sending RPCs"
+                },
+                {
+                    "name": "Retrieving Vehicle Data"
+                },
+                {
+                    "name": "Calling a Phone Number"
+                },
+                {
+                    "name": "Setting the Built-in Nav System Destination"
+                },
+                {
+                    "name": "Getting In-Car Microphone Audio"
+                },
+                {
+                    "name": "Uploading Files"
+                },
+                {
+                    "name": "Uploading Images"
+                },
+                {
+                    "name": "Playing Audio Indications"
+                }
+            ]
         },
+        
         {
-            "name": "Getting Vehicle Data"
-        },
-        {
-            "name": "Getting In-Car Microphone Audio"
-        },
-        {
-            "name": "Setting the Navigation Destination"
-        },
-        {
-            "name": "Calling a Phone Number"
-        },
-        {
-            "name": "Mobile Navigation",
+            "name": "Video Streaming for Navigation Apps",
             "navigation" : [
               {
                   "name": "Introduction"
@@ -95,9 +116,6 @@
                   "name": "Supporting Haptic Input"
               },
               {
-                  "name": "Keyboard Input"
-              },
-              {
                   "name": "Displaying Turn Directions"
               }
             ]
@@ -109,10 +127,10 @@
                   "name": "Configuring SDL Logging"
                 },
                 {
-                  "name": "Relay"
+                  "name": "Relay App"
                 },
                 {
-                  "name": "RPC Builder"
+                  "name": "RPC Builder App"
                 }
             ]
         },
