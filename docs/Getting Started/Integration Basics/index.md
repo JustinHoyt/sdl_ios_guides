@@ -340,26 +340,33 @@ sdlManager = SDLManager(configuration: configuration, delegate: self)
 ### 10. Start the SDLManager
 The manager should be started as soon as possible in your application's lifecycle. We suggest doing this in the `didFinishLaunchingWithOptions()` method in your *AppDelegate* class. Once the manager has been initialized, it will immediately start watching for a connection with the remote system. The manager will passively search for a connection with a SDL Core during the entire lifespan of the app. If the manager detects a connection with a SDL Core, the `startWithReadyHandler` will be called.
 
+Create a new function in the *ProxyManager* class called `connect`.
+
 ##### Objective-C
 ```objc
-[self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
-  if (success) {
-    // Your app has successfully connected with the SDL Core.
-  }
-}];
+- (void)connect {
+    [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
+        if (success) {
+            // Your app has successfully connected with the SDL Core
+        }
+    }];
+}
 ```
 
 ##### Swift
 ```swift
-sdlManager.start { (success, error) in
-    if success {
-      // Your app has successfully connected with the SDL Core.
+func connect() {
+    // Start watching for a connection with a SDL Core
+    sdlManager.start { (success, error) in
+        if success {
+            // Your app has successfully connected with the SDL Core
+        }
     }
-})
+}
 ```
 
 !!! NOTE  
-In production, your app will be watching for connections using iAP, which will not use any additional battery power than normal.  
+In production, your app will be watching for connections using iAP, which will not use any more battery power than normal.  
 !!!  
 
 If the connection is successful, you can start sending RPCs to the SDL Core. However, some RPCs can only be sent when the HMI is in the `FULL` or `LIMITED` state. If the SDL Core's HMI is not ready to accept these RPCs, your requests will be ignored. If you want to make sure that the SDL Core will not ignore your RPCs, use the `SDLManagerDelegate` methods in the next section.
@@ -438,7 +445,7 @@ static NSString* const AppId = @"<#App Id#>";
     return self;
 }
 
-- (void)start {
+- (void)connect {
     [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
         if (success) {
             // Your app has successfully connected with the SDL Core
