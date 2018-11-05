@@ -44,58 +44,58 @@ There are fifteen standard templates to choose from, however some head units may
 
 ![Non-Media - without soft buttons](assets/ford_NonMediaWithoutSoftButtons.png)
 
-##### Graphic with Text
+##### GRAPHIC_WITH_TEXT
 ###### Ford HMI
 ![Graphic with Text](assets/ford_GraphicWithText.png)
 
-##### Text with Graphic
+##### TEXT_WITH_GRAPHIC
 ###### Ford HMI
 ![Text with Graphic](assets/ford_TextWithGraphic.png)
 
-##### Tiles Only
+##### TILES_ONLY
 ###### Ford HMI
 ![Tiles Only](assets/ford_TilesOnly.png)
 
-##### Graphic with Tiles
+##### GRAPHIC_WITH_TILES
 ###### Ford HMI
 ![Graphic with Tiles](assets/ford_GraphicWithTiles.png)
 
-##### Tiles with Graphic
+##### TILES_WITH_GRAPHIC
 ###### Ford HMI
 ![Tiles with Graphic](assets/ford_TilesWithGraphic.png)
 
-##### Graphic with Text and Softbuttons
+##### GRAPHIC_WITH_TEXT_AND_SOFTBUTTONS
 ###### Ford HMI
 ![Graphic with Text and Softbuttons](assets/ford_GraphicWithTextAndSoftButtons.png)
 
-##### Text and Softbuttons with Graphic
+##### TEXT_AND_SOFTBUTTONS_WITH_GRAPHIC
 ###### Ford HMI
 ![Text and Softbuttons with Graphic](assets/ford_TextAndSoftButtonsWithGraphic.png)
 
-##### Graphic with Textbuttons
+##### GRAPHIC_WITH_TEXTBUTTONS
 ###### Ford HMI
 ![Graphic with Textbuttons](assets/ford_GraphicWithTextButtons.png)
 
-##### Double Graphic and Softbuttons
+##### DOUBLE_GRAPHIC_SOFTBUTTONS
 ###### Ford HMI
 ![Double Graphic and Softbuttons](assets/ford_DoubleGraphicSoftButtons.png)
 
-##### Textbuttons with Graphic
+##### TEXTBUTTONS_WITH_GRAPHIC
 ###### Ford HMI
 ![Textbuttons with Graphic](assets/ford_TextButtonsWithGraphic.png)
 
-##### Textbuttons Only
+##### TEXTBUTTONS_ONLY
 ###### Ford HMI
 ![Textbuttons Only](assets/ford_TextButtonsOnly.png)
 
-##### Large Graphic with Softbuttons
+##### LARGE_GRAPHIC_WITH_SOFTBUTTONS
 ###### Generic HMI
 ![Large Graphic with Softbuttons](assets/generic_LargeGraphicWithSoftButtons.png)
 
 ###### Ford HMI
 ![Large Graphic with Softbuttons](assets/ford_LargeGraphicWithSoftButtons.png)
 
-##### Large Graphic Only
+##### LARGE_GRAPHIC_ONLY
 ###### Generic HMI
 ![Large Graphic Only](assets/generic_LargeGraphicOnly.png)
 
