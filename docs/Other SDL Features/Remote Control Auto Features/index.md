@@ -6,7 +6,7 @@ Remote Control provides a framework to allow apps to control certain safe module
 Not all vehicles have this functionality. Even if they support remote control, you will likely need to request permission from the vehicle manufacturer to use it. 
 !!!
 
-#### Why is this helpful?
+## Why is this helpful?
 
 Consider the following scenarios:
 
@@ -108,7 +108,7 @@ The system shall list all available buttons for Remote Control in the `RemoteCon
 For Remote Control to work, the head unit must support SDL Core Version 4.4 or newer. Also your app's appHMIType should be set to `REMOTE_CONTROL`.
 !!!
 
-#### System Capability
+### System Capability
 
 !!! MUST 
 Prior to using any Remote Control RPCs, you must check that the head unit has the Remote Control capability. As you may encounter head units that do *not* support it, this check is important.
@@ -116,6 +116,7 @@ Prior to using any Remote Control RPCs, you must check that the head unit has th
 
 To check for this capability, use the following call:
 
+##### Objective-C
 ```objc
 [self.sdlManager.systemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypeRemoteControl completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
     if (systemCapabilityManager.remoteControlCapability == nil || error != nil) {
@@ -128,6 +129,7 @@ To check for this capability, use the following call:
 }];
 ```
 
+##### Swift
 ```swift
 sdlManager.systemCapabilityManager.updateCapabilityType(.remoteControl) { (error, systemCapabilityManager) in
     if systemCapabilityManager.remoteControlCapability == nil || error != nil {
@@ -139,10 +141,12 @@ sdlManager.systemCapabilityManager.updateCapabilityType(.remoteControl) { (error
     <#Code#>
 }
 ```
-#### Getting Data
+
+### Getting Data
 
 It is possible to retrieve current data relating to these Remote Control modules. The data could be used to store the settings prior to setting them, saving user preferences, etc. Following the check on the system's capability to support Remote Control, we can actually retrieve the data. The following is an example of getting data about the `RADIO` module. It also subscribes to updates to radio data, which will be discussed later on in this guide.
 
+##### Objective-C
 ```objc
 SDLGetInteriorVehicleData *getInteriorVehicleData = [[SDLGetInteriorVehicleData alloc] initWithModuleType:SDLModuleTypeRadio];
 [self.sdlManager sendRequest:getInteriorVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
@@ -152,6 +156,7 @@ SDLGetInteriorVehicleData *getInteriorVehicleData = [[SDLGetInteriorVehicleData 
 }];
 ```
 
+##### Swift
 ```swift
 let getInteriorVehicleData = SDLGetInteriorVehicleData(moduleType: .radio)
 sdlManager.send(request: getInteriorVehicleData) { (req, res, err) in
@@ -161,10 +166,11 @@ sdlManager.send(request: getInteriorVehicleData) { (req, res, err) in
 }
 ```
 
-#### Setting Data
+### Setting Data
 
 Of course, the ability to set these modules is the point of Remote Control. Setting data is similar to getting it. Below is an example of setting `ClimateControlData`.
 
+##### Objective-C
 ```objc
 SDLTemperature *temperature = [[SDLTemperature alloc] initWithUnit:SDLTemperatureUnitFahrenheit value:74.1];
 SDLClimateControlData *climateControlData = [[SDLClimateControlData alloc] initWithFanSpeed:@2 desiredTemperature:temperature acEnable:@YES circulateAirEnable:@NO autoModeEnable:@NO defrostZone:nil dualModeEnable:@NO acMaxEnable:@NO ventilationMode:SDLVentilationModeLower heatedSteeringWheelEnable:@YES heatedWindshieldEnable:@YES heatedRearWindowEnable:@YES heatedMirrorsEnable:@NO];
@@ -173,6 +179,7 @@ SDLSetInteriorVehicleData *setInteriorVehicleData = [[SDLSetInteriorVehicleData 
 [self.sdlManager sendRequest:setInteriorVehicleData];
 ```
 
+##### Swift
 ```swift
 let temperature = SDLTemperature(unit: .fahrenheit, value: 74.1)
 let climateControlData = SDLClimateControlData(fanSpeed: 2, desiredTemperature: temperature, acEnable: true, circulateAirEnable: false, autoModeEnable: false, defrostZone: nil, dualModeEnable: false, acMaxEnable: false, ventilationMode: .lower, heatedSteeringWheelEnable: true, heatedWindshieldEnable: true, heatedRearWindowEnable: true, heatedMirrorsEnable: false)
@@ -184,12 +191,13 @@ sdlManager.send(setInteriorVehicleData)
 
 It is likely that you will not need to set all the data as it is in the example, so if there are settings you don't wish to modify, then you don't have to. 
 
-#### Button Presses
+### Button Presses
 
 Another unique feature of Remote Control is the ability to send simulated button presses to the associated modules, imitating a button press on the hardware itself.
 
 Simply specify the module, the button, and the type of press you would like:
 
+##### Objective-C
 ```objc
 SDLButtonPress *buttonPress = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameEject moduleType:SDLModuleTypeRadio];
 buttonPress.buttonPressMode = SDLButtonPressModeShort;
@@ -197,6 +205,7 @@ buttonPress.buttonPressMode = SDLButtonPressModeShort;
 [self.sdlManager sendRequest:buttonPress];
 ```
 
+##### Swift
 ```swift
 let buttonPress = SDLButtonPress(buttonName: .eject, moduleType: .radio)
 buttonPress.buttonPressMode = .short
@@ -204,7 +213,7 @@ buttonPress.buttonPressMode = .short
 sdlManager.send(buttonPress)
 ```
 
-#### Subscribing to changes
+### Subscribing to changes
 
 It is also possible to subscribe to changes in data associated with supported modules.
 
@@ -212,6 +221,7 @@ To do so, during your `GET` request for data, simply add in `.subscribe = @YES`.
 
 The response to a subscription will come in a form of a notification. You can receive this notification by adding a notification listener for `OnInteriorVehicleData`.
 
+##### Objective-C
 ```objc
 [NSNotificationCenter.defaultCenter addObserverForName:SDLDidReceiveInteriorVehicleDataNotification object:nil queue:NSOperationQueue.mainQueue usingBlock:^(NSNotification * _Nonnull note) {
     SDLRPCNotificationNotification *dataNotification = (SDLRPCNotificationNotification *)note;
@@ -231,6 +241,7 @@ SDLGetInteriorVehicleData *getInteriorVehicleData = [[SDLGetInteriorVehicleData 
 }];
 ```
 
+##### Swift
 ```swift
 NotificationCenter.default.addObserver(forName: .SDLDidReceiveInteriorVehicleDataNotification, object: nil, queue: OperationQueue.main) { (notification) in
     guard let dataNotification = notification as? SDLRPCNotificationNotification,
