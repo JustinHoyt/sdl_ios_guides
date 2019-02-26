@@ -158,7 +158,7 @@ SDLGetInteriorVehicleData *getInteriorVehicleData = [[SDLGetInteriorVehicleData 
 
 ##### Swift
 ```swift
-let getInteriorVehicleData = SDLGetInteriorVehicleData(moduleType: .radio)
+let getInteriorVehicleData = SDLGetInteriorVehicleData(andSubscribeToModuleType: .radio)
 sdlManager.send(request: getInteriorVehicleData) { (req, res, err) in
     guard let response = res as? SDLGetInteriorVehicleDataResponse else { return }
     // This can now be used to retrieve data
