@@ -61,7 +61,16 @@ The Apple System Logger target, `SDLLogTargetAppleSystemLogger`, is the default 
 The OSLog target, `SDLLogTargetOSLog`, is the default log target in both default and debug configurations for devices running iOS 10 or newer. For more information on this logging system see [Apple's documentation](https://developer.apple.com/reference/os/logging). SDL's OSLog target will take advantage of subsystems and levels to allow you powerful runtime filtering capabilities through MacOS Sierra's Console app with a connected device.
 
 #### File Target
-The File target, `SDLLogTargetFile`,  allows you to log messages to a rolling set of files which will be stored on the device, specifically in the `Documents/smartdevicelink/log/` folder. The file names will be timestamped with the start time.
+The File target, `SDLLogTargetFile`, allows you to log messages to a rolling set of files (default 3) which will be stored on the device, specifically in the `Documents/smartdevicelink/log/` folder. The file names will be timestamped with the start time.
+
+To access the file, you can either access it from runtime on the device (for example, to attach it to an email that the user sends), or if you have access to the device, you can access them via iTunes as well with small modifications to your app:
+
+1. Add the key `UIFileSharingEnabled` to your `info.plist`. Set the value to `YES`.
+2. Connect the device to a computer that has iTunes installed.
+3. Open iTunes, click on the icon for the device, then click on "File Sharing" > "(Your App Name)"
+4. You should see a folder called "smartdevicelink". Select the file and click save. When you open the folder on your computer, you will see the log files for each session (default maxes out at 3).
+
+You should not keep this info.plist key when you submit your app to Apple.
 
 #### Custom Log Targets
 The protocol all log targets conform to, `SDLLogTarget`, is public. If you wish to make a custom log target in order to, for example, log to a server, it should be fairly easy to do so. If it can be used by other developers and is not specific to your app, then submit it back to the SmartDeviceLink iOS library project! If you want to add targets *in addition* to the default target that will output to the console:
