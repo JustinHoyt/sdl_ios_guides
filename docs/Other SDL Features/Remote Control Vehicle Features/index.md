@@ -148,7 +148,7 @@ It is possible to retrieve current data relating to these Remote Control modules
 
 ##### Objective-C
 ```objc
-SDLGetInteriorVehicleData *getInteriorVehicleData = [[SDLGetInteriorVehicleData alloc] initWithModuleType:SDLModuleTypeRadio];
+SDLGetInteriorVehicleData *getInteriorVehicleData = [[SDLGetInteriorVehicleData alloc] initAndSubscribeToModuleType:SDLModuleTypeRadio];
 [self.sdlManager sendRequest:getInteriorVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
     SDLGetInteriorVehicleDataResponse *dataResponse = (SDLGetInteriorVehicleDataResponse *)response;
     // This can now be used to retrieve data
@@ -251,7 +251,7 @@ NotificationCenter.default.addObserver(forName: .SDLDidReceiveInteriorVehicleDat
     <#Code#>
 }
 
-let getInteriorVehicleData = SDLGetInteriorVehicleData(moduleType: .radio)
+let getInteriorVehicleData = SDLGetInteriorVehicleData(andSubscribeToModuleType: .radio)
 sdlManager.send(request: getInteriorVehicleData) { (req, res, err) in
     guard let response = res as? SDLGetInteriorVehicleDataResponse else { return }
     // This can now be used to retrieve initialData data
