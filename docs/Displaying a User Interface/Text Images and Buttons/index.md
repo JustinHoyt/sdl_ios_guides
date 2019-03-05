@@ -98,7 +98,9 @@ retrievedSoftButtonObject?.transitionToNextState()
 To delete soft buttons, simply pass the `SDLScreenManager` an empty array of soft buttons.
 
 ## Template Images
-As of SDL iOS library v6.1, when connected to a remote system running SDL Core 5.0+, you may be able to use template images. A template image works [very much like it does on iOS](https://developer.apple.com/documentation/uikit/uiimage/1624153-imagewithrenderingmode) and in fact, it uses the same API as iOS. Any `SDLArtwork` created with a `UIImage` that has a `renderingMode` of `alwaysTemplate` will be templated via SDL as well.
+As of SDL iOS library v6.1, when connected to a remote system running SDL Core 5.0+, you may be able to use template images. A template image works [very much like it does on iOS](https://developer.apple.com/documentation/uikit/uiimage/1624153-imagewithrenderingmode) and in fact, it uses the same API as iOS. Any `SDLArtwork` created with a `UIImage` that has a `renderingMode` of `alwaysTemplate` will be templated via SDL as well. These images must be PNGs with a transparent background and only one color for the icon. Therefore, this kind of image is only good for images like icons, not for images like album artwork, or anything requiring a specific
+
+Soft buttons, menu icons, and primary / secondary graphics can be templated. It's a good idea to template images so that any head unit, no matter their background color, can display your images with a color scheme that fits. For example, if a head unit is in a "Night" mode with a dark theme (which you can customize, see [the integration basics section](Getting Started/Integration Basics) for more details), then your images will be displayed as white, while in the day theme, they will automatically change to black.
 
 ##### Objective-C
 ```objc
@@ -111,6 +113,12 @@ SDLArtwork *artwork = [SDLArtwork artworkWithImage:image asImageFormat:SDLArtwor
 let image = UIImage(named: <#T##String#>)?.withRenderingMode(.alwaysTemplate)
 let artwork = SDLArtwork(image: image, persistent: true, as: .PNG)
 ```
+
+##### Template Images on Dark Background
+![Template Images Dark](assets/template-images-dark.png)
+
+##### Template Images on Light Background
+![Template Images Light](assets/template-images-light.png)
 
 ## Static Icons
 Static icons are pre-existing images on the remote system that you may reference and use in your own application. Static icons will be supported by the screen manager in a future update. Until then, you must send them using RPC request APIs `Image` and `Show`.
