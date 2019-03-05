@@ -62,10 +62,18 @@ sdlManager.screenManager.endUpdates { (error) in
 ### Removing Text and Images
 After you have displayed text and graphics onto the screen, you may want to remove those from being displayed. In order to do so, you only need to set the screen manager property to `nil`.
 
+##### Objective-C
 ```objc
 self.sdlManager.screenManager.textField1 = nil;
 self.sdlManager.screenManager.textField2 = nil;
 self.sdlManager.screenManager.primaryGraphic = nil;
+```
+
+##### Swift
+```swift
+sdlManager.screenManager.textField1 = nil
+sdlManager.screenManager.textField2 = nil
+sdlManager.screenManager.primaryGraphic = nil
 ```
 
 ## Soft Button Objects
