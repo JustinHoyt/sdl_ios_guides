@@ -25,7 +25,7 @@ The `SDLScreenManager` is a manager for easily creating and sending text, images
 
 self.sdlManager.screenManager.textField1 = @"<#Line 1 of Text#>";
 self.sdlManager.screenManager.textField2 = @"<#Line 2 of Text#>";
-self.sdlManager.screenManager.primaryGraphic = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"<#Image Name#>"] asImageFormat:<#SDLArtworkImageFormat#>]
+self.sdlManager.screenManager.primaryGraphic = [SDLArtwork persistentArtworkWithImage:[UIImage imageNamed:@"<#Image Name#>"] asImageFormat:<#SDLArtworkImageFormat#>];
 SDLSoftButtonObject *softButton = [[SDLSoftButtonObject alloc] initWithName:@"<#Soft Button Name#>" state:[[SDLSoftButtonState alloc] initWithStateName:@"<#Soft Button State Name#>" text:@"<#Button Text#>" artwork:<#SDLArtwork#>] handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
     if (buttonPress == nil) { return; }
     <#Button Selected#>
@@ -57,6 +57,15 @@ sdlManager.screenManager.endUpdates { (error) in
         <#Update to UI was Successful#>
     }
 }
+```
+
+### Removing Text and Images
+After you have displayed text and graphics onto the screen, you may want to remove those from being displayed. In order to do so, you only need to set the screen manager property to `nil`.
+
+```objc
+self.sdlManager.screenManager.textField1 = nil;
+self.sdlManager.screenManager.textField2 = nil;
+self.sdlManager.screenManager.primaryGraphic = nil;
 ```
 
 ## Soft Button Objects
