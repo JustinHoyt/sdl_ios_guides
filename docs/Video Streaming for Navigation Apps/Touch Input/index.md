@@ -6,7 +6,7 @@ You must have a valid and approved `appId` in order to recieve touch events.
 !!!
 
 ### Using SDLTouchManager
-`SDLTouchManager` has multiple callbacks that will ease the implementation of touch events. You can regisster for callbacks through the stream manager:
+`SDLTouchManager` has multiple callbacks that will ease the implementation of touch events. You can register for callbacks through the stream manager:
 
 ##### Objective-C
 ```objc
