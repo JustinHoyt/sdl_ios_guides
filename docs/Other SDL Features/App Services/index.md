@@ -2,7 +2,9 @@
 
 App services are a powerful feature enabling both a new kind of vehicle <-> app communication, and app <-> app communication via SDL.
 
-Currently, there is no high-level support for publishing an app service, so you will have to use raw RPCs for all app service related APIs.
+Vehicle head units may use these services in various ways. One app service for each type will be the "active" service to the module. For media, for example, this will be the media app that the user is currently using or listening to. For navigation, it would be a navigation app that the user is using to navigate. For weather, it may be the last used weather app, or a user-selected default. The system may then use that service's data to perform various actions (such as navigating to an address with the active service or to display the temperature as provided from the active weather service).
+
+Currently, there is no high-level API support for publishing an app service, so you will have to use raw RPCs for all app service related APIs.
 
 ## App Service Types
 
@@ -120,23 +122,49 @@ sdlManager.send(request: publishServiceRequest) { (req, res, err) in
 }
 ```
 
-Once you have your publish app service response, you will need to store the information provided in its `appServiceRecord` property. You will need some of the information later when you want to update your service's data.
+Once you have your publish app service response, you will need to store the information provided in its `appServiceRecord` property. You will need the information later when you want to update your service's data.
 
-### Updating With Service Data
+#### Watching for App Record Updates
+
+As noted in the introduction to this guide, one service for each type may become the "active" service. If your service is the active service, your `SDLAppServiceRecord` parameter `serviceActive` will be updated to note that you are now the active service.
+
+After the initial app record is passed to you in the `SDLPublishAppServiceResponse`, you will need to be notified of changes in order to observe whether or not you have become the active service. To do so, you will have to observe the new `SDLSystemCapabilityTypeAppServices` using `GetSystemCapability` and `OnSystemCapability`.
+
+##### Objective-C
+
+```objc
+// TODO
+```
+
+##### Swift
+
+```swift
+// TODO
+```
+
+### Updating Your Service's Data
 
 After your service is published, it's time to update your service data. First, you must send an `onAppServiceData` RPC notification with your updated service data. RPC notifications are different than RPC requests in that they will not receive a response from the connected head unit, and must use a different `SDLManager` method call to send.
 
 ##### Objective-C
 
 ```objc
+// TODO
 SDLOnAppServiceData *serviceDataUpdate = [[SDLOnAppServiceData alloc] initWithServiceData:]
 ```
 
 ##### Swift
 
 ```swift
+// TODO
 ```
 
-## Getting and Subscribing to Service Data
+## Getting and Subscribing to Services
+
+### Getting and Subscribing to Available Services
+
+### Getting and Subscribing to a Service's Data
 
 ## Interacting with a Service Provider
+
+### Sending an Action to a Service Provider
