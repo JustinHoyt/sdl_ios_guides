@@ -37,7 +37,7 @@ manifest.handledRPCs = []; // If you add function ids to this *optional* paramet
 manifest.mediaServiceManifest = <#Code#> // Covered below
 ```
 
-#### Publishing a Media Service Manifest
+#### Creating a Media Service Manifest
 
 Well, actually there's currently no media service manifest! You'll just have to create an empty media service manifest and set it into your general app service manifest.
 
@@ -55,7 +55,7 @@ let mediaManifest = SDLMediaServiceManifest()
 manifest.mediaServiceManifest = mediaManifest
 ```
 
-#### Publishing a Navigation Service Manifest
+#### Creating a Navigation Service Manifest
 
 You will need to create a navigation manifest if you want to publish a navigation service. You will declare whether or not your navigation app will accept waypoints. That is, if your app will support receiving _multiple_ points of navigation (e.g. go to this McDonalds, then this Walmart, then home).
 
@@ -73,7 +73,7 @@ let navigationManifest = SDLNavigationServiceManifest(acceptsWayPoints: true)
 manifest.navigationServiceManifest = navigationManifest
 ```
 
-#### Publishing a Weather Service Manifest
+#### Creating a Weather Service Manifest
 
 You will need to create a weather service manifest if you want to publish a weather service. You will declare they types of data your service provides in its `SDLWeatherServiceData`.
 
@@ -99,24 +99,37 @@ Once you have your service manifest, publishing your service is simple.
 
 ```objc
 SDLPublishAppService *publishServiceRequest = [[SDLPublishAppService alloc] initWithAppServiceManifest:<#Manifest Object#>];
-[self.sdlManager sendRequest:publishAppService];
+[[self.sdlManager sendRequest:publishServiceRequest withResponseHandler:];]([self.sdlManager sendRequest:publishService withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    if (error == nil || !response.success) { return; }
+
+    SDLPublishAppServiceResponse *publishServiceResponse = (SDLPublishAppServiceResponse *)response;
+    SDLAppServiceRecord *serviceRecord = publishServiceResponse.appServiceRecord
+    <#Use the response#>
+}];
 ```
 
 ##### Swift
 
 ```swift
 let publishServiceRequest = SDLPublishAppService(appServiceManifest: <#Manifest Object#>)
-sdlManager.send(publishServiceRequest)
+sdlManager.send(request: publishServiceRequest) { (req, res, err) in
+    guard let response = res as? SDLPublishAppServiceResponse, response.success.boolValue == true, err == nil else { return }
+
+    let serviceRecord = response.appServiceRecord
+    <#Use the response#>
+}
 ```
+
+Once you have your publish app service response, you will need to store the information provided in its `appServiceRecord` property. You will need some of the information later when you want to update your service's data.
 
 ### Updating With Service Data
 
-To update your service data, you must send an onAppServiceData RPC notification with your updated service data. RPC notifications are different than RPC requests in that they will not receive a response from the connected head unit, and must use a different `SDLManager` method call to send.
+After your service is published, it's time to update your service data. First, you must send an `onAppServiceData` RPC notification with your updated service data. RPC notifications are different than RPC requests in that they will not receive a response from the connected head unit, and must use a different `SDLManager` method call to send.
 
 ##### Objective-C
 
 ```objc
-
+SDLOnAppServiceData *serviceDataUpdate = [[SDLOnAppServiceData alloc] initWithServiceData:]
 ```
 
 ##### Swift
