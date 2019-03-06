@@ -113,7 +113,9 @@ let artwork = SDLArtwork(image: image, persistent: true, as: .PNG)
 ```
 
 ## Static Icons
-Static icons are pre-existing images on the remote system that you may reference and use in your own application. Static icons will be supported by the screen manager in a future update. Until then, you must send them using RPC request APIs `Image` and `Show`.
+Static icons are pre-existing images on the remote system that you may reference and use in your own application. Static icons will be supported by the screen manager in a future update. Until then, you must send them using RPC request APIs `Image` and `Show`. All static icons are available in the enum `SDLStaticIconName`.
+
+Static icons can be used in primary & secondary graphic fields, soft button image fields, and menu icon fields.
 
 ##### Objective-C
 ```objc
