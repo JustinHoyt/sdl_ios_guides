@@ -102,7 +102,7 @@ Once you have your service manifest, publishing your service is simple.
 ```objc
 SDLPublishAppService *publishServiceRequest = [[SDLPublishAppService alloc] initWithAppServiceManifest:<#Manifest Object#>];
 [[self.sdlManager sendRequest:publishServiceRequest withResponseHandler:];]([self.sdlManager sendRequest:publishService withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-    if (error == nil || !response.success) { return; }
+    if (error != nil || !response.success) { return; }
 
     SDLPublishAppServiceResponse *publishServiceResponse = (SDLPublishAppServiceResponse *)response;
     SDLAppServiceRecord *serviceRecord = publishServiceResponse.appServiceRecord
@@ -130,33 +130,32 @@ As noted in the introduction to this guide, one service for each type may become
 
 After the initial app record is passed to you in the `SDLPublishAppServiceResponse`, you will need to be notified of changes in order to observe whether or not you have become the active service. To do so, you will have to observe the new `SDLSystemCapabilityTypeAppServices` using `GetSystemCapability` and `OnSystemCapability`.
 
-##### Objective-C
-
-```objc
-// TODO
-```
-
-##### Swift
-
-```swift
-// TODO
-```
+For more information, see `Getting and Subscribing to Services` below.
 
 ### Updating Your Service's Data
 
 After your service is published, it's time to update your service data. First, you must send an `onAppServiceData` RPC notification with your updated service data. RPC notifications are different than RPC requests in that they will not receive a response from the connected head unit, and must use a different `SDLManager` method call to send.
 
+First, you will have to create an `SDLMediaServiceData`, `SDLNavigationServiceData` or `SDLWeatherServiceData` object with your service's data. Then, add that service-specific data object to an `SDLAppServiceData` object. Finally, create an `SDLOnAppServiceData` notification, append your `SDLAppServiceData` object, and send it.
+
 ##### Objective-C
 
 ```objc
-// TODO
-SDLOnAppServiceData *serviceDataUpdate = [[SDLOnAppServiceData alloc] initWithServiceData:]
+SDLMediaServiceData *mediaData = [[SDLMediaServiceData alloc] initWithMediaType:SDLMediaTypeMusic mediaTitle:@"Some media title" mediaArtist:@"Some media artist" mediaAlbum:@"Some album" playlistName:@"Some playlist" isExplicit:YES trackPlaybackProgress:45 trackPlaybackDuration:90 queuePlaybackProgress:45 queuePlaybackDuration:150 queueCurrentTrackNumber:2 queueTotalTrackCount:3];
+SDLAppServiceData *appData = [[SDLAppServiceData alloc] initWithMediaServiceData:mediaData serviceId:myServiceId];
+
+SDLOnAppServiceData *onAppData = [[SDLOnAppServiceData alloc] initWithServiceData:appData];
+[self.sdlManager sendRPC:onAppData];
 ```
 
 ##### Swift
 
 ```swift
-// TODO
+let mediaData = SDLMediaServiceData(mediaType: .music, mediaTitle: "Some media title", mediaArtist: "Some artist", mediaAlbum: "Some album", playlistName: "Some playlist", isExplicit: true, trackPlaybackProgress: 45, trackPlaybackDuration: 90, queuePlaybackProgress: 45, queuePlaybackDuration: 150, queueCurrentTrackNumber: 2, queueTotalTrackCount: 3)
+let appMediaData = SDLAppServiceData(mediaServiceData: mediaData, serviceId: serviceId)
+
+let onAppData = SDLOnAppServiceData(serviceData: appMediaData)
+sdlManager.sendRPC(onAppData)
 ```
 
 ## Getting and Subscribing to Services
@@ -166,5 +165,7 @@ SDLOnAppServiceData *serviceDataUpdate = [[SDLOnAppServiceData alloc] initWithSe
 ### Getting and Subscribing to a Service's Data
 
 ## Interacting with a Service Provider
+
+### Send RPCs to a Service Provider
 
 ### Sending an Action to a Service Provider
