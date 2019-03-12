@@ -296,6 +296,10 @@ lifecycleConfiguration.nightColorScheme = SDLTemplateColorScheme(primaryRGBColor
 You may only change the template coloring in the `lifecycleConfiguration` and in `SetDisplayLayout` RPC requests. You may only change the template coloring once per template. i.e. You cannot change to the same template you are already on using `SetDisplayLayout` and expect the coloring to change.
 !!!
 
+##### Template Coloring
+
+![Template Coloring from Above](assets/template-colors-example.png)
+
 ### 6. Lock Screen
 A lock screen is used to prevent the user from interacting with the app on the smartphone while they are driving. When the vehicle starts moving, the lock screen is activated. Similarly, when the vehicle stops moving, the lock screen is removed. You must implement a lock screen in your app for safety reasons. Any application without a lock screen will not get approval for release to the public.
 
