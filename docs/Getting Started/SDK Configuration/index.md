@@ -1,13 +1,9 @@
 # SDK Configuration
-### 1. Connect to a Remote System
-If you do not have an SDL enabled head unit for testing, [Manticore](https://smartdevicelink.com/resources/manticore/) may work for you. Manticore is a web-based emulator for testing how your app reacts to real-world vehicle events, on-screen interactions, and voice recognition—just like it would in a vehicle.
 
-You can also build the [sdl_core project](https://github.com/smartdevicelink/sdl_core) on an Ubuntu VM or computer. The sdl_core project is an emulator that lets you simulate sending and receiving remote procedure calls between a smartphone app and a SDL Core.
-
-### 2. Enable Background Capabilities
+## 1. Enable Background Capabilities
 Your application must be able to maintain a connection to the SDL Core even when it is in the background. This capability must be explicitly enabled for your application (available for iOS 5+). To enable the feature, select your application's build target, go to *Capabilities*, *Background Modes*, and select *External accessory communication mode*.
 
-### 3. Add SDL Protocol Strings
+## 2. Add SDL Protocol Strings
 Your application must support a set of SDL protocol strings in order to be connected to SDL enabled head units. Go to your application's **.plist** file and add the following code under the top level dictionary.
 
 !!! NOTE
@@ -52,7 +48,7 @@ This is only required for USB and Bluetooth enabled head units. It is not necess
 </array>
 ```  
 
-### 4. Get an App Id
+## 3. Get an App Id
 An app id is required for production level apps. The app id gives your app special permissions to access vehicle data. If your app does not need to access vehicle data, a dummy app id (i.e. create a fake id like "1234") is sufficient during the development stage. However, you must get an app id before releasing the app to the public.
 
 To obtain an app id, sign up at [smartdevicelink.com](https://www.smartdevicelink.com).

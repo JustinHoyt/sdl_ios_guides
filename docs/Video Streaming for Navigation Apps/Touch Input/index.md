@@ -6,7 +6,17 @@ You must have a valid and approved `appId` in order to recieve touch events.
 !!!
 
 ### Using SDLTouchManager
-`SDLTouchManager` has multiple callbacks that will ease the implementation of touch events. 
+`SDLTouchManager` has multiple callbacks that will ease the implementation of touch events. You can register for callbacks through the stream manager:
+
+##### Objective-C
+```objc
+self.sdlManager.streamManager.touchManager.touchEventDelegate = self
+```
+
+##### Swift
+```swift
+sdlManager.streamManager.touchManager.touchEventDelegate = self
+```
 
 !!! IMPORTANT
 The view passed from the following callbacks are dependent on using the built-in focusable item manager to send haptic rects. See [supporting haptic input](Video Streaming for Navigation Apps/Supporting Haptic Input) "Automatic Focusable Rects" for more information.
@@ -31,17 +41,17 @@ The following callbacks are provided:
 
 ##### Swift
 ```swift
-    optional public func touchManager(_ manager: SDLTouchManager, didReceiveSingleTapFor view: UIView?, at point: CGPoint)
-    optional public func touchManager(_ manager: SDLTouchManager, didReceiveDoubleTapFor view: UIView?, at point: CGPoint)
-    optional public func touchManager(_ manager: SDLTouchManager, panningDidStartIn view: UIView?, at point: CGPoint)
-    optional public func touchManager(_ manager: SDLTouchManager, didReceivePanningFrom fromPoint: CGPoint, to toPoint: CGPoint)
-    optional public func touchManager(_ manager: SDLTouchManager, panningDidEndIn view: UIView?, at point: CGPoint)
-    optional public func touchManager(_ manager: SDLTouchManager, panningCanceledAt point: CGPoint)
-    optional public func touchManager(_ manager: SDLTouchManager, pinchDidStartIn view: UIView?, atCenter point: CGPoint)
-    optional public func touchManager(_ manager: SDLTouchManager, didReceivePinchAtCenter point: CGPoint, withScale scale: CGFloat)
-    optional public func touchManager(_ manager: SDLTouchManager, didReceivePinchIn view: UIView?, atCenter point: CGPoint, withScale scale: CGFloat)
-    optional public func touchManager(_ manager: SDLTouchManager, pinchDidEndIn view: UIView?, atCenter point: CGPoint)
-    optional public func touchManager(_ manager: SDLTouchManager, pinchCanceledAtCenter point: CGPoint)
+func touchManager(_ manager: SDLTouchManager, didReceiveSingleTapFor view: UIView?, at point: CGPoint)
+func touchManager(_ manager: SDLTouchManager, didReceiveDoubleTapFor view: UIView?, at point: CGPoint)
+func touchManager(_ manager: SDLTouchManager, panningDidStartIn view: UIView?, at point: CGPoint)
+func touchManager(_ manager: SDLTouchManager, didReceivePanningFrom fromPoint: CGPoint, to toPoint: CGPoint)
+func touchManager(_ manager: SDLTouchManager, panningDidEndIn view: UIView?, at point: CGPoint)
+func touchManager(_ manager: SDLTouchManager, panningCanceledAt point: CGPoint)
+func touchManager(_ manager: SDLTouchManager, pinchDidStartIn view: UIView?, atCenter point: CGPoint)
+func touchManager(_ manager: SDLTouchManager, didReceivePinchAtCenter point: CGPoint, withScale scale: CGFloat)
+func touchManager(_ manager: SDLTouchManager, didReceivePinchIn view: UIView?, atCenter point: CGPoint, withScale scale: CGFloat)
+func touchManager(_ manager: SDLTouchManager, pinchDidEndIn view: UIView?, atCenter point: CGPoint)
+func touchManager(_ manager: SDLTouchManager, pinchCanceledAtCenter point: CGPoint)
 ```
 
 !!! note
