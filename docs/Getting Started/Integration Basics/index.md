@@ -250,6 +250,21 @@ lifecycleConfiguration.appType = SDLAppHMITypeMedia;
 lifecycleConfiguration.appType = .media
 ```
 
+#### Additional App Types
+If one app type doesn't cover your full app use-case, you can add additional `AppHMIType`s as well.
+
+##### Objective-C
+
+```objc
+lifecycleConfiguration.additionalAppTypes = @[SDLAppHMITypeInformation];
+```
+
+##### Swift
+
+```swift
+lifecycleConfiguration.additionalAppTypes = [SDLAppHMITypeInformation];
+```
+
 ### 5. Template Coloring
 You can alter the appearance of your app on a head unit in a consistent way using template coloring APIs.
 
