@@ -1,11 +1,11 @@
 # Creating an App Service
-App services is a powerful feature enabling both a new kind of vehicle to app communication, as well as app to app communication via SDL.
+App services is a powerful feature enabling both a new kind of vehicle-to-app communication and app-to-app communication via SDL.
 
 App services are used to publish navigation, weather and media data (such as temperature, navigation waypoints, or the current playlist name). This data can then be used by both the vehicle head unit and, if the publisher of the app service desires, other SDL apps.  
 
 Vehicle head units may use these services in various ways. One app service for each type will be the "active" service to the module. For media, for example, this will be the media app that the user is currently using or listening to. For navigation, it would be a navigation app that the user is using to navigate. For weather, it may be the last used weather app, or a user-selected default. The system may then use that service's data to perform various actions (such as navigating to an address with the active service or to display the temperature as provided from the active weather service).
 
-An SDL app can also subscribe to a published app service. Once subscribed, the app will be sent the new data when the app service publisher updates its data. To find out more about how to subscribe to an app service check out the (Using App Services)[Other SDL Features/Using App Services] section. Subscribed apps can also send certain RPCs and generic URI-based actions (see the section Supporting App Actions, below) to your service.
+An SDL app can also subscribe to a published app service. Once subscribed, the app will be sent the new data when the app service publisher updates its data. To find out more about how to subscribe to an app service check out the [Using App Services](Other SDL Features/Using App Services) section. Subscribed apps can also send certain RPCs and generic URI-based actions (see the section Supporting App Actions, below) to your service.
 
 Currently, there is no high-level API support for publishing an app service, so you will have to use raw RPCs for all app service related APIs.
 
@@ -90,7 +90,7 @@ Once you have created your service manifest, publishing your app service is simp
 ##### Objective-C
 ```objc
 SDLPublishAppService *publishServiceRequest = [[SDLPublishAppService alloc] initWithAppServiceManifest:<#Manifest Object#>];
-[[self.sdlManager sendRequest:publishServiceRequest withResponseHandler:];]([self.sdlManager sendRequest:publishService withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+[self.sdlManager sendRequest:publishServiceRequest withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
     if (error != nil || !response.success) { return; }
 
     SDLPublishAppServiceResponse *publishServiceResponse = (SDLPublishAppServiceResponse *)response;
@@ -117,7 +117,7 @@ As noted in the introduction to this guide, one service for each type may become
 
 After the initial app record is passed to you in the `SDLPublishAppServiceResponse`, you will need to be notified of changes in order to observe whether or not you have become the active service. To do so, you will have to observe the new `SDLSystemCapabilityTypeAppServices` using `GetSystemCapability` and `OnSystemCapability`.
 
-For more information, see (the Using App Services guide)[Other SDL Features/Using App Services] and see the "Getting and Subscribing to Services" section.
+For more information, see the [Using App Services guide](Other SDL Features/Using App Services) and see the "Getting and Subscribing to Services" section.
 
 ### 3. Update Your Service's Data
 After your service is published, it's time to update your service data. First, you must send an `onAppServiceData` RPC notification with your updated service data. RPC notifications are different than RPC requests in that they will not receive a response from the connected head unit, and must use a different `SDLManager` method call to send.
@@ -153,7 +153,7 @@ if (image == nil) { return; }
 
 SDLArtwork *artwork = [SDLArtwork artworkWithImage:image name:imageName asImageFormat:SDLArtworkImageFormatJPG];
 [self.sdlManager.fileManager uploadFile:artwork completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-    // Now that the image has been sent to the module successfully, let the consumer know that there is an image available. We'll use a weather service in this example.
+    // Make sure the image is uploaded to the system before publishing your service
     SDLLocationCoordinate *coordinate = [[SDLLocationCoordinate alloc] initWithLatitudeDegrees:42 longitudeDegrees:43];
     SDLLocationDetails *location = [[SDLLocationDetails alloc] initWithCoordinate:coordinate];
     SDLNavigationInstruction *instruction = [[SDLNavigationInstruction alloc] initWithLocationDetails:location action:SDLNavigationActionTurn];
@@ -178,7 +178,7 @@ let artwork = SDLArtwork(image: image, name: imageName, persistent: false, as: .
 sdlManager.fileManager.upload(file: artwork) { [weak self] (success, bytesAvailable, error) in
     guard success else { return }
 
-    // Since we're sending an image, we need to make sure it's available on the system before using it.
+    // Make sure the image is uploaded to the system before publishing your service
     let coordinate = SDLLocationCoordinate(latitudeDegrees: 42, longitutdeDegrees: 43)
     let location = SDLLocationDetails(coordinate: coordinate)
     let instruction = SDLNavigationInstruction(locationDetails: location, action: .turn)
@@ -327,6 +327,7 @@ In order to support actions through SDL services, you will need to observe and r
     // These are very important, your response won't work properly without them.
     response.success = @NO;
     response.resultCode = SDLResultGenericError;
+    response.correlationID = interactionRequest.correlationID;
 
     [self.sdlManager sendRPC:response];
 }
@@ -356,6 +357,7 @@ NotificationCenter.default.addObserver(self, selector: #selector(performAppServi
     // These are very important, your response won't work properly without them.
     response.success = true
     response.resultCode = .success
+    response.correlationID = interactionRequest.correlationID
 
     sdlManager.sendRPC(response)
 }
