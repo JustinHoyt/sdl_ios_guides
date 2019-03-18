@@ -12,7 +12,7 @@ Currently, there is no high-level API support for using an app service, so you w
 Creating an app service is covered [in another guide](Other SDL Features/Creating an App Service).
 
 ## Getting and Subscribing to Services
-Once your app has connected to the head unit, you will first want to be notified of all available services and updates to the metadata of all services on the head unit. Second, you will narrow down your app to subscribe to an individual app service and subscribe to its data. Third, you may want to interact with that service through RPCs and actions.
+Once your app has connected to the head unit, you will first want to be notified of all available services and updates to the metadata of all services on the head unit. Second, you will narrow down your app to subscribe to an individual app service and subscribe to its data. Third, you may want to interact with that service through RPCs, or fourth, through service actions.
 
 ### 1. Getting and Subscribing to Available Services
 To get information on all services published on the system, as well as on changes to published services, you will use the `GetSystemCapability` request / response as well as the `OnSystemCapabilityUpdated` notification.
@@ -183,9 +183,9 @@ sdlManager.send(request: getServiceData) { (req, res, err) in
 }
 ```
 
-## 3. Interacting with a Service Provider
+## Interacting with a Service Provider
 Once you have a service's data, you may want to interact with a service provider by sending RPCs or actions.
 
-### Send RPCs to a Service Provider
+### 3. Send RPCs to a Service Provider
 
-### Sending an Action to a Service Provider
+### 4. Sending an Action to a Service Provider

@@ -72,7 +72,7 @@ manifest.navigationServiceManifest = navigationManifest
 ```
 
 #### Creating a Weather Service Manifest
-You will need to create a weather service manifest if you want to publish a weather service. You will declare they types of data your service provides in its `SDLWeatherServiceData`.
+You will need to create a weather service manifest if you want to publish a weather service. You will declare the types of data your service provides in its `SDLWeatherServiceData`.
 
 ##### Objective-C
 ```objc
