@@ -9,11 +9,13 @@ An SDL app can also subscribe to a published app service. Once subscribed, the a
 
 Currently, there is no high-level API support for publishing an app service, so you will have to use raw RPCs for all app service related APIs.
 
+Using an app service is covered [in another guide](Other SDL Features/Using App Services).
+
 ## App Service Types
 Apps are able to declare that they provide an app service for various app service types by publishing an app service manifest. Three types of app services are currently available, and more will be made available over time. The currently available types are: Media, Navigation, and Weather.
 
 ## Publishing an App Service
-Publishing a service is a several step process. First, create your app service manifest. Second, publish your app service using your manifest. Third, publish your service data using `OnAppServiceData`. Fourth, respond to `GetAppServiceData` requests. Last, optionally, you can support URI based app actions.
+Publishing a service is a several step process. First, create your app service manifest. Second, publish your app service using your manifest. Third, publish your service data using `OnAppServiceData`. Fourth, respond to `GetAppServiceData` requests. Fifth, you should support RPCs related to your service. Last, optionally, you can support URI based app actions.
 
 ### 1. Creating an App Service Manifest
 The first step to publishing an app service is to create an `SDLAppServiceManifest` object. There is a set of generic parameters you will need to fill out as well as service type specific parameters based on the app service type you are creating.
@@ -91,7 +93,7 @@ Once you have created your service manifest, publishing your app service is simp
 ```objc
 SDLPublishAppService *publishServiceRequest = [[SDLPublishAppService alloc] initWithAppServiceManifest:<#Manifest Object#>];
 [self.sdlManager sendRequest:publishServiceRequest withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-    if (error != nil || !response.success) { return; }
+    if (error != nil || !response.success.boolValue) { return; }
 
     SDLPublishAppServiceResponse *publishServiceResponse = (SDLPublishAppServiceResponse *)response;
     SDLAppServiceRecord *serviceRecord = publishServiceResponse.appServiceRecord
@@ -260,22 +262,6 @@ NotificationCenter.default.addObserver(self, selector: #selector(appServiceDataR
 #### Sending a Response to Subscribers
 Second, you need to respond to the notification when you receive it with your app service data. This means that you will need to store your current service data after your most recent update using `OnAppServiceData` (see the section Updating Your Service Data).
 
-##### Swift
-```swift
-@objc func appServiceDataRequestReceived(_ request: SDLRPCRequestNotification) {
-    guard let getAppServiceData = request.request as? SDLGetAppServiceData else { return }
-
-    // Send a response
-    let response = SDLGetAppServiceDataResponse(appServiceData: <#Your App Service Data#>)
-    response.correlationID = getAppServiceData.correlationID
-    response.success = true as NSNumber
-    response.resultCode = .success
-    response.info = "<#Use to provide more information about an error#>"
-
-    sdlManager.sendRPC(response)
-}
-```
-
 ##### Objective-C
 ```objc
 - (void)appServiceDataRequestReceived:(SDLRPCRequestNotification *)request {
@@ -296,7 +282,83 @@ Second, you need to respond to the notification when you receive it with your ap
 }
 ```
 
-## Supporting App Actions
+##### Swift
+```swift
+@objc func appServiceDataRequestReceived(_ request: SDLRPCRequestNotification) {
+    guard let getAppServiceData = request.request as? SDLGetAppServiceData else { return }
+
+    // Send a response
+    let response = SDLGetAppServiceDataResponse(appServiceData: <#Your App Service Data#>)
+    response.correlationID = getAppServiceData.correlationID
+    response.success = true as NSNumber
+    response.resultCode = .success
+    response.info = "<#Use to provide more information about an error#>"
+
+    sdlManager.sendRPC(response)
+}
+```
+
+## Supporting Service RPCs and Actions
+
+### 5. Service RPCs
+Certain RPCs are related to certain services. The chart below shows the current relationships:
+
+| MEDIA | NAVIGATION | WEATHER |
+--------------------------------
+| ButtonPress (OK) | SendLocation | |
+| ButtonPress (SEEKLEFT) | GetWayPoints | |
+| ButtonPress (SEEKRIGHT) | SubscribeWayPoints | |
+| ButtonPress (TUNEUP) | OnWayPointChange | |
+| ButtonPress (TUNEDOWN) | | |
+| ButtonPress (SHUFFLE) | | |
+| ButtonPress (REPEAT) | | |
+
+When you are the active service for your service's type (e.g. media), these RPCs will automatically be routed to your app. You will have to set up notifications to be aware that they have arrived, and you will then need to respond to those requests.
+
+##### Objective-C
+```objc
+[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(buttonPressRequestReceived:) name:SDLDidReceiveButtonPressRequest object:nil];
+
+- (void)buttonPressRequestReceived:(SDLRPCRequestNotification *)request {
+    if (![request.request isKindOfClass:SDLButtonPress.class]) {
+        return;
+    }
+
+    SDLButtonPress *buttonPressRequest = (SDLButtonPress *)request.request;
+    // Check the request for the button name and long / short press
+
+    // Send a response
+    SDLButtonPressResponse *response = [[SDLButtonPressResponse alloc] init];
+    response.correlationID = buttonPressRequest.correlationID;
+    response.success = @YES;
+    response.resultCode = SDLVehicleDataResultCodeSuccess;
+    response.info = @"<#Use to provide more information about an error#>";
+
+    [self.sdlManager sendRPC:response];
+}
+```
+
+##### Swift
+```swift
+NotificationCenter.default.addObserver(self, selector: #selector(buttonPressRequestReceived(_:)), name: SDLDidReceiveButtonPressRequest, object: nil)
+
+@objc private func buttonPressRequestReceived(_ notification: SDLRPCRequestNotification) {
+    guard let interactionRequest = notification.request as? SDLButtonPress else { return }
+
+    // A result you want to send to the consumer app.
+    let response = SDLButtonPressResponse()
+
+    // These are very important, your response won't work properly without them.
+    response.success = true
+    response.resultCode = .success
+    response.correlationID = interactionRequest.correlationID
+    response.info = "<#Use to provide more information about an error#>"
+
+    sdlManager.sendRPC(response)
+}
+```
+
+### 6. Service Actions
 App actions are the ability for app consumers to use the SDL services system to send URIs to app providers in order to activate actions on the provider. Service actions are *schema-less*, i.e. there is no way to define the appropriate URIs through SDL. If you provide already provide actions or wish to start providing them, you will have to document your available actions elsewhere (such as your website).
 
 If you're wondering how to get started with actions and routing, this is a very common problem in iOS! Many apps support the [x-callback-URL](http://x-callback-url.com) format as a common inter-app communication method. There are also [many](https://github.com/devxoul/URLNavigator) [libraries](https://github.com/joeldev/JLRoutes) [available](https://github.com/skyline75489/SwiftRouter) for the purpose of supporting URL routing.
