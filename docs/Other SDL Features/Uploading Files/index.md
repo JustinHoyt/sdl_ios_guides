@@ -145,7 +145,6 @@ sdlManager.fileManager.delete(fileName: "<#Save As Name#>") { (success, bytesAva
     if success {
         <#Image was deleted successfully#>
     }
-
 }
 ```
 

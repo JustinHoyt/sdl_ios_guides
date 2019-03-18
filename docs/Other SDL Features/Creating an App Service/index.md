@@ -304,7 +304,7 @@ Second, you need to respond to the notification when you receive it with your ap
 Certain RPCs are related to certain services. The chart below shows the current relationships:
 
 | MEDIA | NAVIGATION | WEATHER |
---------------------------------
+| ---------------------------- |
 | ButtonPress (OK) | SendLocation | |
 | ButtonPress (SEEKLEFT) | GetWayPoints | |
 | ButtonPress (SEEKRIGHT) | SubscribeWayPoints | |
