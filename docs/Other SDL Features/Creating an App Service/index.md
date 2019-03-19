@@ -124,6 +124,10 @@ For more information, see the [Using App Services guide](Other SDL Features/Usin
 ### 3. Update Your Service's Data
 After your service is published, it's time to update your service data. First, you must send an `onAppServiceData` RPC notification with your updated service data. RPC notifications are different than RPC requests in that they will not receive a response from the connected head unit, and must use a different `SDLManager` method call to send.
 
+!!! NOTE
+You should only update your service's data when you are the active service; service consumers will only be able to see your data when you are the active service.
+!!!
+
 First, you will have to create an `SDLMediaServiceData`, `SDLNavigationServiceData` or `SDLWeatherServiceData` object with your service's data. Then, add that service-specific data object to an `SDLAppServiceData` object. Finally, create an `SDLOnAppServiceData` notification, append your `SDLAppServiceData` object, and send it.
 
 #### Media Service Data
