@@ -186,6 +186,63 @@ sdlManager.send(request: getServiceData) { (req, res, err) in
 ## Interacting with a Service Provider
 Once you have a service's data, you may want to interact with a service provider by sending RPCs or actions.
 
-### 3. Send RPCs to a Service Provider
+### 3. Sending RPCs to a Service Provider
+Only certain RPCs are available to be passed to the service provider based on their service type. See the [Creating an App Service](Other SDL Features/Creating an App Service) guide (under the "Supporting Service RPCs and Actions" section) for a chart detailing which RPCs work with which service types. The RPC can only be sent to the active service of a specific service type, not to any inactive service.
+
+Sending an RPC works exactly the same as if you were sending the RPC to the head unit system. The head unit will simply route your RPC to the appropriate app automatically.
+
+!!! NOTE
+Your app may need special permissions to use the RPCs that route to app service providers.
+!!!
+
+##### Objective-C
+```objc
+SDLButtonPress *buttonPress = [[SDLButtonPress alloc] initWithButtonName:SDLButtonNameOk moduleType:SDLModuleTypeAudio];
+
+[self.sdlManager sendRequest:buttonPress withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    if (!response || !response.success.boolValue) {
+        SDLLogE(@"Error sending button press: Req %@, Res %@, err %@", request, response, error);
+        return;
+    }
+
+    SDLButtonPressResponse *pressResponse = (SDLButtonPressResponse *)response;
+    <#Use the response#>
+}];
+```
+
+##### Swift
+```swift
+let buttonPress = SDLButtonPress(buttonName: .ok, moduleType: .audio)
+sdlManager.send(request: getServiceData) { (req, res, err) in
+    guard let response = res as? SDLButtonPressResponse, response.success.boolValue == true, err == nil else { return }
+
+    <#Use the response#>
+}
+```
 
 ### 4. Sending an Action to a Service Provider
+Actions are generic URI-based strings sent to any app service (active or not). You can also use actions to request to the system that they make the service the active service for that service type. Service actions are *schema-less*, i.e. there is no way to define the appropriate URIs through SDL. The service provider must document their list of available actions elsewhere (such as their website).
+
+##### Objective-C
+```objc
+SDLPerformAppServiceInteraction *performAction = [[SDLPerformAppServiceInteraction alloc] initWithServiceURI:@"sdlexample://x-callback-url/showText?x-source=MyApp&text=My%20Custom%20String" serviceID: <#Previously Retrived ServiceID#> originApp: <#Your App Id#> requestServiceActive: NO];
+[self.sdlManager sendRequest:performAction withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    if (!response || !response.success.boolValue) {
+        SDLLogE(@"Error sending perform action: Req %@, Res %@, err %@", request, response, error);
+        return;
+    }
+
+    SDLPerformAppServiceInteractionResponse *actionResponse = (SDLPerformAppServiceInteractionResponse *)response;
+    <#Use the response#>
+}];
+```
+
+##### Swift
+```swift
+let performAction = SDLPerformAppServiceInteraction(serviceUri: "sdlexample://x-callback-url/showText?x-source=MyApp&text=My%20Custom%20String", serviceID: <#Previously Retrived ServiceID#>, originApp: <#Your App Id#>, requestServiceActive: false)
+sdlManager.send(request: performAction) { (req, res, err) in
+    guard let response = res as? SDLPerformAppServiceInteractionResponse else { return }
+
+    <#Check the error and response#>
+}
+```
