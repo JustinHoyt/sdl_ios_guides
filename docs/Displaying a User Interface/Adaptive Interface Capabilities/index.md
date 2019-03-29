@@ -19,6 +19,7 @@ The `SystemCapabilityManager` is a new feature available as of version 6.0. If u
 | vrCapability | The voice-recognition capabilities of the connected SDL platform. The platform may be able to recognize spoken text in the current language. | Check SDLVRCapabilities.h for more information |
 | audioPassThruCapabilities | Describes the sampling rate, bits per sample, and audio types available. | Check SDLAudioPassThruCapabilities.h for more information|
 | hmiCapabilities | Returns whether or not the app can support built-in navigation and phone calls. | Check SDLHMICapabilities.h for more information |
+| appServicesCapabilities | Describes the capabilities of app services including what service types are supported and the current state of services | Check SDLAppServicesCapabilities.h for more information |
 | navigationCapability | Describes the built-in vehicle navigation system's APIs | Check SDLNavigationCapability.h for more information |
 | phoneCapability | Describes the built-in phone calling capabilities of the IVI system. | Check SDLPhoneCapability.h for more information |
 | videoStreamingCapability | Describes the abilities of the head unit to video stream projection applications | Check SDLVideoStreamingCapability.h for more information |
