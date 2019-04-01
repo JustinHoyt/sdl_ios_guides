@@ -320,10 +320,15 @@ Certain RPCs are related to certain services. The chart below shows the current 
 | ButtonPress (SHUFFLE) | | |
 | ButtonPress (REPEAT) | | |
 
-When you are the active service for your service's type (e.g. media), these RPCs will automatically be routed to your app. You will have to set up notifications to be aware that they have arrived, and you will then need to respond to those requests.
+When you are the active service for your service's type (e.g. media), and you have declared that you support these RPCs in your manifest (see section 1. Creating an App Service Manifest), then these RPCs will be automatically routed to your app. You will have to set up notifications to be aware that they have arrived, and you will then need to respond to those requests.
 
 ##### Objective-C
 ```objc
+SDLAppServiceManifest *manifest = [[SDLAppServiceManifest alloc] init];
+// Everything else for your manifest
+NSNumber *buttonPressRPCID = [[SDLFunctionID sharedInstance] functionIdForName:SDLRPCFunctionNameButtonPress];
+manifest.handledRPCs = @[buttonPressRPCID];
+
 [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(buttonPressRequestReceived:) name:SDLDidReceiveButtonPressRequest object:nil];
 
 - (void)buttonPressRequestReceived:(SDLRPCRequestNotification *)request {
@@ -343,6 +348,11 @@ When you are the active service for your service's type (e.g. media), these RPCs
 
 ##### Swift
 ```swift
+let manifest = SDLAppServiceManifest()
+// Everything else for your manifest
+let buttonPressRPCID = SDLFunctionID.sharedInstance().functionId(forName: .buttonPress)
+manifest.handledRPCs = [buttonPressRPCID]
+
 NotificationCenter.default.addObserver(self, selector: #selector(buttonPressRequestReceived(_:)), name: SDLDidReceiveButtonPressRequest, object: nil)
 
 @objc private func buttonPressRequestReceived(_ notification: SDLRPCRequestNotification) {
