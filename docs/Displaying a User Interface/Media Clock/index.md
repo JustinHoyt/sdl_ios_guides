@@ -13,13 +13,10 @@ Ensure your app is a media type app and you are using the media template before 
 ###### Ford HMI
 ![Menu Appearance](assets/ford_mediaclock.png)
 
-## Updating the Audio Indicator
-The audio indicator is, essentially, the play / pause button. As of SDL v6.1, when connected to an SDL v5.0+ head unit, you can tell the system what icon to display on the play / pause button to correspond with how your app works. For example, if audio is currently playing you can update the the play/pause button to show the pause icon. On older head units, the audio indicator shows an icon with both the play and pause indicators and the icon can not be updated. 
-
-For example, a radio app will probably want two button states: play and stop. A music app, in contrast, will probably want a play and pause button. If you don't send any audio indicator information, a play / pause button will be displayed.
-
 ## Counting Up
-In order to count up using the timer, you will need to set a start time that is less than the end time. The "bottom end" of the media clock will always start at `0:00` and the "top end" will be the end time you specified. The start time can be set to any position between 0 and the end time. For example, if you are starting a song at `0:30` and it ends at `4:13`, the media clock timer progress bar will start at the `0:30` position and start incrementing up automatically every second until it reaches `4:13`. The current position label will start counting upwards from `0:30` and the remaining time label will start counting down from `3.43`. When the end is reached, both labels will read `0:00` and the progress bar will stop moving.
+In order to count up using the timer, you will need to set a start time that is less than the end time. The "bottom end" of the media clock will always start at `0:00` and the "top end" will be the end time you specified. The start time can be set to any position between 0 and the end time. For example, if you are starting a song at `0:30` and it ends at `4:13`, the media clock timer progress bar will start at the `0:30` position and start incrementing up automatically every second until it reaches `4:13`. The current position label will start counting upwards from `0:30` and the remaining time label will start counting down from `3:43`. When the end is reached, the current time label will read `4:13`, the remaining time label will read `0:00` and the progress bar will stop moving.
+
+The play / pause indicator parameter is used to update the play / pause button to your desired button type. This is explained below in the section "Updating the Audio Indicator"
 
 ##### Objective-C
 ```objc
@@ -62,6 +59,11 @@ SDLSetMediaClockTimer *mediaClock = [SDLSetMediaClockTimer resumeWithPlayPauseIn
 [self.sdlManager sendRequest:mediaClock];
 ```
 
+```objc
+SDLSetMediaClockTimer *mediaClock = [SDLSetMediaClockTimer updatePauseWithNewStartTimeInterval:60 endTimeInterval:240 playPauseIndicator:SDLAudioStreamingIndicatorPlay];
+[self.sdlManager sendRequest:mediaClock];
+```
+
 ##### Swift
 ```swift
 let mediaClock = SDLSetMediaClockTimer.pause(playPauseIndicator: .play)
@@ -70,6 +72,11 @@ sdlManager.send(mediaClock)
 
 ```swift
 let mediaClock = SDLSetMediaClockTimer.resume(playPauseIndicator: .pause)
+sdlManager.send(mediaClock)
+```
+
+```swift
+let mediaClock = SDLSetMediaClockTimer.pause(newStart: 60, newEnd: 240, playPauseIndicator: .play)
 sdlManager.send(mediaClock)
 ```
 
@@ -87,3 +94,8 @@ SDLSetMediaClockTimer *mediaClock = [SDLSetMediaClockTimer clearWithPlayPauseInd
 let mediaClock = SDLSetMediaClockTimer.clear(playPauseIndicator: .play)
 sdlManager.send(mediaClock)
 ```
+
+## Updating the Audio Indicator
+The audio indicator is, essentially, the play / pause button. As of SDL v6.1, when connected to an SDL v5.0+ head unit, you can tell the system what icon to display on the play / pause button to correspond with how your app works. For example, if audio is currently playing you can update the the play/pause button to show the pause icon. On older head units, the audio indicator shows an icon with both the play and pause indicators and the icon can not be updated. 
+
+For example, a radio app will probably want two button states: play and stop. A music app, in contrast, will probably want a play and pause button. If you don't send any audio indicator information, a play / pause button will be displayed.
