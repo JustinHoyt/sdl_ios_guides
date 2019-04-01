@@ -210,10 +210,15 @@ if (image == nil) { return; }
 
 SDLArtwork *artwork = [SDLArtwork artworkWithImage:image name:imageName asImageFormat:SDLArtworkImageFormatJPG];
 
+// We have to send the image to the system before it's used in the app service.
+__weak typeof(self) weakself = self;
 [self.sdlManager.fileManager uploadFile:artwork completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-    // Now that the image has been sent to the module successfully, let the consumer know that there is an image available. We'll use a weather service in this example.
+    [weakSelf updateWeatherServiceWithImage:success];
+}];
+
+- (void)updateWeatherServiceWithImage:(BOOL)useImage {
     SDLWeatherData *weatherData = [[SDLWeatherData alloc] init];
-    weatherData.weatherIconImageName = imageName;
+    weatherData.weatherIconImageName = useImage ? imageName : nil;
 
     SDLWeatherServiceData *weatherServiceData = [[SDLWeatherServiceData alloc] initWithLocation:[[SDLLocationDetails alloc] initWithCoordinate:[[SDLLocationCoordinate alloc] initWithLatitudeDegrees:42.331427 longitudeDegrees:-83.0457538]]];
 
@@ -221,7 +226,7 @@ SDLArtwork *artwork = [SDLArtwork artworkWithImage:image name:imageName asImageF
 
     SDLOnAppServiceData *onAppServiceData = [[SDLOnAppServiceData alloc] initWithServiceData:appServiceData];
     [self.sdlManager sendRPC:onAppServiceData];
-}];
+}
 ```
 
 ##### Swift
@@ -229,19 +234,21 @@ SDLArtwork *artwork = [SDLArtwork artworkWithImage:image name:imageName asImageF
 guard let image = UIImage(named: imageName) else { return }
 let artwork = SDLArtwork(image: image, name: imageName, persistent: false, as: .JPG)
 
+// We have to send the image to the system before it's used in the app service.
 sdlManager.fileManager.upload(file: artwork) { [weak self] (success, bytesAvailable, error) in
-    guard success else { return }
+    self?.updateWeatherService(shouldUseImage: success)
+}
 
-    // Since we're sending an image, we need to make sure it's available on the system before using it.
+private func updateWeatherService(shouldUseImage: Bool) {
     let weatherData = SDLWeatherData()
-    weatherData.weatherIconImageName = imageName
+    weatherData.weatherIconImageName = shouldUseImage ? imageName : nil
 
     let weatherServiceData = SDLWeatherServiceData(location: SDLLocationDetails(coordinate: SDLLocationCoordinate(latitudeDegrees: 42.3314, longitudeDegrees: 83.0458)), currentForecast: weatherData, minuteForecast: nil, hourlyForecast: nil, multidayForecast: nil, alerts: nil)
 
     let appServiceData = SDLAppServiceData(weatherServiceData: weatherServiceData, serviceId: "<#Your saved serviceID#>")
 
     let onAppServiceData = SDLOnAppServiceData(serviceData: appServiceData)
-    self?.sdlManager.sendRPC(onAppServiceData)
+    sdlManager.sendRPC(onAppServiceData)
 }
 ```
 
@@ -253,14 +260,14 @@ Handling app service subscribers is a two step process. First, you must register
 #### Registering for Notifications
 First, you will need to register for the notification of a `GetAppServiceDataRequest` being received by your application.
 
-##### Swift
-```swift
-NotificationCenter.default.addObserver(self, selector: #selector(appServiceDataRequestReceived(_:)), name: SDLDidReceiveGetAppServiceDataRequest, object: nil)
-```
-
 ##### Objective-C
 ```objc
 [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appServiceDataRequestReceived:) name:SDLDidReceiveGetAppServiceDataRequest object:nil];
+```
+
+##### Swift
+```swift
+NotificationCenter.default.addObserver(self, selector: #selector(appServiceDataRequestReceived(_:)), name: SDLDidReceiveGetAppServiceDataRequest, object: nil)
 ```
 
 #### Sending a Response to Subscribers
