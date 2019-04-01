@@ -243,7 +243,7 @@ SDLGetInteriorVehicleData *getInteriorVehicleData = [[SDLGetInteriorVehicleData 
 
 ##### Swift
 ```swift
-NotificationCenter.default.addObserver(forName: .SDLDidReceiveInteriorVehicleDataNotification, object: nil, queue: OperationQueue.main) { (notification) in
+NotificationCenter.default.addObserver(forName: .SDLDidReceiveInteriorVehicleData, object: nil, queue: OperationQueue.main) { (notification) in
     guard let dataNotification = notification as? SDLRPCNotificationNotification,
         let onInteriorVehicleData = dataNotification.notification as? SDLOnInteriorVehicleData else { return }
     // This block will now be called whenever vehicle data changes
