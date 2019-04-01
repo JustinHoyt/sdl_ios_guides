@@ -12,7 +12,7 @@ Currently, there is no high-level API support for publishing an app service, so 
 Using an app service is covered [in another guide](Other SDL Features/Using App Services).
 
 ## App Service Types
-Apps are able to declare that they provide an app service for various app service types by publishing an app service manifest. Three types of app services are currently available, and more will be made available over time. The currently available types are: Media, Navigation, and Weather.
+Apps are able to declare that they provide an app service by publishing an app service manifest. Three types of app services are currently available, and more will be made available over time. The currently available types are: Media, Navigation, and Weather. An app may publish multiple services (one each for different service types), if desired.
 
 ## Publishing an App Service
 Publishing a service is a several step process. First, create your app service manifest. Second, publish your app service using your manifest. Third, publish your service data using `OnAppServiceData`. Fourth, respond to `GetAppServiceData` requests. Fifth, you should support RPCs related to your service. Last, optionally, you can support URI based app actions.
@@ -276,10 +276,6 @@ Second, you need to respond to the notification when you receive it with your ap
 ##### Objective-C
 ```objc
 - (void)appServiceDataRequestReceived:(SDLRPCRequestNotification *)request {
-    if (![request.request isKindOfClass:SDLGetAppServiceData.class]) {
-        return;
-    }
-
     SDLGetAppServiceData *getAppServiceData = (SDLGetAppServiceData *)request.request;
 
     // Send a response
@@ -331,10 +327,6 @@ When you are the active service for your service's type (e.g. media), these RPCs
 [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(buttonPressRequestReceived:) name:SDLDidReceiveButtonPressRequest object:nil];
 
 - (void)buttonPressRequestReceived:(SDLRPCRequestNotification *)request {
-    if (![request.request isKindOfClass:SDLButtonPress.class]) {
-        return;
-    }
-
     SDLButtonPress *buttonPressRequest = (SDLButtonPress *)request.request;
     // Check the request for the button name and long / short press
 

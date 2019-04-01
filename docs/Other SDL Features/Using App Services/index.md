@@ -17,12 +17,11 @@ To get information on all services published on the system, as well as on change
 
 ##### Objective-C
 ```objc
-/**
- * Notification selector for when the `OnSystemCapabilityUpdated` RPC notification comes in
- */
 - (void)systemCapabilityDidUpdate:(SDLRPCNotificationNotification *)notification {
     SDLOnSystemCapabilityUpdated *updateNotification = notification.notification;
     SDLLogD(@"On System Capability updated: %@", updateNotification);
+
+    <#Code#>
 }
 
 - (void)setupAppServicesCapability {
@@ -37,13 +36,21 @@ To get information on all services published on the system, as well as on change
 
         SDLAppServicesCapabilities *serviceRecord = response.systemCapability.appServicesCapabilities
         SDLLogD(@"Get system capability app service response: %@, serviceRecord %@", response, serviceRecord);
-        <#Code#>
+        
+        <#Use the service record#>
     }];
 }
 ```
 
 ##### Swift
 ```swift
+@objc private func systemCapabilityDidUpdate(_ notification: SDLRPCNotificationNotification) {
+    guard let capabilityNotification = notification.notification as? SDLOnSystemCapabilityUpdated else { return }
+
+    SDLLog.d("OnSystemCapabilityUpdated: \(capabilityNotification)")
+    <#Code#>
+}
+
 private func setupAppServicesCapability() {
     Notification.default.addObserver(self, selector: #selector(systemCapabilityDidUpdate(_:)), name: .SDLDidReceiveSystemCapabilityUpdated, object: nil)
 
@@ -53,13 +60,6 @@ private func setupAppServicesCapability() {
 
         <#Use the service record#>
     }
-}
-
-@objc private func systemCapabilityDidUpdate(_ notification: SDLRPCNotificationNotification) {
-    guard let capabilityNotification = notification.notification as? SDLOnSystemCapabilityUpdated else { return }
-
-    SDLLog.d("OnSystemCapabilityUpdated: \(capabilityNotification)")
-    <#Code#>
 }
 ```
 

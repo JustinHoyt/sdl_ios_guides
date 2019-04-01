@@ -301,9 +301,9 @@ You may only change the template coloring in the `lifecycleConfiguration` and in
 ![Template Coloring from Above](assets/template-colors-example.png)
 
 ### 6. Determine SDL Support
-You have the ability to determine a minimum SDL protocol and minimum SDL RPC version that you support. You should make this determination in cooperation with any OEMs you wish to support.
+You have the ability to determine a minimum SDL protocol and minimum SDL RPC version that your app supports. We recommend not setting these values until your app is ready for production. The OEMs you support will help you configure the correct `minimumProtocolVersion` and `minimumRPCVersion` during the application review process.
 
-If a head unit is blocked by protocol version, your app will never appear on it. If it is blocked by RPC version, it will appear and then quickly disappear. So while blocking with `minimumProtocolVersion` is preferable, `minimumRPCVersion` allows you more granular control over which RPCs will be present.
+If a head unit is blocked by protocol version, your app icon will never appear on the head unit's screen. If you configure your app to block by RPC version, it will appear and then quickly disappear. So while blocking with `minimumProtocolVersion` is preferable, `minimumRPCVersion` allows you more granular control over which RPCs will be present.
 
 ##### Objective-C
 ```objc
