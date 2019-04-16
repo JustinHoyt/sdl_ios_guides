@@ -1,6 +1,9 @@
 {
     "Authors": [
-        "Alexander Muller", "Timur Pulathaneli", "Joel Fischer", "Nicole Yarroch"
+        "Alexander Muller",
+        "Timur Pulathaneli",
+        "Joel Fischer",
+        "Nicole Yarroch"
     ],
     "languages": [
         "en"
@@ -48,7 +51,7 @@
                     "name": "Text Images and Buttons"
                 },
                 {
-                	"name": "Subscribing to System Buttons"
+                    "name": "Subscribing to System Buttons"
                 },
                 {
                     "name": "Main Menu"
@@ -102,57 +105,59 @@
                 },
                 {
                     "name": "Playing Audio Indications"
+                },
+                {
+                    "name": "Creating an OEM Cloud App Store"
                 }
             ]
         },
-        
         {
             "name": "Video Streaming for Navigation Apps",
-            "navigation" : [
-              {
-                  "name": "Introduction"
-              },
-              {
-                  "name": "Video Streaming"
-              },
-              {
-                  "name": "Audio Streaming"
-              },
-              {
-                  "name": "Touch Input"
-              },
-              {
-                  "name": "Supporting Haptic Input"
-              },
-              {
-                  "name": "Displaying Turn Directions"
-              }
+            "navigation": [
+                {
+                    "name": "Introduction"
+                },
+                {
+                    "name": "Video Streaming"
+                },
+                {
+                    "name": "Audio Streaming"
+                },
+                {
+                    "name": "Touch Input"
+                },
+                {
+                    "name": "Supporting Haptic Input"
+                },
+                {
+                    "name": "Displaying Turn Directions"
+                }
             ]
         },
         {
             "name": "Developer Tools",
-            "navigation" : [
+            "navigation": [
                 {
-                  "name": "Configuring SDL Logging"
+                    "name": "Configuring SDL Logging"
                 },
                 {
-                  "name": "Relay App"
+                    "name": "Relay App"
                 },
                 {
-                  "name": "RPC Builder App"
+                    "name": "RPC Builder App"
                 }
             ]
         },
         {
-          "name": "Migrating to Newer SDL iOS Versions",
-          "navigation": [
-            {
-              "name": "Updating to v4.3+"
-            },
-            {
-              "name": "Updating to v5.0+"
-            }
-          ]
+            "name": "Migrating to Newer SDL iOS Versions",
+            "navigation": [
+                {
+                    "name": "Updating to v4.3+"
+                },
+                {
+                    "name": "Updating to v5.0+"
+                }
+            ]
         }
     ]
 }
