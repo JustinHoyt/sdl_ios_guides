@@ -19,6 +19,7 @@ The `SystemCapabilityManager` is a new feature available as of version 6.0. If u
 | vrCapability | The voice-recognition capabilities of the connected SDL platform. The platform may be able to recognize spoken text in the current language. | Check SDLVRCapabilities.h for more information |
 | audioPassThruCapabilities | Describes the sampling rate, bits per sample, and audio types available. | Check SDLAudioPassThruCapabilities.h for more information|
 | hmiCapabilities | Returns whether or not the app can support built-in navigation and phone calls. | Check SDLHMICapabilities.h for more information |
+| appServicesCapabilities | Describes the capabilities of app services including what service types are supported and the current state of services | Check SDLAppServicesCapabilities.h for more information |
 | navigationCapability | Describes the built-in vehicle navigation system's APIs | Check SDLNavigationCapability.h for more information |
 | phoneCapability | Describes the built-in phone calling capabilities of the IVI system. | Check SDLPhoneCapability.h for more information |
 | videoStreamingCapability | Describes the abilities of the head unit to video stream projection applications | Check SDLVideoStreamingCapability.h for more information |
@@ -26,7 +27,6 @@ The `SystemCapabilityManager` is a new feature available as of version 6.0. If u
 
 ### The Register App Interface RPC
 The `RegisterAppInterface` response contains information about the display type, the type of images supported, the number of text fields supported, the HMI display language, and a lot of other useful properties. The table below has a list of properties beyond those available on the `SystemCapabilityManager` returned by the `RegisterAppInterface` response. Each property is optional, so you may not get information for all the parameters in the table.
-
 
 | Parameters  |  Description | Notes |
 | ------------- | ------------- |------------- |
@@ -36,6 +36,58 @@ The `RegisterAppInterface` response contains information about the display type,
 | supportedDiagModes | Specifies the white-list of supported diagnostic modes (0x00-0xFF) capable for DiagnosticMessage requests. If a mode outside this list is requested, it will be rejected. | Check SDLDiagnosticMessage.h for more information |
 | sdlVersion | The SmartDeviceLink version | String |
 | systemSoftwareVersion | The software version of the system that implements the SmartDeviceLink core | String |
+
+### System Capabilities
+Most head units provide features that your app can use: making and receiving phone calls, an embedded navigation system, video and audio streaming, as well as supporting app services. To find out if the head unit supports a feature as well as more information about the feature, use the `SystemCapabilityManager` to query the head unit for the desired capability. Querying for capabilities is only availble on head units supporting v.4.5 or greater; if connecting to older head units, the query will return `nil` even if the head unit may support the capabilty.
+
+##### Objective-C
+```objc
+[sdlManager.systemCapabilityManager updateCapabilityType:SDLSystemCapabilityTypeVideoStreaming completionHandler:^(NSError * _Nullable error, SDLSystemCapabilityManager * _Nonnull systemCapabilityManager) {
+    if (error != nil || systemCapabilityManager.videoStreamingCapability == nil) {
+        return;
+    }
+    <#Use the video streaming capability#>
+}];
+```
+
+##### Swift
+```swift
+sdlManager.systemCapabilityManager.updateCapabilityType(.videoStreaming) { (error, manager) in
+    guard error == nil, let videoStreamingCapability = manager.videoStreamingCapability else {
+        return
+    }
+    <#Use the video streaming capability#>
+}
+```
+
+#### Subscribing to Updates to System Capabilities
+In addition getting the current system capbilities it is also possible to register to get updates when the head unit capabilities change. To get these notifications you must register for the `SDLDidReceiveSystemCapabilityUpdatedNotification` notification. This feature is only availble on head units supporting v.5.2 or greater.
+
+##### Objective-C
+```objc
+[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(systemCapabilityUpdatedNotification:) name:SDLDidReceiveSystemCapabilityUpdatedNotification object:nil];
+
+- (void)systemCapabilityUpdatedNotification:(SDLRPCNotificationNotification *)notification {
+    SDLOnSystemCapabilityUpdated *capability = (SDLOnSystemCapabilityUpdated *)notification.notification;
+    SDLSystemCapability *systemCapability = capability.systemCapability;
+    <#Use the system capability#>
+}
+```
+
+##### Swift
+```swift
+NotificationCenter.default.addObserver(self, selector: #selector(systemCapabilityUpdatedNotification(_:)), name: .SDLDidReceiveSystemCapabilityUpdated, object: nil)
+
+@objc func systemCapabilityUpdatedNotification(_ notification: SDLRPCNotificationNotification) {
+    guard let capability = notification.notification as? SDLOnSystemCapabilityUpdated else {
+        return
+    }
+
+    let systemCapability = capability.systemCapability
+    <#Use the system capability#>
+}
+```
+
 
 ## Image Specifics
 ### Image File Type
