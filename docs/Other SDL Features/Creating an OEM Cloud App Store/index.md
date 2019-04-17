@@ -1,4 +1,4 @@
-# Creating a Cloud App Store
+# Creating an OEM Cloud App Store
 A new feature of SDL Core v5.1 and SDL iOS v6.2 allows OEMs to offer an app store that lets users browse and install remote cloud apps. If the cloud app requires users to login with their credentials, the app store can use an authentication token to automatically login users after their first session.
 
 !!! note
@@ -72,7 +72,7 @@ SDLGetCloudAppProperties *getCloud = [[SDLGetCloudAppProperties alloc] initWithA
     }
 
     SDLGetCloudAppPropertiesResponse *setCloudResponse = (SDLGetCloudAppPropertiesResponse *)response;
-    <#code#>
+    <#Use the response#>
 }];
 ```
 
@@ -84,7 +84,7 @@ sdlManager.send(request: getCloud) { (req, res, err) in
         return
     }
 
-    <# Use the response #>
+    <#Use the response#>
 }
 ```
 
