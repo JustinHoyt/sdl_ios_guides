@@ -1,4 +1,5 @@
 # Text, Images, and Buttons
+This guide covers presenting text and images on the screen as well as creating, showing, and responding to custom buttons you create.
 
 ## Template Fields
 The `SDLScreenManager` is a manager for easily creating and sending text, images and soft buttons for your SDL app. To update the UI, simply give the manager the new UI data and sandwich the update between the manager's  `beginUpdates` and ` endUpdatesWithCompletionHandler:` methods.
@@ -138,24 +139,24 @@ let artwork = SDLArtwork(image: image, persistent: true, as: .PNG)
 ![Template Images Light](assets/template-images-light.png)
 
 ## Static Icons
-Static icons are pre-existing images on the remote system that you may reference and use in your own application. Static icons will be supported by the screen manager in a future update. Until then, you must send them using RPC request APIs `Image` and `Show`. All static icons are available in the enum `SDLStaticIconName`.
+Static icons are pre-existing images on the remote system that you may reference and use in your own application. Static icons are fully supported by the screen manager via an `SDLArtwork` initializer.
 
 Static icons can be used in primary and secondary graphic fields, soft button image fields, and menu icon fields.
 
 ##### Objective-C
 ```objc
-SDLImage *image = [[SDLImage alloc] initWithStaticIconName:<#(nonnull SDLStaticIconName)#>];
-SDLShow *show = [[SDLShow alloc] init];
-show.graphic = image;
-[self.sdlManager sendRequest:show];
+SDLArtwork *staticIconArt = [[SDLArtwork alloc] initWithStaticIcon:SDLStaticIconNameAlbum];;
+SDLSoftButtonState *softButtonState1 = [[SDLSoftButtonState alloc] initWithStateName:@"<#Soft Button State Name#>" text:@"<#Button Label Text#>" artwork:staticIconArt];
+
+// Set the state into an `SDLSoftButtonObject` and then set the screen manager array of soft buttons
 ```
 
 ##### Swift
 ```swift
-let image = SDLImage(staticIconName: <#SDLStaticIconName#>)
-let show = SDLShow()
-show.graphic = image
-sdlManager.send(show)
+let staticIconArt = SDLArtwork(staticIcon: .album)
+let softButtonState1 = SDLSoftButtonState(stateName: "<#Soft Button State Name#>", text: "<#Button Label Text#>", artwork: staticIconArt)
+
+// Set the state into an `SDLSoftButtonObject` and then set the screen manager array of soft buttons
 ```
 
 ## Using RPCs

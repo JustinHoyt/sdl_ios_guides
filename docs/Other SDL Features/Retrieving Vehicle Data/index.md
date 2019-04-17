@@ -13,6 +13,7 @@ You may only ask for vehicle data that is available to your `appName` & `appId` 
 | Airbag Status | airbagStatus | Status of each of the airbags in the vehicle: yes, no, no event, not supported, fault |
 | Belt Status | beltStatus | The status of each of the seat belts: no, yes, not supported, fault, or no event |
 | Body Information | bodyInformation | Door ajar status for each door. The Ignition status. The ignition stable status. The park brake active status. |
+| Cloud App Vehicle Id | cloudAppVehicleID | The id for the vehicle when connecting to cloud applications |
 | Cluster Mode Status | clusterModeStatus | Whether or not the power mode is active. The power mode qualification status: power mode undefined, power mode evaluation in progress, not defined, power mode ok. The car mode status: normal, factory, transport, or crash. The power mode status: key out, key recently out, key approved, post accessory, accessory, post ignition, ignition on, running, crank |
 | Device Status | deviceStatus | Contains information about the smartphone device. Is voice recognition on or off, has a bluetooth connection been established, is a call active, is the phone in roaming mode, is a text message available, the battery level, the status of the mono and stereo output channels, the signal level, the primary audio source, whether or not an emergency call is currently taking place |
 | Driver Braking | driverBraking | The status of the brake pedal: yes, no, no event, fault, not supported |

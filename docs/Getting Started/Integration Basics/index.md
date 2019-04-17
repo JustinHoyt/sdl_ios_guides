@@ -300,7 +300,24 @@ You may only change the template coloring in the `lifecycleConfiguration` and in
 
 ![Template Coloring from Above](assets/template-colors-example.png)
 
-### 6. Lock Screen
+### 6. Determine SDL Support
+You have the ability to determine a minimum SDL protocol and minimum SDL RPC version that your app supports. We recommend not setting these values until your app is ready for production. The OEMs you support will help you configure the correct `minimumProtocolVersion` and `minimumRPCVersion` during the application review process.
+
+If a head unit is blocked by protocol version, your app icon will never appear on the head unit's screen. If you configure your app to block by RPC version, it will appear and then quickly disappear. So while blocking with `minimumProtocolVersion` is preferable, `minimumRPCVersion` allows you more granular control over which RPCs will be present.
+
+##### Objective-C
+```objc
+lifecycleConfiguration.minimumProtocolVersion = [SDLVersion versionWithString:@"3.0.0"];
+lifecycleConfiguration.minimumRPCVersion = [SDLVersion versionWithString:@"4.0.0"];
+```
+
+##### Swift
+```swift
+lifecycleConfiguration.minimumProtocolVersion = SDLVersion(string: "3.0.0")
+lifecycleConfiguration.minimumRPCVersion = SDLVersion(string: "4.0.0")
+```
+
+### 7. Lock Screen
 A lock screen is used to prevent the user from interacting with the app on the smartphone while they are driving. When the vehicle starts moving, the lock screen is activated. Similarly, when the vehicle stops moving, the lock screen is removed. You must implement a lock screen in your app for safety reasons. Any application without a lock screen will not get approval for release to the public.
 
 The SDL SDK can take care of the lock screen implementation for you, automatically using your app logo and the connected vehicle logo. If you do not want to use the default lock screen, you can implement your own custom lock screen.
@@ -317,7 +334,7 @@ For more information, please refer to the [Adding the Lock Screen](Getting Start
 SDLLockScreenConfiguration.enabled()
 ```
 
-### 7. Logging
+### 8. Logging
 A logging configuration is used to define where and how often SDL will log. It will also allow you to set your own logging modules and filters. For more information about setting up logging, see [the logging guide](Developer Tools/Configuring SDL Logging).
 
 ##### Objective-C
@@ -330,7 +347,7 @@ A logging configuration is used to define where and how often SDL will log. It w
 SDLLogConfiguration.default()
 ```
 
-### 8. Set the Configuration
+### 9. Set the Configuration
 The `SDLConfiguration` class is used to set the lifecycle, lock screen, logging, and optionally (dependent on if you are a Navigation or Projection app) streaming media configurations for the app. Use the lifecycle configuration settings above to instantiate a `SDLConfiguration` instance.
 
 ##### Objective-C
@@ -343,7 +360,7 @@ SDLConfiguration* configuration = [SDLConfiguration configurationWithLifecycle:l
 let configuration = SDLConfiguration(lifecycle: lifecycleConfiguration, lockScreen: .enabled(), logging: .default(), fileManager: .default())
 ```
 
-### 9. Create a SDLManager
+### 10. Create a SDLManager
 Now you can use the `SDLConfiguration` instance to instantiate the `SDLManager`.
 
 ##### Objective-C
@@ -356,7 +373,7 @@ self.sdlManager = [[SDLManager alloc] initWithConfiguration:configuration delega
 sdlManager = SDLManager(configuration: configuration, delegate: self)
 ```
 
-### 10. Start the SDLManager
+### 11. Start the SDLManager
 The manager should be started as soon as possible in your application's lifecycle. We suggest doing this in the `didFinishLaunchingWithOptions()` method in your *AppDelegate* class. Once the manager has been initialized, it will immediately start watching for a connection with the remote system. The manager will passively search for a connection with a SDL Core during the entire lifespan of the app. If the manager detects a connection with a SDL Core, the `startWithReadyHandler` will be called.
 
 Create a new function in the *ProxyManager* class called `connect`.
