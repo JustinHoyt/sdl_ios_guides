@@ -30,8 +30,8 @@ App stores can set properties for a cloud app by sending a `SetCloudAppPropertie
 
 ##### Objective-C
 ```objc
-SDLCloudAppProperties *properties = [[SDLCloudAppProperties alloc] initWithAppID:<#(appId)#>];
-properties.authToken = <#(auth token)#>;
+SDLCloudAppProperties *properties = [[SDLCloudAppProperties alloc] initWithAppID:<#app id#>];
+properties.authToken = <#auth token#>;
 SDLSetCloudAppProperties *setCloud = [[SDLSetCloudAppProperties alloc] initWithProperties:properties];
 [self.sdlManager sendRequest:setCloud withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
     if (!response || !response.success.boolValue) {
@@ -41,7 +41,7 @@ SDLSetCloudAppProperties *setCloud = [[SDLSetCloudAppProperties alloc] initWithP
 
     SDLSetCloudAppPropertiesResponse *setCloudResponse = (SDLSetCloudAppPropertiesResponse *)response;
 
-    <#code#>
+    <#Use the response#>
 }];
 ```
 
@@ -55,7 +55,7 @@ sdlManager.send(request: setCloud) { (req, res, err) in
         return
     }
 
-    <# Use the response #>
+    <#Use the response#>
 }
 ```
 
@@ -65,7 +65,7 @@ To retrieve cloud properties for a specific cloud app from local policy table, a
 ##### Objective-C
 ```objc
 SDLGetCloudAppProperties *getCloud = [[SDLGetCloudAppProperties alloc] initWithAppID:<#app id#>];
-self.sdlManager sendRequest:getCloud withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+[self.sdlManager sendRequest:getCloud withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
     if (!response || !response.success.boolValue) {
         SDLLogE(@"Error sending set cloud properties: Req %@, Res %@, err %@", request, response, error);
         return;
@@ -73,7 +73,7 @@ self.sdlManager sendRequest:getCloud withResponseHandler:^(__kindof SDLRPCReques
 
     SDLGetCloudAppPropertiesResponse *setCloudResponse = (SDLGetCloudAppPropertiesResponse *)response;
     <#code#>
-}
+}];
 ```
 
 ##### Swift
@@ -107,4 +107,4 @@ let authToken = sdlManager.authToken
 
 ## Getting CloudAppVehicleID (Optional)
 The `CloudAppVehicleID` is an optional parameter used by cloud apps to identify a head unit. The content of `CloudAppVehicleID` is up to the OEM's implementation. Possible values could be the VIN or a hashed VIN. 
-The `CloudAppVehicleID` value can be retrieved as part of the `GetVehicleData` RPC.  To find out more about how to retrieve `CloudAppVehicleID`, check out the  [Getting Vehicle Data](Getting Vehicle Data) section.
+The `CloudAppVehicleID` value can be retrieved as part of the `GetVehicleData` RPC.  To find out more about how to retrieve `CloudAppVehicleID`, check out the [Retrieving Vehicle Data](Other SDL Features/Retrieving Vehicle Data) section.
