@@ -24,4 +24,5 @@ let slider =  SDLSlider(numTicks: 5, position: 1, sliderHeader: "This is a heade
 manager.send(request: slider, responseHandler: { (req, res, err) in
 guard let response = res as? SDLSliderResponse, res?.resultCode == .success, err == nil, let position = response.sliderPosition else { return }
 <#Use the slider position#>
+})
 ```
