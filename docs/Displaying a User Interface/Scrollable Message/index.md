@@ -1,7 +1,11 @@
 # Scrollable Message
-A `SDLScrollableMessage` creates a full screen overaly typically containig a large block of formatted text that can be scrolled. `SDLScrollableMessage` contains a body of text, a message timeout , and up to 8 soft buttons depending on head unit. You must check the `DisplayCapabilities` to get the max number of `SoftButtons` allowed by the head unit. 
+A `SDLScrollableMessage` creates a full screen overaly containing a large block of formatted text that can be scrolled. `SDLScrollableMessage` contains a body of text, a message timeout and up to 8 soft buttons depending on head unit. You must check the `DisplayCapabilities` to get the max number of `SoftButtons` allowed by the head unit. 
 
-You simply create  an  `SDLScrollableMessage` object and send a RPC request to display the Scrollable Message. 
+You simply create  a  `SDLScrollableMessage` object and send a RPC request to display the Scrollable Message. 
+
+##  Scrollable Message UI
+
+![Scrollable Message](assets/ScrollableMessage.png)
 
 ##### Objective-C
 ```objc
@@ -16,7 +20,14 @@ int16_t scrollableMessageTimeout = 5000;
 
 //Create SoftButtos
 SDLSoftButton *scrollableSoftButton = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"Button 1" image:nil highlighted:NO buttonId:111 systemAction:nil handler:nil];
-SDLSoftButton *scrollableSoftButton2 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"Button 2" image:nil highlighted:NO buttonId:222 systemAction:nil handler:nil];
+SDLSoftButton *scrollableSoftButton2 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"Button 2" image:nil highlighted:NO buttonId:222 systemAction:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
+if (buttonPress == nil) {
+    return;
+}
+
+// create a custom action for the selected button
+}];
+
 [softButtons addObject:scrollableSoftButton];
 [softButtons addObject:scrollableSoftButton2];
 
@@ -39,7 +50,12 @@ let scrollableMessageText = "Lorem ipsum dolor sit amet, consectetur adipiscing 
 let scrollableTimeout: UInt16 = 50000
 
 //Create SoftButtos
-let scrollableSoftButtton = SDLSoftButton(type: .text, text: "Button 1", image: nil, highlighted: false, buttonId: 111, systemAction: .defaultAction, handler: nil)
+let scrollableSoftButtton = SDLSoftButton(type: .text, text: "Button 1", image: nil, highlighted: false, buttonId: 111, systemAction: .defaultAction, handler: { (buttonPress, buttonEvent) in
+guard let press = buttonPress else { return }
+
+// create a custom action for the selected button
+
+})
 let scrollableSoftButtton2 = SDLSoftButton(type: .text, text: "Button 2", image: nil, highlighted: false, buttonId: 222, systemAction: .defaultAction, handler: nil)
 softButtons.append(scrollableSoftButtton)
 softButtons.append(scrollableSoftButtton2)
