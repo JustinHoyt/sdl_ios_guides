@@ -17,7 +17,7 @@ This type of slider will have the same footer message displayed for each positio
 
 ##### Objective-C
 ```objc
-// Create a slider with a number of ticks, starting position 'tick number', a header message, an optional footer message, and a timeout
+// Create a slider with number of ticks, starting position 'tick number', a header message, an optional footer message, and a timeout
 SDLSlider *sdlSlider = [[SDLSlider alloc] initWithNumTicks:5 position:1 sliderHeader:@"This is a header" sliderFooter:@"This is a footer" timeout:30000];
 
 // Send the slider RPC request with handler 
@@ -27,7 +27,7 @@ if (!response || !response.success.boolValue) {
     return;
 }
 
-// Create a SDLSlider reponse object from the handler response
+// Create a SDLSlider response object from the handler response
 SDLSliderResponse *sdlSliderResponse = (SDLSliderResponse *)response;
 NSNumber *position = [sdlSliderResponse sliderPosition];
 <#Use the slider position#>
@@ -35,20 +35,20 @@ NSNumber *position = [sdlSliderResponse sliderPosition];
 ```
 ##### Swift
 ```swift
-// Create a slider with a number of ticks, starting position 'tick number', a header message, an optional footer message, and a timeout
+// Create a slider with number of ticks, starting position 'tick number', a header message, an optional footer message, and a timeout
 let slider =  SDLSlider(numTicks: 5, position: 1, sliderHeader: "This is a header", sliderFooter: "This is a footer", timeout: 30000)
 
 // Send the slider RPC request with handler 
 manager.send(request: slider, responseHandler: { (req, res, err) in
 
-// Create a SDLSlider reponse object from the handler response
+// Create a SDLSlider response object from the handler response
 guard let response = res as? SDLSliderResponse, res?.resultCode == .success, err == nil, let position = response.sliderPosition else { return }
 <#Use the slider position#>
 })
 ```
 
 ## Slider with Dynamic Footer
-This type of slider will have a different footer message displayed for each  position of the slider.  The footer is an optional paramater.  The footer message displayed will be based of the position of the slider.  The footer array should be the same length as  `numTicks` as each footer should correspond to a tick, or no footer if nil.
+This type of slider will have a different footer message displayed for each  position of the slider.  The footer is an optional paramater.  The footer message displayed will be based off of the sliders current position.  The footer array should be the same length as  `numTicks` as each footer should correspond to a tick, or no footer if nil.
 
 ## Slider UI
 ![Slider with Dynamic Footer 1](assets/DynamicFooter1.png)
@@ -62,7 +62,7 @@ This type of slider will have a different footer message displayed for each  pos
 // Create an array of footers to diplay to the user.
 NSArray<NSString *> *footers = @[@"Footer 1", @"Footer 2", @"Footer 3"];
 
-// Create a slider with a number of ticks, starting position 'tick number', a header message, and an optional footer array, and a timeout
+// Create a slider with number of ticks, starting position 'tick number', a header message, and an optional footer array, and a timeout
 SDLSlider *sdlSlider = [[SDLSlider alloc] initWithNumTicks:5 position:1 sliderHeader:@"This is a header" sliderFooters:footers timeout:30000];
 
 // Send the slider RPC request with handler 
@@ -73,7 +73,7 @@ SDLLogE(@"Error getting the SDLSlider response");
 return;
 }
 
-// Create a SDLSlider reponse object from the handler response
+// Create a SDLSlider response object from the handler response
 SDLSliderResponse *sdlSliderResponse = (SDLSliderResponse *)response;
 NSNumber *position = [sdlSliderResponse sliderPosition];
 <#Use the slider position#>
@@ -85,11 +85,11 @@ NSNumber *position = [sdlSliderResponse sliderPosition];
 // Create an array of footers to diplay to the user.
 let footers = ["Footer 1", "Footer 2", "Footer 3"]
 
-// Create a slider with a number of ticks, starting position 'tick number', a header message, and an optional footer array, and a timeout
+// Create a slider with number of ticks, starting position 'tick number', a header message, and an optional footer array, and a timeout
 let slider =  SDLSlider(numTicks: 5, position: 1, sliderHeader: "This is a header", sliderFooters:footers, timeout: 30000)
 manager.send(request: slider, responseHandler: { (req, res, err) in
 
-// Create a SDLSlider reponse object from the handler response
+// Create a SDLSlider response object from the handler response
 guard let response = res as? SDLSliderResponse, res?.resultCode == .success, err == nil, let position = response.sliderPosition else { return }
 <#Use the slider position#>
 })
