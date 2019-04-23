@@ -20,15 +20,15 @@ SDLSlider *sdlSlider = [[SDLSlider alloc] initWithNumTicks:5 position:1 sliderHe
 
 // Send the slider RPC request with handler 
 [manager sendRequest:sdlSlider withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-if (!response || !response.success.boolValue) {
-    SDLLogE(@"Error getting the SDLSlider response");
-    return;
-}
+    if (!response || !response.success.boolValue) {
+        SDLLogE(@"Error getting the SDLSlider response");
+        return;
+    }
+    // Create a SDLSlider response object from the handler response
+    SDLSliderResponse *sdlSliderResponse = (SDLSliderResponse *)response;
+    NSUInteger position = sdlSliderResponse.sliderPosition.unsignedIntegerValue
+    <#Use the slider position#>
 
-// Create a SDLSlider response object from the handler response
-SDLSliderResponse *sdlSliderResponse = (SDLSliderResponse *)response;
-NSUInteger position = sdlSliderResponse.sliderPosition.unsignedIntegerValue
-<#Use the slider position#>
 }];
 ```
 ##### Swift
@@ -38,10 +38,9 @@ let slider =  SDLSlider(numTicks: 5, position: 1, sliderHeader: "This is a heade
 
 // Send the slider RPC request with handler 
 manager.send(request: slider, responseHandler: { (req, res, err) in
-
-// Create a SDLSlider response object from the handler response
-guard let response = res as? SDLSliderResponse, res?.resultCode == .success, let position = response.sliderPosition.intValue else { return }
-<#Use the slider position#>
+    // Create a SDLSlider response object from the handler response
+    guard let response = res as? SDLSliderResponse, res?.resultCode == .success, let position = response.sliderPosition.intValue else { return }
+    <#Use the slider position#>
 })
 ```
 
@@ -68,15 +67,14 @@ SDLSlider *sdlSlider = [[SDLSlider alloc] initWithNumTicks:5 position:1 sliderHe
 
 // Send the slider RPC request with handler 
 [manager sendRequest:sdlSlider withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-if (!response || !response.success.boolValue) {
-SDLLogE(@"Error getting the SDLSlider response");
-return;
-}
-
-// Create a SDLSlider response object from the handler response
-SDLSliderResponse *sdlSliderResponse = (SDLSliderResponse *)response;
-NSUInteger position = sdlSliderResponse.sliderPosition.unsignedIntegerValue
-<#Use the slider position#>
+    if (!response || !response.success.boolValue) {
+        SDLLogE(@"Error getting the SDLSlider response");
+        return;
+    }
+    // Create a SDLSlider response object from the handler response
+    SDLSliderResponse *sdlSliderResponse = (SDLSliderResponse *)response;
+    NSUInteger position = sdlSliderResponse.sliderPosition.unsignedIntegerValue
+    <#Use the slider position#>
 }];
 ```
 
@@ -88,9 +86,8 @@ let footers = ["Footer 1", "Footer 2", "Footer 3"]
 // Create a slider with number of ticks, starting position 'tick number', a header message, and an optional footer array, and a timeout of 30 seconds
 let slider =  SDLSlider(numTicks: 5, position: 1, sliderHeader: "This is a header", sliderFooters:footers, timeout: 30000)
 manager.send(request: slider, responseHandler: { (req, res, err) in
-
-// Create a SDLSlider response object from the handler response
-guard let response = res as? SDLSliderResponse, res?.resultCode == .success, let position = response.sliderPosition.intValue else { return }
-<#Use the slider position#>
+    // Create a SDLSlider response object from the handler response
+    guard let response = res as? SDLSliderResponse, res?.resultCode == .success, let position = response.sliderPosition.intValue else { return }
+    <#Use the slider position#>
 })
 ```
