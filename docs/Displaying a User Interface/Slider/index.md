@@ -11,7 +11,6 @@ A slider popup with a static footer displays a single, optional, footer message 
 ## Slider UI
 ![Slider with Static Footer 1](assets/StaticFooter.png)
 
-
 ### Creating the Slider
 
 ##### Objective-C
@@ -56,7 +55,6 @@ This type of slider will have a different footer message displayed for each  pos
 
 ##### Dynamic Slider in Position 2
 ![Slider with Dynamic Footer 2](assets/DynamicFooter2.png)
-
 
 ### Creating the Slider
 
