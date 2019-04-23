@@ -3,7 +3,7 @@ A `SDLSlider` creates a full screen or pop-up overlay (depepednig on platform) t
 There are two main `SDLSlider` layouts, one with a static footer and one with a dynamic footer.  
 
 !!! NOTE
-The slider will persist on the screen until the timeout has elapsed, or the user dismisses the slider by selecting a position and saving.
+The slider will persist on the screen until the timeout has elapsed, or the user dismisses the slider by selecting a position or canceling.
 !!!
 
 ## Slider with Static Footer
