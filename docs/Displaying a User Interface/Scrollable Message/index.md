@@ -17,7 +17,7 @@ NSString *scrollableMessageString = [NSString stringWithFormat:@"Lorem ipsum dol
 // Create a timeout of 5 seconds
 int16_t scrollableMessageTimeout = 5000;
 
-// Create SoftButtos
+// Create SoftButtons
 SDLSoftButton *scrollableSoftButton = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"Button 1" image:nil highlighted:NO buttonId:111 systemAction:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
 if (buttonPress == nil) {
 return;
