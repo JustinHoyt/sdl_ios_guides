@@ -14,23 +14,23 @@ NSMutableArray<SDLSoftButton *> *softButtons = [[NSMutableArray alloc] init];
 // Create Message To Display
 NSString *scrollableMessageString = [NSString stringWithFormat:@"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\n\nVestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare. Purus in massa tempor nec feugiat nisl pretium fusce id.\n\n\nPharetra convallis posuere morbi leo urna molestie at elementum eu. Dictum sit amet justo donec enim diam."];
 
-// Create a timeout of 5 seconds
-int16_t scrollableMessageTimeout = 5000;
+// Create a timeout of 50 seconds
+int16_t scrollableMessageTimeout = 50000;
 
 // Create SoftButtons
 SDLSoftButton *scrollableSoftButton = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"Button 1" image:nil highlighted:NO buttonId:111 systemAction:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-if (buttonPress == nil) {
-return;
-}
+    if (buttonPress == nil) {
+        return;
+    }
 
-// Create a custom action for the selected button
+    // Create a custom action for the selected button
 }];
 SDLSoftButton *scrollableSoftButton2 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"Button 2" image:nil highlighted:NO buttonId:222 systemAction:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
-if (buttonPress == nil) {
-    return;
-}
+    if (buttonPress == nil) {
+        return;
+    }
 
-// Create a custom action for the selected button
+    // Create a custom action for the selected button
 }];
 
 [softButtons addObject:scrollableSoftButton];
@@ -57,7 +57,7 @@ Vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare. Puru
 Pharetra convallis posuere morbi leo urna molestie at elementum eu. Dictum sit amet justo donec enim diam.
 """
 
-// Create a timeout of 5 seconds
+// Create a timeout of 50 seconds
 let scrollableTimeout: UInt16 = 50000
 
 // Create SoftButtons
@@ -71,6 +71,7 @@ let scrollableSoftButton2 = SDLSoftButton(type: .text, text: "Button 2", image: 
 
     // Create a custom action for the selected button
 })
+
 softButtons.append(scrollableSoftButton)
 softButtons.append(scrollableSoftButton2)
 
