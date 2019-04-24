@@ -88,7 +88,7 @@ SDLSlider *sdlSlider = [[SDLSlider alloc] initWithNumTicks:3 position:1 sliderHe
 let footers = ["Footer 1", "Footer 2", "Footer 3"]
 
 // Create a slider with number of ticks, starting position 'tick number', a header message, and an optional footer array, and a timeout of 30 seconds
-let slider =  SDLSlider(numTicks: 3, position: 1, sliderHeader: "This is a header", sliderFooters: footers, timeout: 30000)
+let slider =  SDLSlider(numTicks: 3, position: 1, sliderHeader: "This is a Header", sliderFooters: footers, timeout: 30000)
 manager.send(request: slider, responseHandler: { (req, res, err) in
     // Create a SDLSlider response object from the handler response
     guard let response = res as? SDLSliderResponse, response.resultCode == .success, let position = response.sliderPosition.intValue else { return }
