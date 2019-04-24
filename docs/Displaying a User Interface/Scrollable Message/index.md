@@ -51,14 +51,14 @@ var softButtons = [SDLSoftButton]()
 // Create Message To Display
 let scrollableMessageText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\n\nVestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare. Purus in massa tempor nec feugiat nisl pretium fusce id.\n\n\nPharetra convallis posuere morbi leo urna molestie at elementum eu. Dictum sit amet justo donec enim diam."
 
-/ Create a timeout of 5 seconds
+// Create a timeout of 5 seconds
 let scrollableTimeout: UInt16 = 50000
 
 // Create SoftButtons
 let scrollableSoftButton = SDLSoftButton(type: .text, text: "Button 1", image: nil, highlighted: false, buttonId: 111, systemAction: .defaultAction, handler: { (buttonPress, buttonEvent) in
     guard let press = buttonPress else { return }
 
-    // create a custom action for the selected button
+    // Create a custom action for the selected button
 })
 let scrollableSoftButton2 = SDLSoftButton(type: .text, text: "Button 2", image: nil, highlighted: false, buttonId: 222, systemAction: .defaultAction, handler: { (buttonPress, buttonEvent) in
 guard let press = buttonPress else { return }
