@@ -28,7 +28,6 @@ SDLSlider *sdlSlider = [[SDLSlider alloc] initWithNumTicks:5 position:1 sliderHe
     SDLSliderResponse *sdlSliderResponse = (SDLSliderResponse *)response;
     NSUInteger position = sdlSliderResponse.sliderPosition.unsignedIntegerValue
     <#Use the slider position#>
-
 }];
 ```
 ##### Swift
