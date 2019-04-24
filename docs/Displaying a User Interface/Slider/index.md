@@ -1,8 +1,8 @@
 # Slider
-An `SDLSlider` creates a full screen or pop-up overlay (depepednig on platform) that a user can control. There are two main `SDLSlider` layouts, one with a static footer and one with a dynamic footer.  
+An `SDLSlider` creates a full screen or pop-up overlay (depending on platform) that a user can control. There are two main `SDLSlider` layouts, one with a static footer and one with a dynamic footer.  
 
 !!! NOTE
-The slider will persist on the screen until the timeout has elapsed, or the user dismisses the slider by selecting a position or canceling.
+The slider will persist on the screen until the timeout has elapsed or the user dismisses the slider by selecting a position or canceling.
 !!!
 
 ## Slider with Static Footer
@@ -16,7 +16,7 @@ A slider popup with a static footer displays a single, optional, footer message 
 ##### Objective-C
 ```objc
 // Create a slider with number of ticks, starting position 'tick number', a header message, an optional footer message, and a timeout of 30 seconds
-SDLSlider *sdlSlider = [[SDLSlider alloc] initWithNumTicks:5 position:1 sliderHeader:@"This is a header" sliderFooter:@"This is a footer" timeout:30000];
+SDLSlider *sdlSlider = [[SDLSlider alloc] initWithNumTicks:5 position:1 sliderHeader:@"This is a Header" sliderFooter:@"Static Footer" timeout:30000];
 
 // Send the slider RPC request with handler 
 [manager sendRequest:sdlSlider withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
@@ -24,6 +24,7 @@ SDLSlider *sdlSlider = [[SDLSlider alloc] initWithNumTicks:5 position:1 sliderHe
         SDLLogE(@"Error getting the SDLSlider response");
         return;
     }
+    
     // Create a SDLSlider response object from the handler response
     SDLSliderResponse *sdlSliderResponse = (SDLSliderResponse *)response;
     NSUInteger position = sdlSliderResponse.sliderPosition.unsignedIntegerValue;
@@ -34,7 +35,7 @@ SDLSlider *sdlSlider = [[SDLSlider alloc] initWithNumTicks:5 position:1 sliderHe
 ##### Swift
 ```swift
 // Create a slider with number of ticks, starting position 'tick number', a header message, an optional footer message, and a timeout of 30 seconds
-let slider =  SDLSlider(numTicks: 5, position: 1, sliderHeader: "This is a header", sliderFooter: "This is a footer", timeout: 30000)
+let slider =  SDLSlider(numTicks: 5, position: 1, sliderHeader: "This is a Header", sliderFooter: "Static Footer", timeout: 30000)
 
 // Send the slider RPC request with handler 
 manager.send(request: slider, responseHandler: { (req, res, err) in
@@ -46,7 +47,7 @@ manager.send(request: slider, responseHandler: { (req, res, err) in
 ```
 
 ## Slider with Dynamic Footer
-This type of slider will have a different footer message displayed for each  position of the slider.  The footer is an optional paramater.  The footer message displayed will be based off of the sliders current position.  The footer array should be the same length as  `numTicks` as each footer should correspond to a tick, or no footer if nil.
+This type of slider will have a different footer message displayed for each  position of the slider.  The footer is an optional paramater.  The footer message displayed will be based off of the sliders current position.  The footer array should be the same length as numTicks because each footer must correspond to a tick value. Or, you can pass nil to have no footer at all.
 
 ### Slider UI
 
@@ -64,7 +65,7 @@ This type of slider will have a different footer message displayed for each  pos
 NSArray<NSString *> *footers = @[@"Footer 1", @"Footer 2", @"Footer 3"];
 
 // Create a slider with number of ticks, starting position 'tick number', a header message, and an optional footer array, and a timeout of 30 seconds
-SDLSlider *sdlSlider = [[SDLSlider alloc] initWithNumTicks:3 position:1 sliderHeader:@"This is a header" sliderFooters:footers timeout:30000];
+SDLSlider *sdlSlider = [[SDLSlider alloc] initWithNumTicks:3 position:1 sliderHeader:@"This is a Header" sliderFooters:footers timeout:30000];
 
 // Send the slider RPC request with handler 
 [manager sendRequest:sdlSlider withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
@@ -72,6 +73,7 @@ SDLSlider *sdlSlider = [[SDLSlider alloc] initWithNumTicks:3 position:1 sliderHe
         SDLLogE(@"Error getting the SDLSlider response");
         return;
     }
+    
     // Create a SDLSlider response object from the handler response
     SDLSliderResponse *sdlSliderResponse = (SDLSliderResponse *)response;
     NSUInteger position = sdlSliderResponse.sliderPosition.unsignedIntegerValue;
