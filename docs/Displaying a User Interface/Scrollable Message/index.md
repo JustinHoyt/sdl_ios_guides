@@ -23,23 +23,23 @@ if (buttonPress == nil) {
 return;
 }
 
-// create a custom action for the selected button
+// Create a custom action for the selected button
 }];
 SDLSoftButton *scrollableSoftButton2 = [[SDLSoftButton alloc] initWithType:SDLSoftButtonTypeText text:@"Button 2" image:nil highlighted:NO buttonId:222 systemAction:nil handler:^(SDLOnButtonPress * _Nullable buttonPress, SDLOnButtonEvent * _Nullable buttonEvent) {
 if (buttonPress == nil) {
     return;
 }
 
-// create a custom action for the selected button
+// Create a custom action for the selected button
 }];
 
 [softButtons addObject:scrollableSoftButton];
 [softButtons addObject:scrollableSoftButton2];
 
 // Create SDLScrollableMessage Object
-SDLScrollableMessage *scrollableMessage = [[SDLScrollableMessage alloc] initWithMessage:scrollableMessageString timeout:scrollableMessageTimeout softButtons:softButtons];
+SDLScrollableMessage *scrollableMessage = [[SDLScrollableMessage alloc] initWithMessage:scrollableMessageString timeout:scrollableMessageTimeout softButtons:[softButtons copy]];
 
-// Finally Send A RPC Message
+// Send the scrollable message
 [sdlManager sendRequest:scrollableMessage];
 ```
 
@@ -63,7 +63,7 @@ let scrollableSoftButton = SDLSoftButton(type: .text, text: "Button 1", image: n
 let scrollableSoftButton2 = SDLSoftButton(type: .text, text: "Button 2", image: nil, highlighted: false, buttonId: 222, systemAction: .defaultAction, handler: { (buttonPress, buttonEvent) in
 guard let press = buttonPress else { return }
 
-// create a custom action for the selected button
+// Create a custom action for the selected button
 })
 softButtons.append(scrollableSoftButton)
 softButtons.append(scrollableSoftButton2)
@@ -71,6 +71,6 @@ softButtons.append(scrollableSoftButton2)
 // Create SDLScrollableMessage Object
 let scrollableMessage = SDLScrollableMessage(message: scrollableMessageText, timeout: scrollableTimeout, softButtons: softButtons)
 
-// Finally Send A RPC Message
+// Send the scrollable message
 sdlManager.send(scrollableMessage)
 ```
