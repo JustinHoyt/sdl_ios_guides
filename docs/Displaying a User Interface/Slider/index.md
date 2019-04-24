@@ -47,7 +47,7 @@ manager.send(request: slider, responseHandler: { (req, res, err) in
 ```
 
 ## Slider with Dynamic Footer
-This type of slider will have a different footer message displayed for each  position of the slider.  The footer is an optional paramater.  The footer message displayed will be based off of the sliders current position.  The footer array should be the same length as numTicks because each footer must correspond to a tick value. Or, you can pass nil to have no footer at all.
+This type of slider will have a different footer message displayed for each position of the slider.  The footer is an optional paramater.  The footer message displayed will be based off of the slider's current position. The footer array should be the same length as `numTicks` because each footer must correspond to a tick value. Or, you can pass nil to have no footer at all.
 
 ### Slider UI
 
