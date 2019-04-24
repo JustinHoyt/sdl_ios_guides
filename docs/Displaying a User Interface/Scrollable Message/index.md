@@ -61,9 +61,9 @@ let scrollableSoftButton = SDLSoftButton(type: .text, text: "Button 1", image: n
     // Create a custom action for the selected button
 })
 let scrollableSoftButton2 = SDLSoftButton(type: .text, text: "Button 2", image: nil, highlighted: false, buttonId: 222, systemAction: .defaultAction, handler: { (buttonPress, buttonEvent) in
-guard let press = buttonPress else { return }
+    guard let press = buttonPress else { return }
 
-// Create a custom action for the selected button
+    // Create a custom action for the selected button
 })
 softButtons.append(scrollableSoftButton)
 softButtons.append(scrollableSoftButton2)
