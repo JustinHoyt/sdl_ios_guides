@@ -14,7 +14,7 @@ NSMutableArray<SDLSoftButton *> *softButtons = [[NSMutableArray alloc] init];
 // Create Message To Display
 NSString *scrollableMessageString = [NSString stringWithFormat:@"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\n\nVestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare. Purus in massa tempor nec feugiat nisl pretium fusce id.\n\n\nPharetra convallis posuere morbi leo urna molestie at elementum eu. Dictum sit amet justo donec enim diam."];
 
-// Create a Timeout
+// Create a timeout of 5 seconds
 int16_t scrollableMessageTimeout = 5000;
 
 // Create SoftButtos
@@ -51,7 +51,7 @@ var softButtons = [SDLSoftButton]()
 // Create Message To Display
 let scrollableMessageText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\n\nVestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare. Purus in massa tempor nec feugiat nisl pretium fusce id.\n\n\nPharetra convallis posuere morbi leo urna molestie at elementum eu. Dictum sit amet justo donec enim diam."
 
-// Create a Timeout
+/ Create a timeout of 5 seconds
 let scrollableTimeout: UInt16 = 50000
 
 // Create SoftButtons
