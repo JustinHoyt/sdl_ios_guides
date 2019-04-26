@@ -128,7 +128,7 @@ SDLArtwork *artwork = [SDLArtwork artworkWithImage:image asImageFormat:SDLArtwor
 
 ##### Swift
 ```swift
-let image = UIImage(named: <#T##String#>)?.withRenderingMode(.alwaysTemplate)
+let image = UIImage(named: <#String#>)?.withRenderingMode(.alwaysTemplate)
 let artwork = SDLArtwork(image: image, persistent: true, as: .PNG)
 ```
 
