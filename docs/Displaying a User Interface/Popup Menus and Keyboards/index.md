@@ -140,12 +140,12 @@ It may seem that the answer is to always use `.both`. However, remember that you
 
 ##### Objective-C
 ```objc
-[self.manager.screenManager presentChoiceSet:<#(nonnull SDLChoiceSet *)#> mode:<#(nonnull SDLInteractionMode)#>];
+[self.sdlManager.screenManager presentChoiceSet:<#(nonnull SDLChoiceSet *)#> mode:<#(nonnull SDLInteractionMode)#>];
 ```
 
 ##### Swift
 ```swift
-manager.screenManager.present(<#choiceSet: SDLChoiceSet#>, mode: <#SDLInteractionMode#>)
+sdlManager.screenManager.present(<#choiceSet: SDLChoiceSet#>, mode: <#SDLInteractionMode#>)
 ```
 
 ### Presenting a Searchable Menu
