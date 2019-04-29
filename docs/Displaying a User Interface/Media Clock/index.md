@@ -41,7 +41,7 @@ SDLSetMediaClockTimer *mediaClock = [SDLSetMediaClockTimer countDownFromStartTim
 
 ##### Swift
 ```swift
-let mediaTimer = SDLSetMediaClockTimer.countDown(from: 600, to: 0, playPauseIndicator: .pause)
+let mediaClock = SDLSetMediaClockTimer.countDown(from: 600, to: 0, playPauseIndicator: .pause)
 sdlManager.send(mediaClock)
 ```
 
