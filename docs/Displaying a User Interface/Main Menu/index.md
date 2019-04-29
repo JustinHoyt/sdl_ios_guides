@@ -61,7 +61,7 @@ let cell = SDLMenuCell(title: <#String#>, icon: <#SDLArtwork?#>, voiceCommands: 
 }
 
 let submenuCell = SDLMenuCell(title: <#String#>, icon: <#SDLArtwork#>, subCells:<#[SDLMenuCell]#>)
-self.sdlManager.screenManager.menu = @[submenuCell]
+self.sdlManager.screenManager.menu = [submenuCell]
 ```
 
 ### Artworks
