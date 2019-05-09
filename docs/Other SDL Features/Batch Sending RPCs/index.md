@@ -8,23 +8,24 @@ When you send multiple RPCs concurrently there is no guarantee of the order in w
 
 ##### Objective-C
 ```objc
-SDLArtwork *artwork1 = [SDLArtwork artworkWithImage:[UIImage imageNamed:@"<#Image name#>"] asImageFormat:<#SDLArtworkImageFormat#>];
-SDLArtwork *artwork2 = [SDLArtwork artworkWithImage:[UIImage imageNamed:@"<#Image name#>"] asImageFormat:<#SDLArtworkImageFormat#>];
-[self.sdlManager sendRequests:@[artwork1, artwork2] progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-    NSLog(@"Command %@ sent %@, percent complete %f%%", request.name, response.resultCode == SDLResultSuccess ? @"successfully" : @"unsuccessfully", percentComplete * 100);
+SDLAddCommand *globalVoiceCommand1 = [[SDLAddCommand alloc] initWithId:1 vrCommands:@[@"one"] handler:nil];
+SDLAddCommand *globalVoiceCommand2 = [[SDLAddCommand alloc] initWithId:2 vrCommands:@[@"two"] handler:nil];
+
+[self.sdlManager sendRequests:@[globalVoiceCommand1, globalVoiceCommand2] progressHandler:^(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
+    <#Called as each request completes#>
 } completionHandler:^(BOOL success) {
-    NSLog(@"All requests sent %@", success ? @"successfully" : @"unsuccessfully");
+    <#Called when all requests complete#>
 }];
 ```
 
 ##### Swift
 ```swift
-let artwork1 = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
-let artwork2 = SDLArtwork(image: <#UIImage#>, persistent: <#Bool#>, as: <#SDLArtworkImageFormat#>)
-sdlManager.send([artwork1, artwork2], progressHandler: { (request, response, error, percentComplete) in
-    print("Command \(request.name) sent \(response?.resultCode == .success ? "successfully" : "unsuccessfully"), percent complete \(percentComplete * 100)")
+let globalVoiceCommand1 = SDLAddCommand(id: 1, vrCommands: ["one"], handler: nil)
+let globalVoiceCommand2 = SDLAddCommand(id: 2, vrCommands: ["two"], handler: nil)
+sdlManager.send([globalVoiceCommand1, globalVoiceCommand2], progressHandler: { (request, response, error, percentComplete) in
+    <#Called as each request completes#>
 }) { success in
-    print("All requests sent \(success ? "successfully" : "unsuccessfully")")
+    <#Called when all requests complete#>
 }
 ```
 
@@ -40,9 +41,10 @@ SDLCreateInteractionChoiceSet *createInteractionChoiceSet = [[SDLCreateInteracti
 SDLPerformInteraction *performInteraction = [[SDLPerformInteraction alloc] initWithInteractionChoiceSetId:<#Choice Set Id#>];
 
 [self.sdlManager sendSequentialRequests:@[createInteractionChoiceSet, performInteraction] progressHandler:^BOOL(__kindof SDLRPCRequest * _Nonnull request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error, float percentComplete) {
-    NSLog(@"Command %@ sent %@, percent complete %f%%", request.name, response.resultCode == SDLResultSuccess ? @"successfully" : @"unsuccessfully", percentComplete * 100);
+   <#Called as each request completes#>
+   return YES;
 } completionHandler:^(BOOL success) {
-    NSLog(@"All requests sent %@", success ? @"successfully" : @"unsuccessfully");
+    <#Called when all requests complete#>
 }];
 ```
 
@@ -53,8 +55,9 @@ let createInteractionChoiceSet = SDLCreateInteractionChoiceSet(id: <#Choice Set 
 let performInteraction = SDLPerformInteraction(interactionChoiceSetId: <#Choice Set Id#>)
 
 sdlManager.sendSequential(requests: [createInteractionChoiceSet, performInteraction], progressHandler: { (request, response, error, percentageCompleted) -> Bool in
-    print("Command \(request.name) sent \(response?.resultCode == .success ? "successfully" : "unsuccessfully"), percent complete \(percentComplete * 100)")
+    <#Called as each request completes#>
+    return true
 }) { success in
-    print("All requests sent \(success ? "successfully" : "unsuccessfully")")
+    <#Called when all requests complete#>
 }
 ```
