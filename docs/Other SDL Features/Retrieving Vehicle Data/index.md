@@ -156,38 +156,36 @@ subscribeVehicleData.prndl = @YES;
 
 ##### Swift
 ```swift
-let subscribeVehicleData = SDLSubscribeVehicleData()
-subscribeVehicleData.prndl = true
+let subscribeGPSData = SDLSubscribeVehicleData()
+subscribeGPSData.gps = true as NSNumber
 
-sdlManager.send(request: subscribeVehicleData) { (request, response, error) in
+sdlManager.send(request: subscribeGPSData) { (request, response, error) in
     guard let response = response as? SDLSubscribeVehicleDataResponse else { return }
-    
-    guard response.success.boolValue == true else {
-        if response.resultCode == .disallowed {
-            // Not allowed to register for this vehicle data.
-        } else if response.resultCode == .userDisallowed {
-            // User disabled the ability to give you this vehicle data
-        } else if response.resultCode == .ignored {
-            if let prndlData = response.prndl {
-                if prndlData.resultCode == .dataAlreadySubscribed {
-                    // You have access to this data item, and you are already subscribed to this item so we are ignoring.
-                } else if prndlData.resultCode == .vehicleDataNotAvailable {
-                    // You have access to this data item, but the vehicle you are connected to does not provide it.
-                } else {
-                    print("Unknown reason for being ignored: \(prndlData.resultCode)")
-                }
-            } else {
-                print("Unknown reason for being ignored: \(String(describing: response.info))")
+
+    guard response.resultCode == .success else {
+        switch response.resultCode {
+        case .disallowed:
+            <#The app does not have permission to access this vehicle data#>
+        case .userDisallowed:
+            <#The user has not granted access to this type of vehicle data item at this time#>
+        case .ignored:
+            guard let gpsData = response.gps else { break }
+            switch gpsData.resultCode {
+            case .dataAlreadySubscribed:
+                <#Ignoring request because the app is already subscribed to GPS data#>
+            case .vehicleDataNotAvailable:
+                <#The app has permission to access to the GPS data, but the vehicle does not provide it#>
+            default:
+                break
             }
-        } else if let error = error {
-            print("Encountered Error sending SubscribeVehicleData: \(error)")
+        default:
+            <#Some other error occurred#>
         }
         return
     }
-    
-    // Successfully subscribed
-}
-```
+
+    <#Successfully subscribed to GPS data#>
+}```
 
 Finally, react to the notification when Vehicle Data is received:
 
