@@ -120,38 +120,34 @@ Then send the Subscribe Vehicle Data Request:
 
 ##### Objective-C
 ```objc
-SDLSubscribeVehicleData *subscribeVehicleData = [[SDLSubscribeVehicleData alloc] init];
-subscribeVehicleData.prndl = @YES;
+SDLSubscribeVehicleData *subscribeGPSData = [[SDLSubscribeVehicleData alloc] init];
+subscribeGPSData.prndl = @YES;
 
-[self.sdlManager sendRequest:subscribeVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-    if (![response isKindOfClass:[SDLSubscribeVehicleDataResponse class]]) {
-        return;
-    }
-    
-    SDLSubscribeVehicleDataResponse *subscribeVehicleDataResponse = (SDLSubscribeVehicleDataResponse*)response;
-    SDLVehicleDataResult *prndlData = subscribeVehicleDataResponse.prndl;
-    if (!response.success.boolValue) {
-        if ([response.resultCode isEqualToEnum:SDLResultDisallowed]) {
-            // Not allowed to register for this vehicle data.
-        } else if ([response.resultCode isEqualToEnum:SDLResultUserDisallowed]) {
-            // User disabled the ability to give you this vehicle data
-        } else if ([response.resultCode isEqualToEnum:SDLResultIgnored]) {
-            if ([prndlData.resultCode isEqualToEnum:SDLVehicleDataResultCodeDataAlreadySubscribed]) {
-                // You have access to this data item, and you are already subscribed to this item so we are ignoring.
-            } else if ([prndlData.resultCode isEqualToEnum:SDLVehicleDataResultCodeVehicleDataNotAvailable]) {
-                // You have access to this data item, but the vehicle you are connected to does not provide it.
+[self.sdlManager sendRequest:subscribeGPSData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    SDLSubscribeVehicleDataResponse *vehicleDataResponse = (SDLSubscribeVehicleDataResponse *)response;
+
+    if (![vehicleDataResponse.resultCode isEqualToEnum:SDLResultSuccess]) {
+        if ([vehicleDataResponse.resultCode isEqualToEnum:SDLResultDisallowed]) {
+            <#The app does not have permission to access this vehicle data#>
+        } else if ([vehicleDataResponse.resultCode isEqualToEnum:SDLResultUserDisallowed]) {
+            <#The user has not granted access to this type of vehicle data item at this time#>
+        } else if ([vehicleDataResponse.resultCode isEqualToEnum:SDLResultIgnored]) {
+            SDLVehicleDataResult *gpsData = vehicleDataResponse.gps;
+            if ([gpsData.resultCode isEqualToEnum:SDLVehicleDataResultCodeDataAlreadySubscribed]) {
+                <#Ignoring request because the app is already subscribed to GPS data#>
+            } else if ([gpsData.resultCode isEqualToEnum:SDLVehicleDataResultCodeVehicleDataNotAvailable]) {
+                <#The app has permission to access to the GPS data, but the vehicle does not provide it#>
             } else {
-            	NSLog(@"Unknown reason for being ignored: %@", prndlData.resultCode.value);
+                <#Request ignored for some other reason#>
             }
-        } else if (error) {
-            NSLog(@"Encountered Error sending SubscribeVehicleData: %@", error);
+        } else {
+            <#Some other error occurred#>
         }
-        
         return;
     }
-    
-    // Successfully subscribed
-}];
+
+     <#Successfully subscribed to GPS data#>
+ }];
 ```
 
 ##### Swift
@@ -176,7 +172,7 @@ sdlManager.send(request: subscribeGPSData) { (request, response, error) in
             case .vehicleDataNotAvailable:
                 <#The app has permission to access to the GPS data, but the vehicle does not provide it#>
             default:
-                break
+                <#Request ignored for some other reason#>
             }
         default:
             <#Some other error occurred#>
@@ -185,7 +181,8 @@ sdlManager.send(request: subscribeGPSData) { (request, response, error) in
     }
 
     <#Successfully subscribed to GPS data#>
-}```
+}
+```
 
 Finally, react to the notification when Vehicle Data is received:
 
