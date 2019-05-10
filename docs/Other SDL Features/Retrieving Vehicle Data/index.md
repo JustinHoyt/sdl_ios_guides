@@ -213,69 +213,62 @@ Sometimes you may not always need all of the vehicle data you are listening to. 
 
 ##### Objective-C
 ```objc
-SDLUnsubscribeVehicleData *unsubscribeVehicleData = [[SDLUnsubscribeVehicleData alloc] init];
-unsubscribeVehicleData.prndl = @YES;
+SDLUnsubscribeVehicleData *unsubscribeGPSData = [[SDLUnsubscribeVehicleData alloc] init];
+unsubscribeGPSData.gps = @YES;
 
-[self.sdlManager sendRequest:unsubscribeVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-    if (![response isKindOfClass:[SDLUnsubscribeVehicleDataResponse class]]) {
-        return;
-    }
+[self.sdlManager sendRequest:unsubscribeGPSData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+    SDLUnsubscribeVehicleDataResponse *vehicleDataResponse = (SDLUnsubscribeVehicleDataResponse*)response;
 
-    SDLUnsubscribeVehicleDataResponse *unsubscribeVehicleDataResponse = (SDLUnsubscribeVehicleDataResponse*)response;
-    SDLVehicleDataResult *prndlData = unsubscribeVehicleDataResponse.prndl;
-
-    if (!response.success.boolValue) {
-        if ([response.resultCode isEqualToEnum:SDLResultDisallowed]) {
-            // Not allowed to register for this vehicle data, so unsubscribe also will not work.
-        } else if ([response.resultCode isEqualToEnum:SDLResultUserDisallowed]) {
-            // User disabled the ability to give you this vehicle data, so unsubscribe also will not work.
-        } else if ([response.resultCode isEqualToEnum:SDLResultIgnored]) {
-            if ([prndlData.resultCode isEqualToEnum:SDLVehicleDataResultCodeDataNotSubscribed]) {
-                // You have access to this data item, but it was never subscribed to so we ignored it.
+    if (![vehicleDataResponse.resultCode isEqualToEnum:SDLResultSuccess]) {
+        if ([vehicleDataResponse.resultCode isEqualToEnum:SDLResultDisallowed]) {
+            <#The app does not have permission to access this vehicle data#>
+        } else if ([vehicleDataResponse.resultCode isEqualToEnum:SDLResultUserDisallowed]) {
+            <#The user has not granted access to this type of vehicle data item at this time#>
+        } else if ([vehicleDataResponse.resultCode isEqualToEnum:SDLResultIgnored]) {
+            SDLVehicleDataResult *gpsData = vehicleDataResponse.gps;
+            if ([gpsData.resultCode isEqualToEnum:SDLVehicleDataResultCodeDataNotSubscribed]) {
+                <#The app has access to this data item but ignoring since the app is already unsubscribed to GPS data#>
             } else {
-                NSLog(@"Unknown reason for being ignored: %@", prndlData.resultCode.value);
+                <#Request ignored for some other reason#>
             }
-        } else if (error) {
-            NSLog(@"Encountered Error sending UnsubscribeVehicleData: %@", error);
+        } else {
+            <#Some other error occurred#>
         }
         return;
     }
-    
-    // Successfully unsubscribed
+
+    <#Successfully unsubscribed to GPS data#>
 }];
 ```
 
 ##### Swift
 ```swift
-let unsubscribeVehicleData = SDLUnsubscribeVehicleData()
-unsubscribeVehicleData.prndl = true
+let unsubscribeGPSData = SDLUnsubscribeVehicleData()
+unsubscribeGPSData.gps = true as NSNumber
 
-sdlManager.send(request: unsubscribeVehicleData) { (request, response, error) in
+sdlManager.send(request: unsubscribeGPSData) { (request, response, error) in
     guard let response = response as? SDLUnsubscribeVehicleDataResponse else { return }
-    
-    guard response.success.boolValue == true else {
-        if response.resultCode == .disallowed {
-            
-        } else if response.resultCode == .userDisallowed {
-            
-        } else if response.resultCode == .ignored {
-            if let prndlData = response.prndl {
-                if prndlData.resultCode == .dataNotSubscribed {
-                    // You have access to this data item, and you are already unsubscribed to this item so we are ignoring.
-                } else if prndlData.resultCode == .vehicleDataNotAvailable {
-                    // You have access to this data item, but the vehicle you are connected to does not provide it.
-                } else {
-                    print("Unknown reason for being ignored: \(prndlData.resultCode)")
-                }
-            } else {
-                print("Unknown reason for being ignored: \(String(describing: response.info))")
+
+    guard response.resultCode == .success else {
+        switch response.resultCode {
+        case .disallowed:
+            <#The app does not have permission to access this vehicle data#>
+        case .userDisallowed:
+            <#The user has not granted access to this type of vehicle data item at this time#>
+        case .ignored:
+            guard let gpsData = response.gps else { break }
+            switch gpsData.resultCode {
+            case .dataNotSubscribed:
+                <#The app has access to this data item but ignoring since the app is already unsubscribed to GPS data#>
+            default:
+                <#Request ignored for some other reason#>
             }
-        } else if let error = error {
-            print("Encountered Error sending UnsubscribeVehicleData: \(error)")
+        default:
+            <#Some other error occurred#>
         }
         return
     }
-    
-    // Successfully unsubscribed
+
+    <#Successfully unsubscribed to GPS data#>
 }
 ```
