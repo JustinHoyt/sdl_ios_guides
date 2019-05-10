@@ -184,29 +184,27 @@ sdlManager.send(request: subscribeGPSData) { (request, response, error) in
 }
 ```
 
-Finally, react to the notification when Vehicle Data is received:
+Finally, react to the notification when new vehicle data is received:
 
 ##### Objective-C
 ``` objc
 - (void)vehicleDataAvailable:(SDLRPCNotificationNotification *)notification {
-    if (![notification.notification isKindOfClass:SDLOnVehicleData.class]) {
-        return;
-    }
-    
     SDLOnVehicleData *onVehicleData = (SDLOnVehicleData *)notification.notification;
-    
-    SDLPRNDL *prndl = onVehicleData.prndl;
+    SDLGPSData *gps = onVehicleData.gps;
+    if (gps == nil) { return; }
+
+    <#Use the GPS data#>
 }
 ```
 
 ##### Swift
 ```swift
 func vehicleDataAvailable(_ notification: SDLRPCNotificationNotification) {
-    guard let onVehicleData = notification.notification as? SDLOnVehicleData else {
+    guard let onVehicleData = notification.notification as? SDLOnVehicleData, let gpsData = onVehicleData.gps else {
         return
     }
-    
-    let prndl = onVehicleData.prndl
+
+    <#Use the GPS data#>
 }
 ```
 
