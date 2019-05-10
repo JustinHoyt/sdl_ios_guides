@@ -41,64 +41,68 @@ You may only ask for vehicle data that is available to your `appName` & `appId` 
 | Wiper Status | wiperStatus | The status of the wipers: off, automatic off, off moving, manual interaction off, manual interaction on, manual low, manual high, manual flick, wash, automatic low, automatic high, courtesy wipe, automatic adjust, stalled, no data exists |
 
 ## One-Time Vehicle Data Retrieval
-Using `SDLGetVehicleData`, we can ask for vehicle data a single time, if needed. 
+Using `SDLGetVehicleData`, we can ask for vehicle data a single time. 
 
 ##### Objective-C
 ```objc
-SDLGetVehicleData *getVehicleData = [[SDLGetVehicleData alloc] init];
-getVehicleData.prndl = @YES;
-[self.sdlManager sendRequest:getVehicleData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
-    if (error || ![response isKindOfClass:SDLGetVehicleDataResponse.class]) {
-        NSLog(@"Encountered Error sending GetVehicleData: %@", error);
-        return;
-    }
-    
-    SDLGetVehicleDataResponse* getVehicleDataResponse = (SDLGetVehicleDataResponse *)response;
-    SDLResult *resultCode = getVehicleDataResponse.resultCode;
+SDLGetVehicleData *getGPSData = [[SDLGetVehicleData alloc] init];
+getGPSData.prndl = @YES;
+[self.sdlManager sendRequest:getGPSData withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
+
+    SDLGetVehicleDataResponse *vehicleDataResponse = (SDLGetVehicleDataResponse *)response;
+    SDLResult resultCode = vehicleDataResponse.resultCode;
+
     if (![resultCode isEqualToEnum:SDLResultSuccess]) {
-        if ([resultCode isEqualToEnum:SDLResultRejected]) {
-            NSLog(@"GetVehicleData was rejected. Are you in an appropriate HMI?");
-        } else if ([resultCode isEqualToEnum:SDLResultDisallowed]) {
-            NSLog(@"Your app is not allowed to use GetVehicleData");
+        if ([resultCode isEqualToEnum:SDLResultDisallowed]) {
+            <#The app does not have permission to access this vehicle data#>
+        } else if ([resultCode isEqualToEnum:SDLResultRejected]) {
+            <#The app does not have permission to access this vehicle data because of the app state (i.e. app is closed or in background)#>
+        } else if ([resultCode isEqualToEnum:SDLResultVehicleDataNotAllowed]) {
+            <#The data is not available or responding on the system#>
+        } else if ([resultCode isEqualToEnum:SDLResultVehicleDataNotAvailable]) {
+            <#The user has turned off access to vehicle data, and it is globally unavailable to mobile applications#>
         } else {
-            NSLog(@"Some unknown error has occured!");
+            <#Some other error occurred#>
         }
         return;
     }
-    
-    SDLPRNDL *prndl = getVehicleDataResponse.prndl;
+
+    SDLGPSData *gpsData = vehicleDataResponse.gps;
+    if (gpsData == nil) { return; }
+    <#Use the GPS data#>
 }];
 ```
 
 ##### Swift
 ```swift
-let getVehicleData = SDLGetVehicleData()
-getVehicleData.prndl = true
-sdlManager.send(getVehicleData) { (request, response, error) in
+let getGPSData = SDLGetVehicleData()
+getGPSData.gps = true as NSNumber
+sdlManager.send(request: getGPSData) { (request, response, error) in
     guard let response = response as? SDLGetVehicleDataResponse else { return }
-    
-    if let error = error {
-        print("Encountered Error sending GetVehicleData: \(error)")
-        return
-    }
-    
-    if !response.resultCode == .success {
-        if response.resultCode == .rejected {
-            print("GetVehicleData was rejected. Are you in an appropriate HMI?")
-        } else if response.resultCode == .disallowed {
-            print("Your app is not allowed to use GetVehicleData")
-        } else {
-            print("Some unknown error has occured!")
+
+    guard response.resultCode == .success else {
+        switch response.resultCode {
+        case .disallowed:
+            <#The app does not have permission to access this vehicle data#>
+        case .rejected:
+            <#The app does not have permission to access this vehicle data because of the app state (i.e. app is closed or in background)#>
+        case .vehicleDataNotAllowed:
+            <#The data is not available or responding on the system#>
+        case .vehicleDataNotAvailable:
+            <#The user has turned off access to vehicle data, and it is globally unavailable to mobile applications#>
+        default:
+            <#Some other error occurred#>
         }
         return
     }
-    
-    guard let prndl = response.prndl else { return }
+
+    guard let gpsData = response.gps else { return }
+    <#Use the GPS data#>
 }
 ```
 
 ## Subscribing to Vehicle Data
-Subscribing to vehicle data allows you to get notified whenever we have new data available. This data should not be relied upon being received in a consistent manner. New vehicle data is available roughly every second.
+Subscribing to vehicle data allows you to get notified whenever there is new data available. You should not rely on getting this data in a consistent manner. New vehicle data is available roughly every second.
 
 **First**, register to observe the `SDLDidReceiveVehicleDataNotification` notification: 
 
