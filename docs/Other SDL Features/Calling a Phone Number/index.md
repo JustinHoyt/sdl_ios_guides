@@ -14,7 +14,7 @@ BOOL isPhoneCallSupported = NO;
 
 [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
     if (!success) {
-        NSLog(@"SDL errored starting up: %@", error);
+        <#Error starting#>
         return;
     }
 
@@ -31,7 +31,7 @@ var isPhoneCallSupported = false
 
 sdlManager.start { (success, error) in
     if !success {
-        print("SDL errored starting up: \(error.debugDescription)")
+        <#Error starting#>
         return
     }
 
@@ -53,7 +53,7 @@ dialNumber.number = @"1238675309";
 
 [self.sdlManager sendRequest:dialNumber withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
     if (error != nil || ![response isKindOfClass:SDLDialNumberResponse.class]) {
-        NSLog(@"Encountered Error sending DialNumber: %@", error);
+        <#Encountered Error sending DialNumber#>
         return;
     }
 
@@ -61,11 +61,11 @@ dialNumber.number = @"1238675309";
     SDLResult *resultCode = dialNumber.resultCode;
     if (![resultCode isEqualToEnum:SDLResultSuccess]) {
 		if ([resultCode isEqualToEnum:SDLResultRejected]) {
-	        NSLog(@"DialNumber was rejected. Either the call was sent and cancelled or there is no device connected");
+	        <#DialNumber was rejected. Either the call was sent and cancelled or there is no device connected#>
 	    } else if ([resultCode isEqualToEnum:SDLResultDisallowed]) {
-	        NSLog(@"Your app is not allowed to use DialNumber");
+	        <#App is not allowed to use DialNumber#>
 	    } else { 	
-	    	NSLog(@"Some unknown error has occured!");
+	    	<#Some unknown error has occured!#>
 	    }
 	    return;
     }
@@ -82,23 +82,18 @@ dialNumber.number = "1238675309"
 sdlManager.send(request: dialNumber) { (request, response, error) in
     guard let response = response as? SDLDialNumberResponse else { return }
     
-    if let error = error {
-        print("Encountered Error sending DialNumber: \(error)")
-        return
-    }
-    
-    if response.resultCode != .success {
-        if response.resultCode == .rejected {
-            print("DialNumber was rejected. Either the call was sent and cancelled or there is no device connected")
-        } else if response.resultCode == .disallowed {
-            print("Your app is not allowed to use DialNumber")
-        } else {
-            print("Some unknown error has occured!")
+    guard resonse.resultCode == .success else {
+        switch reponse.resultCode {
+        case .rejected:
+           <#DialNumber was rejected. Either the call was sent and cancelled or there is no device connected#>
+        case .disallowed:
+           <#App is not allowed to use DialNumber#>
         }
-        return
+        default:
+           <#Some other error#>
     }
     
-    // Successfully sent!
+    <#Successfully sent DialNumber Request#>
 }
 ```
 
