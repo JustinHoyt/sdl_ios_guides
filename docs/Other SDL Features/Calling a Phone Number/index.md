@@ -91,6 +91,7 @@ sdlManager.send(request: dialNumber) { (request, response, error) in
         default:
            <#Some other error#>
         }
+        return 
     }
     
     <#Successfully sent DialNumber Request#>
