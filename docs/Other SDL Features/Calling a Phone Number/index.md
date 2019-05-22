@@ -88,9 +88,9 @@ sdlManager.send(request: dialNumber) { (request, response, error) in
            <#DialNumber was rejected. Either the call was sent and cancelled or there is no device connected#>
         case .disallowed:
            <#App is not allowed to use DialNumber#>
-        }
         default:
            <#Some other error#>
+        }
     }
     
     <#Successfully sent DialNumber Request#>

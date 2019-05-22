@@ -19,7 +19,7 @@ BOOL isNavigationSupported = NO;
 __weak typeof (self) weakSelf = self;
 [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
     if (!success) {
-        NSLog(@"SDL errored starting up: %@", error);
+        <#Error starting#>
         return;
     }
 
@@ -36,7 +36,7 @@ var isNavigationSupported = false
 
 sdlManager.start { (success, error) in
     if !success {
-        print("SDL errored starting up: \(error.debugDescription)")
+        <#Error starting#>
         return
     }
 
@@ -85,6 +85,10 @@ sdlManager.send(request: sendLocation) { (request, response, error) in
     if let error = error {
         print("Encountered Error sending SendLocation: \(error)")
         return
+    }
+    
+    guard response.resultCode == .success else {
+        switch response.resultCode
     }
     
     if response.resultCode != .success {
