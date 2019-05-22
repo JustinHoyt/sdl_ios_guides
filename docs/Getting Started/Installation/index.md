@@ -2,8 +2,32 @@
 In order to build your app on a SmartDeviceLink (SDL) Core, the SDL software development kit (SDK) must be installed in your app. The following steps will guide you through adding the SDL SDK to your workspace and configuring the environment.
 
 ## Install SDL SDK
-There are three different ways to install the SDL SDK in your project: CocoaPods, Carthage, or manually.
+There are four different ways to install the SDL SDK in your project: Accio, CocoaPods, Carthage, or manually.
 
+### Accio
+
+You can install this library using [Accio/SwiftPM](https://github.com/JamitLabs/Accio) documentation page.  Please follow the steps to install and initialization Accio into a current or new application. 
+
+Once installed and initialized into your xcode project the root directory should contain a Package.swift file
+
+1. Open the Package.swift file 
+2. Add the follwing line the dependencies array of you Package. We suggest always using the latest release. 
+    Please see [Mainifest format](https://github.com/apple/swift-package-manager/blob/master/Documentation/PackageDescriptionV4.md) to specify dependencies to a specific branch / version of SDL.
+
+        .package(url: "https://github.com/smartdevicelink/sdl_ios.git", .from: "6.2.3"),
+            
+3. Add the following to the dependencies array of the target.
+
+        "SmartDeviceLink"
+            
+!!! NOTE
+If creating a swift application please `"SmartDeviceLinkSwift"` instead.
+!!!
+
+1. Install SDL SDK for iOS: 
+
+        accio install
+            
 ### CocoaPods Installation
 
 1. Xcode should be closed for the following steps.
