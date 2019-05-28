@@ -18,7 +18,7 @@ SDLFile *file = [SDLFile fileWithData:mp3Data name:<#File name to be referenced 
 ##### Swift
 ```swift
 let mp3Data = <#Get MP3 Data#>
-let file = SDLFile(data: mp3Data, name: <#File name#> fileExtension: <#File Extension#>)
+let file = SDLFile(data: mp3Data, name: <#File name#>, fileExtension: <#File Extension#>)
 
 sdlManager.fileManager.upload(file: file) { (success, bytesAvailable, error) in
     guard error == nil else { return }
