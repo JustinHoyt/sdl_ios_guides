@@ -109,18 +109,12 @@ You can check out if an image has already been uploaded to the head unit via the
 
 ##### Objective-C
 ```objc
-BOOL isFileOnHeadUnit = [self.sdlManager.fileManager.remoteFileNames containsObject:@"<#Name#>"];
+BOOL isFileOnHeadUnit = [self.sdlManager.fileManager.remoteFileNames containsObject:<#Name Uploaded As#>];
 ```
 
 ##### Swift
 ```swift
-if let fileIsOnHeadUnit = sdlManager.fileManager.remoteFileNames.contains("<#Name Uploaded As#>") {
-    if fileIsOnHeadUnit {
-        <#File exists#>
-    } else {
-        <#File does not exist#>
-    }
-}
+let isFileOnHeadUnit = sdlManager.fileManager.remoteFileNames.contains(<#Name Uploaded As#>)
 ```
 
 ## Deleting Stored Files
