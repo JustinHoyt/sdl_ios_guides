@@ -1,4 +1,4 @@
-# Setting the Navigation Destination
+# Setting the Built-in Navigation System Destination
 Setting a Navigation Destination allows you to send a GPS location, prompting the user to navigate to that location using their embedded navigation. When using the `SendLocation` RPC, you will not receive a callback about how the user interacted with this location, only if it was successfully sent to Core and received. It will be handled by Core from that point on using the embedded navigation system.
 
 !!! note
