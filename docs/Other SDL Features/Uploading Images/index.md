@@ -21,29 +21,30 @@ Before uploading images to a head unit you should first check if the head unit s
 __weak typeof (self) weakSelf = self;
 [self.sdlManager startWithReadyHandler:^(BOOL success, NSError * _Nullable error) {
     if (!success) {
-        NSLog(@"SDL errored starting up: %@", error);
+        <#Manager errored while starting up#>
         return;
-    } 
+    }
 
+    BOOL graphicsSupported = false;
     SDLDisplayCapabilities *displayCapabilities = weakSelf.sdlManager.registerResponse.displayCapabilities;
-    BOOL areGraphicsSupported = NO;
     if (displayCapabilities != nil) {
-        areGraphicsSupported = displayCapabilities.graphicSupported.boolValue;
-    } 
+        graphicsSupported = displayCapabilities.graphicSupported.boolValue;
+    }
 }];
 ```
 
 ##### Swift
 ```swift
 sdlManager.start { [weak self] (success, error) in
+    guard let self = self else { return }
     if !success {
-        print("SDL errored starting up: \(error.debugDescription)")
+        <#Manager errored while starting up#>
         return
     }
-    
-    var areGraphicsSupported = false
-    if let displayCapabilities = self?.sdlManager.registerResponse?.displayCapabilities {
-        areGraphicsSupported = displayCapabilities.graphicSupported.boolValue
+
+    var graphicsSupported = false
+    if let displayCapabilities = self.sdlManager.registerResponse?.displayCapabilities {
+        graphicsSupported = displayCapabilities.graphicSupported.boolValue
     }
 }
 ```
