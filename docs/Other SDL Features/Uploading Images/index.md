@@ -60,13 +60,13 @@ if (!image) {
     return;    
 }
 
-SDLArtwork* artwork = [SDLArtwork artworkWithImage:image asImageFormat:<#SDLArtworkImageFormat#>];
+SDLArtwork* artwork = [[SDLArtwork alloc] initWithImage:image persistent:<#BOOL#> asImageFormat:<#SDLArtworkImageFormat#>];
 
 [self.sdlManager.fileManager uploadArtwork:artwork completionHandler:^(BOOL success, NSString * _Nonnull artworkName, NSUInteger bytesAvailable, NSError * _Nullable error) {
     if (error != nil) { return; }
     <#Image Upload Successful#>
     // To send the image as part of a show request, create a SDLImage object using the artworkName
-    SDLImage *image = [[SDLImage alloc] initWithName:artworkName];
+    SDLImage *image = [[SDLImage alloc] initWithName:artworkName isTemplate:<#BOOL#>];
 }];
 ```
 
@@ -82,7 +82,7 @@ sdlManager.fileManager.upload(artwork: artwork) { (success, artworkName, bytesAv
     guard error == nil else { return }
     <#Image Upload Successful#>
     // To send the image as part of a show request, create a SDLImage object using the artworkName
-    let graphic = SDLImage(name: artworkName)
+    let graphic = SDLImage(name: artworkName, isTemplate: <#Bool#>)
 }
 ```
 
