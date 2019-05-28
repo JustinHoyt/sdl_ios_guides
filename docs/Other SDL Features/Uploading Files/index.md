@@ -34,30 +34,26 @@ If you want to upload a group of files, you can use the `SDLFileManager`'s batch
 SDLFile *file1 = [SDLFile fileWithData:<#Data#> name:<#File name to be referenced later#> fileExtension:<#File Extension#>];
 SDLFile *file2 = [SDLFile fileWithData:<#Data#> name:<#File name to be referenced later#> fileExtension:<#File Extension#>];
 
-[self.sdlManager.fileManager uploadFiles:@[file1, file2] progressHandler:^BOOL(NSString * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
-    // A single file has finished uploading. Use this to check for individual errors, to use an file as soon as its uploaded, or to check the progress of the upload
-    // The upload percentage is calculated as the total file size of all attempted file uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
-    // Return YES to continue sending files. Return NO to cancel any files that have not yet been sent.
-} completionHandler:^(NSArray<NSString *> * _Nonnull fileNames, NSError * _Nullable error) {
-    // All files have completed uploading.
-    // If all files were uploaded successfully, the error will be nil
-    // The error's userInfo parameter is of type [fileName: error message]
+[self.sdlManager.fileManager uploadFiles:@[file1, file2] progressHandler:^BOOL(SDLFileName * _Nonnull fileName, float uploadPercentage, NSError * _Nullable error) {
+    <#Called as each upload completes#>
+    // Return true to continue sending files. Return false to cancel any files that have not yet been sent.
+    return YES;
+} completionHandler:^(NSError * _Nullable error) {
+    <#Called when all uploads complete#>
 }];
 ```
 
 ##### Swift
 ```swift
-let file1 = SDLFile(data: <#File Data#>, name: <#File name#> fileExtension: <#File Extension#>)
-let file2 = SDLFile(data: <#File Data#>, name: <#File name#> fileExtension: <#File Extension#>)
+let file1 = SDLFile(data: <#Data#>, name: <#File name to be referenced later#>, fileExtension: <#File Extension#>)
+let file2 = SDLFile(data: <#Data#>, name: <#File name to be referenced later#>, fileExtension: <#File Extension#>)
 
 sdlManager.fileManager.upload(files: [file1, file2], progressHandler: { (fileName, uploadPercentage, error) -> Bool in
-    // A single file has finished uploading. Use this to check for individual errors, to use an file as soon as its uploaded, or to check the progress of the upload
-    // The upload percentage is calculated as the total file size of all attempted file uploads (regardless of the successfulness of the upload) divided by the sum of the data in all the files
+    <#Called as each upload completes#>
     // Return true to continue sending files. Return false to cancel any files that have not yet been sent.
-}) { (fileNames, error) in
-    // All files have completed uploading.
-    // If all files were uploaded successfully, the error will be nil
-    // The error's userInfo parameter is of type [fileName: error message]
+    return true
+}) { (error) in
+    <#Called when all uploads complete#>
 }
 ```
 
