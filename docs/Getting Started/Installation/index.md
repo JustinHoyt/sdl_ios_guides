@@ -14,8 +14,8 @@ Once installed and initialized into your xcode project the root directory should
 
         .package(url: "https://github.com/smartdevicelink/sdl_ios.git", .upToNextMajor(from: "6.2.0"),
         
-!!!NOTE
-    Please see [Mainifest format](https://github.com/apple/swift-package-manager/blob/master/Documentation/PackageDescriptionV4.md) to specify dependencies to a specific branch / version of SDL.
+!!! NOTE
+Please see [Mainifest format](https://github.com/apple/swift-package-manager/blob/master/Documentation/PackageDescriptionV4.md) to specify dependencies to a specific branch / version of SDL.
 !!!
             
 3. Add `"SmartDeviceLink"` or `"SmartDeviceLinkSwift"` to your dependencies array in your target. Use `"SmartDeviceLink"`for Objective-C applications and `"SmartDeviceLinkSwift"` for Swift applications.
