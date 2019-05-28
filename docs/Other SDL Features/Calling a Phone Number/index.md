@@ -53,7 +53,7 @@ dialNumber.number = @"1238675309";
 
 [self.sdlManager sendRequest:dialNumber withResponseHandler:^(__kindof SDLRPCRequest * _Nullable request, __kindof SDLRPCResponse * _Nullable response, NSError * _Nullable error) {
     if (error != nil || ![response isKindOfClass:SDLDialNumberResponse.class]) {
-        <#Encountered Error sending DialNumber#>
+        <#Encountered error sending DialNumber#>
         return;
     }
 
@@ -65,7 +65,7 @@ dialNumber.number = @"1238675309";
 	    } else if ([resultCode isEqualToEnum:SDLResultDisallowed]) {
 	        <#App is not allowed to use DialNumber#>
 	    } else { 	
-	    	<#Some unknown error has occured!#>
+	    	<#Some unknown error has occured#>
 	    }
 	    return;
     }
@@ -94,7 +94,7 @@ sdlManager.send(request: dialNumber) { (request, response, error) in
         return 
     }
     
-    <#Successfully sent DialNumber Request#>
+    <#Successfully sent DialNumber request#>
 }
 ```
 
