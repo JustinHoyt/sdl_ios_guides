@@ -12,7 +12,7 @@ The first step is to make sure the audio file is available on the remote system.
 ```objc
 SDLFile *audioFile = [[SDLFile alloc] initWithFileURL:<#(File location on disk)#> name:<#(Audio file's reference for usage)#> persistent:<#(True if the file is generic beyond just this session)#>];
 [self.sdlManager.fileManager uploadFile:audioFile completionHandler:^(BOOL success, NSUInteger bytesAvailable, NSError * _Nullable error) {
-    <#(audio file is ready if success is true)#>
+    <#audio file is ready if success is true#>
 }];
 ```
 
@@ -32,13 +32,13 @@ Now that the file is uploaded to the remote system, it can be used in various AP
 ##### Objective-C
 ```objc
 SDLAlert *alert = [[SDLAlert alloc] initWithAlertText1:<#(nullable NSString *)#> alertText2:<#(nullable NSString *)#> duration:<#(UInt16)#>];
-alert.ttsChunks = [SDLTTSChunk fileChunksWithName:<#(File's name)#>];
+alert.ttsChunks = [SDLTTSChunk fileChunksWithName:<#Audio file's name#>];
 [self.sdlManager sendRequest:alert];
 ```
 
 ##### Swift
 ```swift
-let alert = SDLAlert(alertText1: <#T##String?#>, alertText2: <#T##String?#>, duration: <#T##UInt16#>)
-alert.ttsChunks = SDLTTSChunk.fileChunks(withName: <#File's name#>)
+let alert = SDLAlert(alertText1: <#String?#>, alertText2: <#String?#>, duration: <#UInt16#>)
+alert.ttsChunks = SDLTTSChunk.fileChunks(withName: <#Audio file's name#>)
 sdlManager.send(alert)
 ```
